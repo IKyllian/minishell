@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:53 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2020/11/23 17:27:45 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/03/19 14:45:52 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+size_t	ft_strlen(const char *str)
 {
-	int		exit;
-	char 	*line;
+	size_t	size;
 
-	exit = 0;
-	line = NULL;
-	while (!exit)
-	{
-		while (ft_get_next_line(0, 5, &line))
-		{
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			if (!strncmp(line, "exit", 5))
-			{
-				exit = 1;
-				break ;
-			}
-			free(line);
-			line = NULL;
-		}
-	}
-	return (0);
+	size = 0;
+	while (str[size])
+		size++;
+	return (size);
 }
