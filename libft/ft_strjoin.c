@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:53 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2020/11/25 12:54:06 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/03/19 14:46:40 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		exit;
-	char 	*line;
+	int		size;
+	char	*str;
 
-	exit = 0;
-	line = NULL;
-	while (!exit)
-	{
-		while (ft_get_next_line(0, 5, &line))
-		{
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			if (!strncmp(line, "exit", 5))
-			{
-				exit = 1;
-				break ;
-			}
-			free(line);
-			line = NULL;
-		}
-	}
-	return (0);
+	if (!s1 || !s2)
+		return (NULL);
+	size = ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1;
+	str = ft_calloc(size, sizeof(char));
+	if (!str)
+		return (NULL);
+	ft_strlcat(str, s1, size);
+	ft_strlcat(str, s2, size);
+	return (str);
 }

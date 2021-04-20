@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:53 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2020/11/24 11:54:40 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/03/19 14:46:55 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+char	*ft_strchr(const char *str, int c)
 {
-	int		exit;
-	char 	*line;
+	int	i;
 
-	exit = 0;
-	line = NULL;
-	while (!exit)
+	i = 0;
+	while (str[i])
 	{
-		while (ft_get_next_line(0, 5, &line))
-		{
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			if (!strncmp(line, "exit", 5))
-			{
-				exit = 1;
-				break ;
-			}
-			free(line);
-			line = NULL;
-		}
+		if (str[i] == (char)c)
+			return ((char *)&str[i]);
+		i++;
 	}
-	return (0);
+	if (str[i] == (char)c)
+		return ((char *)&str[i]);
+	return (NULL);
 }

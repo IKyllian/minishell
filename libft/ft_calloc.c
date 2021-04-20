@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:53 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2020/11/24 15:41:16 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/03/19 15:01:18 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+void	*ft_calloc(size_t count, size_t size)
 {
-	int		exit;
-	char 	*line;
+	char	*str;
 
-	exit = 0;
-	line = NULL;
-	while (!exit)
-	{
-		while (ft_get_next_line(0, 5, &line))
-		{
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			if (!strncmp(line, "exit", 5))
-			{
-				exit = 1;
-				break ;
-			}
-			free(line);
-			line = NULL;
-		}
-	}
-	return (0);
+	str = malloc(size * count);
+	if (!str)
+		return (NULL);
+	ft_bzero(str, (size * count));
+	return (str);
 }

@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:53 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2020/11/26 16:23:57 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/03/19 14:51:00 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(void)
+t_list	*ft_lstnew(void *content)
 {
-	int		exit;
-	char 	*line;
+	t_list	*lstnew;
 
-	exit = 0;
-	line = NULL;
-	while (!exit)
-	{
-		while (ft_get_next_line(0, 5, &line))
-		{
-			ft_putstr_fd(line, 1);
-			ft_putstr_fd("\n", 1);
-			if (!strncmp(line, "exit", 5))
-			{
-				exit = 1;
-				break ;
-			}
-			free(line);
-			line = NULL;
-		}
-	}
-	return (0);
+	lstnew = ft_calloc(1, sizeof(t_list));
+	if (!lstnew)
+		return (NULL);
+	lstnew->content = content;
+	lstnew->next = NULL;
+	return (lstnew);
 }
