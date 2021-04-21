@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./inc/minishell.h"
 
 int main(void)
 {
@@ -22,8 +22,10 @@ int main(void)
 	ft_putstr_fd("minishell-0.1$ ", 1);
 	while (ft_get_next_line(0, 5, &line))
 	{
-		ft_putstr_fd(line, 1);
-		ft_putstr_fd("\n", 1);
+		// ft_putstr_fd(line, 1);
+		// ft_putstr_fd("\n", 1);
+		if (!strncmp(line, "pwd", 3))
+			ft_pwd();
 		if (!strncmp(line, "exit", 5))
 		{
 			exit = 0;
