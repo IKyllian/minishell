@@ -4,9 +4,12 @@ LIB_NAME = libft.a
 HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
+		error.c \
+		init_env.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
+		./builtins/export.c \
 
 OBJS = $(SRCS:.c=.o)
 

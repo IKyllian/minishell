@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/22 12:22:12 by kdelport         ###   ########lyon.fr   */
+/*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
+/*   Updated: 2021/04/22 16:35:20 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "./inc/minishell.h"
 
-int	ft_echo(char *str)
+void	free_tab(char **tab)
 {
-	char *env_var;
-	int	flag_exist;
+	int i;
 
-	flag_exist = 0;
-	if (str)
-	{
-		if (str[0] != '$')
-			ft_putstr_fd(str, 1);
-		else
-		{
-			if (str[1] == ' ')
-				ft_putstr_fd(str, 1);
-			else
-			{
-				env_var = getenv(str + 1);
-				if (env_var != NULL)
-					ft_putstr_fd(env_var, 1);
-			}
-		} 
-	}
-	if (!flag_exist)
-		ft_putchar_fd('\n', 1);
-	return (1);
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
+
+void	print_error(int errnum)
+{
+	ft_putstr_fd(strerror(errnum), 1);
+	ft_putchar_fd('\n', 1);
 }
