@@ -1,3 +1,5 @@
 *.o
 *.sh
 text.txt
+*.a
+minishell

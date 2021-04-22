@@ -9,14 +9,29 @@
 # include <sys/uio.h>
 # include "libft.h"
 
-typedef struct s_env
+typedef struct s_cmd {
+	char	**history;
+	char	**parsed;
+}	t_cmd;
+
+typedef struct	s_env
 {
 	char **tab_env;
 	int	old_path_index;
 }				t_env;
 
+void	mem_check(void *ptr);
+
+int		dbl_array_len(char **dbl_array);
+char	**dbl_array_add(char **dbl_array, char *line);
+void	dbl_array_print(char **dbl_array);
+
+int		history_save(t_cmd *cmd, char *line);
+
 void	print_error(int errnum);
 void	free_tab(char **tab);
+
+t_cmd	cmd_init(void);
 
 t_env	env_init(char **env_tab);
 void	add_env_var(t_env *env, char *name, char *value);

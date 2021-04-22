@@ -10,11 +10,15 @@ SRCS =  main.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
 		./builtins/export.c \
-
+		./parsing/cmd_init.c \
+		./parsing/history.c \
+		./utils/array_utils.c \
+		./utils/mem_utils.c \
+		
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-FLAGS = -Wextra -Werror -Wall
+FLAGS = -Wextra -Werror -Wall -g
 RM = rm -f
 
 all : $(NAME)
