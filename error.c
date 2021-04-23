@@ -6,11 +6,21 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/22 16:35:20 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/23 16:45:56 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
+
+void	free_list_item(t_env *env)
+{
+	if (env->name)
+		free(env->name);
+	if (env->value)
+		free(env->value);
+	if (env)
+		free(env);
+}
 
 void	free_tab(char **tab)
 {

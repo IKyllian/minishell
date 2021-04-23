@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/22 17:05:08 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/23 15:37:08 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **env)
 	int		exit;
 	char 	*line;
 	t_cmd	cmd;
-	t_env	env_s;
+	t_env	*env_s;
 
 	(void)argc;
 	(void)argv;
@@ -32,14 +32,14 @@ int main(int argc, char **argv, char **env)
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))
-			ft_export(&env_s);
+			ft_export(env_s);
 		else if (!strncmp(line, "exit", 5))
 		{
 			exit = 0;
 			break ;
 		}
 		else
-			ft_cd(line, &env_s);
+			ft_cd(line, env_s);
 			// ft_echo(line);
 		free(line);
 		line = NULL;

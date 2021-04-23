@@ -16,8 +16,9 @@ typedef struct s_cmd {
 
 typedef struct	s_env
 {
-	char **tab_env;
-	int	old_path_index;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
 }				t_env;
 
 void	mem_check(void *ptr);
@@ -28,18 +29,27 @@ void	dbl_array_print(char **dbl_array);
 
 int		history_save(t_cmd *cmd, char *line);
 
+			/* Errors, free */
 void	print_error(int errnum);
 void	free_tab(char **tab);
+void	free_list_item(t_env *env);
 
 t_cmd	cmd_init(void);
 
-t_env	env_init(char **env_tab);
-void	add_env_var(t_env *env, char *name, char *value);
-void	change_env_var(t_env *env, char *name, char *value);
+			/* Env */
+t_env	*env_init(char **env_tab);
+void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
 
+			/* Builtins */
 int		ft_echo(char *str);
 int		ft_pwd(void);
 int		ft_cd(const char *path, t_env *env);
 int		ft_export(t_env *env);
+
+			/* List utils */
+int		ft_lstsize_env(t_env *lst);
+t_env	*ft_lstnew_env(char *name, char *value);
+t_env	*ft_lstlast_env(t_env *lst);
+void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
 #endif
