@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:43 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/22 16:53:32 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/23 16:58:22 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int ft_pwd(void)
 
 	errno = 0;
 	if (getcwd(path, PATH_MAX))
-	{
 		ft_putstr_fd(path, 1);
-		/* Changer la variable PWD dans l'environnement */
-	}
 	else
 	{
 		print_error(errno);

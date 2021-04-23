@@ -6,6 +6,7 @@ LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
 		init_env.c \
+		list_utils.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
