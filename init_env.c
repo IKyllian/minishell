@@ -12,7 +12,7 @@
 
 #include "./inc/minishell.h"
 
-void	srch_and_dlt_env_var(t_env *env, char *to_search, char *new_value)
+void	srch_and_dlt_env_var(t_env *env, char *to_search)
 {
 	int		i;
 	t_env	*prev;

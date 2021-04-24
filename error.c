@@ -22,6 +22,22 @@ void	free_list_item(t_env *env)
 		free(env);
 }
 
+void	free_linked_list(t_env *env)
+{
+	t_env *next;
+
+	next = NULL;
+	while (env)
+	{
+		if (env->next)
+			next = env->next;
+		else
+			next = NULL;
+		free_list_item(env);
+		env = next;
+	}
+}
+
 void	free_tab(char **tab)
 {
 	int i;

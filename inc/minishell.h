@@ -33,12 +33,14 @@ int		history_save(t_cmd *cmd, char *line);
 void	print_error(int errnum);
 void	free_tab(char **tab);
 void	free_list_item(t_env *env);
+void	free_linked_list(t_env *env);
 
 t_cmd	cmd_init(void);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
 void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
+void	srch_and_dlt_env_var(t_env *env, char *to_search);
 
 			/* Builtins */
 int		ft_echo(char *str);
