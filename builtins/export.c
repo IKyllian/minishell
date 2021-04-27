@@ -81,13 +81,18 @@ void	sort_and_print_env(t_env *env)
 	free_linked_list(env_cpy);
 }
 
+// exit status = 0 if no error, >0 if an error occured
 int	ft_export(t_env *env)//, char **line)
 {
 	// if (line[1] == NULL) // Si aucun argument print juste les variables env
 		sort_and_print_env(env);
 	// else // Sinon add une variable dans la liste
 	// {
-	// 		ft_lstadd_back_env(env, ft_lstnew_env(name, value));
+			//Check si la variable existe deja
+			//Si oui modifie la valeur de la variable
+				// srch_and_rplce_env_var(env, arg[1], arg[2])
+			//Sinon ajoute la variable dans la liste env
+	// 			ft_lstadd_back_env(env, ft_lstnew_env(name, value));
 	// }
 	return (0);	
 }

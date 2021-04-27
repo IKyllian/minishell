@@ -22,8 +22,8 @@ int ft_pwd(void)
 	else
 	{
 		print_error(errno);
-		return (0);
+		return (1);
 	}
 	ft_putchar_fd('\n', 1);
-	return (1);
+	return (0);
 }

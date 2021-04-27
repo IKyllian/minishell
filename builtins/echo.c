@@ -38,3 +38,26 @@ int	ft_echo(char *str)
 		ft_putchar_fd('\n', 1);
 	return (1);
 }
+
+//Exit status = 0 if no error
+// int	ft_echo(char **arg, t_env *env)
+// {
+// 	int i;
+// 	int	flag_exist;
+
+// 	flag_exist = 0;
+// 	while (arg[i])
+// 	{	
+// 		if (i == 1 && ft_strncmp(arg[i], "-n", 2) == 0)
+// 			flag_exist = 1;
+// 		if (arg[i][0] == '$' && arg[i][1] != ' ')
+// 			srch_and_dislay_env_var(env, arg[i][1]);
+// 		// else if (arg[i][0] == '$' && arg[i][1] != '?')
+// 			//print exit status of the last command
+// 		else
+// 			ft_putstr_fd(arg[i], 1);
+// 	}
+// 	if (!flag_exist)
+// 		ft_putchar_fd('\n', 1);
+// 	return (0);
+// }

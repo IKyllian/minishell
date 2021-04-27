@@ -10,55 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
-
-void	srch_and_dlt_env_var(t_env *env, char *to_search)
-{
-	int		i;
-	t_env	*prev;
-
-	prev = NULL;
-	while (env)
-	{
-		i = 0;
-		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
-		{
-			if (to_search[i + 1] == '\0')
-			{
-				if (prev && !env->next)
-					prev->next = NULL;
-				else if (prev && env->next)
-					prev->next = env->next;
-				free_list_item(env);
-				break ;
-			}
-			i++;
-		}
-		prev = env;
-		env = env->next;
-	}
-}
-
-void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
-{
-	int i;
-
-	while (env)
-	{
-		i = 0;
-		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
-		{
-			if (to_search[i + 1] == '\0')
-			{
-				free(env->value);
-				env->value = new_value;
-				break ;
-			}
-			i++;
-		}
-		env = env->next;
-	}
-}
+#include "../inc/minishell.h"
 
 void	get_env_var(char *line, char **lst_name, char **lst_value)
 {
@@ -74,6 +26,7 @@ void	get_env_var(char *line, char **lst_name, char **lst_value)
 	while (line[len] && line[len] != '=')
 		len++;
 	name = malloc(sizeof(char) * (len + 1));
+	mem_check(name);
 	while (line[++j] && line[j] != '=')
 		name[j] = line[j];
 	name[j] = '\0';
@@ -81,6 +34,7 @@ void	get_env_var(char *line, char **lst_name, char **lst_value)
 	while (line[++len])
 		i++;
 	value = malloc(sizeof(char) * (i + 1));
+	mem_check(value);
 	while (line[len - i] && i >= 0)
 		value[j++] = line[len - i--];
 	value[j] = '\0';

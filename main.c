@@ -12,6 +12,24 @@
 
 #include "./inc/minishell.h"
 
+// void	check_cmd(char **arg, t_env *env, t_cmd *cmd)
+// {
+// 	if (arg[0] == "pwd")
+// 		cmd->exit_status = ft_pwd();
+// 	else if (arg[0] == "cd")
+// 		cmd->exit_status = ft_cd(arg, env);
+// 	else if (arg[0] == "echo")
+// 		cmd->exit_status = ft_echo(arg);
+// 	else if (arg[0] == "export")
+// 		cmd->exit_status = ft_export(env);
+// 	else if (arg[0] == "unset")
+// 		cmd->exit_status = ft_unset(env, arg);
+// 	else if (arg[0] == "env")
+// 		cmd->exit_status = ft_env(env);
+// 	else if (arg[0] == "exit")
+// 		cmd->exit_status = ft_exit(env);
+// }
+
 int main(int argc, char **argv, char **env)
 {
 	int		exit;
@@ -33,6 +51,8 @@ int main(int argc, char **argv, char **env)
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))
 			ft_export(env_s);
+		else if (!strncmp(line, "env", 3))
+			ft_env(env_s);
 		else if (!strncmp(line, "exit", 5))
 		{
 			exit = 0;

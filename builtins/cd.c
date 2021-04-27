@@ -12,6 +12,7 @@
 
 #include "../inc/minishell.h"
 
+// exit status = 0 if no error, >0 if an error occured
 int	ft_cd(const char *path, t_env *env)
 {
 	char old_path[PATH_MAX];
@@ -25,9 +26,11 @@ int	ft_cd(const char *path, t_env *env)
 		getcwd(old_path, PATH_MAX);
 		dup_path = ft_strdup(old_path); // Obligé de Dup pour pouvoir free plus tard dans la prochaine fonction
 		srch_and_rplce_env_var(env, "PWD", dup_path);
-		return (1);
+		return (0);
 	}
 	else
+	{
 		print_error(errno);
-	return (0);
+		return (1);
+	}
 }

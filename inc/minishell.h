@@ -12,12 +12,13 @@
 typedef struct s_cmd {
 	char	**history;
 	char	**parsed;
+	int		exit_status;
 }	t_cmd;
 
 typedef struct	s_env
 {
-	char			*name;
-	char			*value;
+	char	*name;
+	char	*value;
 	struct s_env	*next;
 }				t_env;
 
@@ -41,12 +42,16 @@ t_cmd	cmd_init(void);
 t_env	*env_init(char **env_tab);
 void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
+void	srch_and_dislay_env_var(t_env *env, char *to_search);
 
 			/* Builtins */
 int		ft_echo(char *str);
 int		ft_pwd(void);
 int		ft_cd(const char *path, t_env *env);
 int		ft_export(t_env *env);
+int		ft_unset(t_env *env, char **arg);
+int		ft_env(t_env *env);
+int		ft_exit(t_env *env);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);

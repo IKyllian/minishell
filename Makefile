@@ -5,12 +5,16 @@ HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
-		init_env.c \
+		./env/env_init.c \
+		./env/env_utils.c \
 		list_utils.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
 		./builtins/export.c \
+		./builtins/unset.c \
+		./builtins/env.c \
+		./builtins/exit.c \
 		./parsing/cmd_init.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
