@@ -27,7 +27,7 @@ void	srch_and_dlt_env_var(t_env *env, char *to_search)
 	}
 }
 
-void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
+int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
 {
 	int i;
 
@@ -40,12 +40,13 @@ void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
 			{
 				free(env->value);
 				env->value = new_value;
-				return ;
+				return (1);
 			}
 			i++;
 		}
 		env = env->next;
 	}
+	return (0);
 }
 
 void	srch_and_dislay_env_var(t_env *env, char *to_search)

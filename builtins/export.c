@@ -30,9 +30,12 @@ void	print_env_line(t_env *env)
 {
 	ft_putstr_fd("declare -x ", 1);
 	ft_putstr_fd(env->name, 1);
-	ft_putstr_fd("=\"", 1);
-	ft_putstr_fd(env->value, 1);
-	ft_putchar_fd('\"', 1);
+	if (env->value =! NULL)
+	{
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(env->value, 1);
+		ft_putchar_fd('\"', 1);
+	}
 	ft_putchar_fd('\n', 1);
 }
 
@@ -82,7 +85,7 @@ void	sort_and_print_env(t_env *env)
 }
 
 // exit status = 0 if no error, >0 if an error occured
-int	ft_export(t_env *env)//, char **line)
+int	ft_export(t_env *env)//, char **arg)
 {
 	// if (line[1] == NULL) // Si aucun argument print juste les variables env
 		sort_and_print_env(env);
@@ -90,9 +93,10 @@ int	ft_export(t_env *env)//, char **line)
 	// {
 			//Check si la variable existe deja
 			//Si oui modifie la valeur de la variable
-				// srch_and_rplce_env_var(env, arg[1], arg[2])
+			// if (!srch_and_rplce_env_var(env, arg[1], arg[2]))
+			// 	ft_lstadd_back_env(env, ft_lstnew_env(arg[1], arg[2]));
 			//Sinon ajoute la variable dans la liste env
-	// 			ft_lstadd_back_env(env, ft_lstnew_env(name, value));
+	// 			
 	// }
 	return (0);	
 }

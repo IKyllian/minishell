@@ -40,7 +40,7 @@ t_cmd	cmd_init(void);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
-void	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
+int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search);
 

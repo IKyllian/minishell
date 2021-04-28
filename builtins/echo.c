@@ -46,7 +46,8 @@ int	ft_echo(char *str)
 // 	int	flag_exist;
 
 // 	flag_exist = 0;
-// 	while (arg[i])
+	// i = -1;
+// 	while (arg[++i])
 // 	{	
 // 		if (i == 1 && ft_strncmp(arg[i], "-n", 2) == 0)
 // 			flag_exist = 1;
