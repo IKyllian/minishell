@@ -18,5 +18,6 @@ t_cmd	cmd_init(void)
 
 	cmd.history = NULL;
 	cmd.parsed = NULL;
+	cmd.exit_status = 0;
 	return (cmd);
 }
