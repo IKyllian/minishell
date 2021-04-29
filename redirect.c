@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_init.c                                         :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/04/29 13:05:18 by kdelport         ###   ########lyon.fr   */
+/*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
+/*   Updated: 2021/04/29 14:45:34 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "./inc/minishell.h"
 
-t_cmd	cmd_init(void)
+int	ft_redirect(char **arg, t_cmd *cmd)
 {
-	t_cmd	cmd;
+	int	fd;
 
-	cmd.history = NULL;
-	cmd.parsed = NULL;
-	cmd.exit_status = 0;
-	cmd.fd = 1;
-	return (cmd);
+	if (ft_strncmp(arg[1], ">>", 2) == 0)
+		fd = open(arg[2], O_CREAT | O_RDONLY | O_WRONLY | O_APPEND, 00777);
+	else
+		fd = open(arg[2], O_CREAT | O_RDONLY | O_WRONLY | O_TRUNC, 00777);
+	errno = 0;
+	if (fd == -1)
+	{
+		print_error(errno);
+		return (0);
+	}
+	else
+		cmd->fd = fd;
+	return (1);
 }

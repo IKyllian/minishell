@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/23 16:33:16 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/29 13:06:36 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ t_env	*cpy_env_list(t_env *env)
 	return (cpy_env);
 }
 
-void	print_env_line(t_env *env)
+void	print_env_line(t_env *env, t_cmd *cmd)
 {
-	ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(env->name, 1);
-	if (env->value =! NULL)
+	ft_putstr_fd("declare -x ", cmd->fd);
+	ft_putstr_fd(env->name, cmd->fd);
+	if (env->value != NULL)
 	{
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(env->value, 1);
-		ft_putchar_fd('\"', 1);
+		ft_putstr_fd("=\"", cmd->fd);
+		ft_putstr_fd(env->value, cmd->fd);
+		ft_putchar_fd('\"', cmd->fd);
 	}
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', cmd->fd);
 }
 
 void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier element de la liste
@@ -68,7 +68,7 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 	}
 }
 
-void	sort_and_print_env(t_env *env)
+void	sort_and_print_env(t_env *env, t_cmd *cmd)
 {
 	t_env *env_cpy;
 	t_env *first;
@@ -78,17 +78,17 @@ void	sort_and_print_env(t_env *env)
 	sort_env(env_cpy, first);
 	while (first)
 	{
-		print_env_line(first);
+		print_env_line(first, cmd);
 		first = first->next;
 	}
 	free_linked_list(env_cpy);
 }
 
 // exit status = 0 if no error, >0 if an error occured
-int	ft_export(t_env *env)//, char **arg)
+int	ft_export(t_env *env, t_cmd *cmd)//, char **arg)
 {
 	// if (line[1] == NULL) // Si aucun argument print juste les variables env
-		sort_and_print_env(env);
+		sort_and_print_env(env, cmd);
 	// else // Sinon add une variable dans la liste
 	// {
 			//Check si la variable existe deja
