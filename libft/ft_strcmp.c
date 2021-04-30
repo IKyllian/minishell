@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 14:35:23 by kdelport         ###   ########lyon.fr   */
+/*   Created: 2021/04/30 14:31:06 by kdelport          #+#    #+#             */
+/*   Updated: 2021/04/30 14:31:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
+#include "libft.h"
 
-int	ft_redirect(char **arg, t_cmd *cmd)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	int	fd;
+	unsigned int	i;
 
-	if (ft_strcmp(arg[1], ">>") == 0)
-		fd = open(arg[2], O_CREAT | O_RDONLY | O_WRONLY | O_APPEND, 00777);
-	else
-		fd = open(arg[2], O_CREAT | O_RDONLY | O_WRONLY | O_TRUNC, 00777);
-	errno = 0;
-	if (fd == -1)
+	i = 0;
+	while (str1[i] && str2[i])
 	{
-		print_error(errno);
-		return (0);
+		if ((unsigned char)str1[i] != (unsigned char)str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
 	}
-	else
-		cmd->fd = fd;
-	return (1);
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }

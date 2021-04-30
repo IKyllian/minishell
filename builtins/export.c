@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 13:06:36 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 14:37:31 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 		env_cpy = first;
 		while (env_cpy)
 		{
-			if (env_cpy->next && ft_strncmp(env_cpy->name, env_cpy->next->name, \
-				ft_strlen(env_cpy->name)) > 0)
+			if (env_cpy->next && ft_strcmp(env_cpy->name, env_cpy->next->name) > 0)
 			{
 				name_temp = env_cpy->name;
 				value_temp = env_cpy->value;

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 14:56:33 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 15:40:51 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 // void	check_cmd(char **arg, t_env *env, t_cmd *cmd)
 // {
-// 	if (ft_strncmp(arg[1], "<", 1) || ft_strncmp(arg[1], ">", 1)
-// 		|| ft_strncmp(arg[1], ">>", 2) == 0)
+// 	if (arg[1] && (ft_strcmp(arg[1], "<") || ft_strcmp(arg[1], ">")
+// 		|| ft_strcmp(arg[1], ">>") == 0))
 // 		ft_redirect(arg, cmd);
-// 	if (ft_strncmp(arg[0], "pwd", 3) == 0)
+// 	if (ft_strcmp(arg[0], "pwd") == 0)
 // 		cmd->exit_status = ft_pwd(cmd);
-// 	else if (ft_strncmp(arg[0], "cd", 2) == 0)
+// 	else if (ft_strcmp(arg[0], "cd") == 0)
 // 		cmd->exit_status = ft_cd(*arg + 1, env);
-// 	else if (ft_strncmp(arg[0], "echo", 4) == 0)
+// 	else if (ft_strcmp(arg[0], "echo") == 0)
 // 		cmd->exit_status = ft_echo(arg, env, cmd);
-// 	else if (ft_strncmp(arg[0], "export", 6) == 0)
+// 	else if (ft_strcmp(arg[0], "export") == 0)
 // 		cmd->exit_status = ft_export(env, cmd);
-// 	else if (ft_strncmp(arg[0], "unset", 5) == 0)
+// 	else if (ft_strcmp(arg[0], "unset") == 0)
 // 		cmd->exit_status = ft_unset(env, arg);
-// 	else if (ft_strncmp(arg[0], "env", 3) == 0)
+// 	else if (ft_strcmp(arg[0], "env") == 0)
 // 		cmd->exit_status = ft_env(env, cmd);
-//  else if (ft_strncmp(arg[0], "exit", 4) == 0)
-// 	 	cmd->exit_status = ft_exit(env);
+ 	// else if (ft_strcmp(arg[0], "exit", 4) == 0)
+	//  	cmd->exit_status = ft_exit(env, arg);
+// 	else
+// 		ft_exec(env, arg);
 // }
 
 int main(int argc, char **argv, char **env)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/03/19 16:44:41 by ctaleb           ###   ########lyon.fr    #
+#    Updated: 2021/04/30 14:33:24 by kdelport         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = ft_memset.c\
 		ft_toupper.c\
 		ft_tolower.c\
 		ft_strchr.c\
+		ft_strcmp.c\
 		ft_strrchr.c\
 		ft_strncmp.c\
 		ft_strlcpy.c\

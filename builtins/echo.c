@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 14:56:42 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 15:41:18 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_echo(char *str)
 // 	i = -1;
 // 	while (arg[++i])
 // 	{	
-// 		if (i == 1 && ft_strncmp(arg[i], "-n", 2) == 0)
+// 		if (i == 1 && ft_strcmp(arg[i], "-n") == 0)
 // 			flag_exist = 1;
 // 		if (arg[i][0] == '$' && arg[i][1] != ' ')
 // 			srch_and_dislay_env_var(env, arg[i]);
