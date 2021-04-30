@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/23 16:33:16 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 12:26:11 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_env_line(t_env *env)
 {
 	ft_putstr_fd("declare -x ", 1);
 	ft_putstr_fd(env->name, 1);
-	if (env->value =! NULL)
+	if (env->value != NULL)
 	{
 		ft_putstr_fd("=\"", 1);
 		ft_putstr_fd(env->value, 1);
