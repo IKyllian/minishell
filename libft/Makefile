@@ -6,12 +6,12 @@
 #    By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/03/19 16:44:41 by ctaleb           ###   ########lyon.fr    #
+#    Updated: 2021/04/23 12:03:30 by ctaleb           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 

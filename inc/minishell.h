@@ -11,8 +11,11 @@
 
 typedef struct s_cmd {
 	char	**history;
+	char	*line;
 	char	**parsed;
 	int		exit_status;
+	int		squote;
+	int		dquote;
 }	t_cmd;
 
 typedef struct	s_env
@@ -27,8 +30,9 @@ void	mem_check(void *ptr);
 int		dbl_array_len(char **dbl_array);
 char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
+void	array_joiner(char *src, char *elem);
 
-int		history_save(t_cmd *cmd, char *line);
+int		history_save(t_cmd *cmd);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -43,6 +47,7 @@ t_env	*env_init(char **env_tab);
 int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search);
+int		quoting(t_cmd *cmd, char *line);
 
 			/* Builtins */
 int		ft_echo(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/23 15:37:08 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 12:04:35 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int main(int argc, char **argv, char **env)
 	ft_putstr_fd("minishell-0.1$ ", 1);
 	while (ft_get_next_line(0, 5, &line))
 	{
-		history_save(&cmd, line);	
+		if (!quoting(&cmd, line))
+			continue ;
+		history_save(&cmd);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))

@@ -16,6 +16,7 @@ SRCS =  main.c \
 		./builtins/env.c \
 		./builtins/exit.c \
 		./parsing/cmd_init.c \
+		./parsing/quoting.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
 		./utils/mem_utils.c \
