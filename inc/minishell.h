@@ -25,8 +25,14 @@ typedef struct	s_env
 	struct s_env	*next;
 }				t_env;
 
+typedef struct s_shell {
+	t_cmd	cmd;
+	t_env	*env;
+}	t_shell;
+
 void	mem_check(void *ptr);
 
+			/* Arrays */
 int		dbl_array_len(char **dbl_array);
 char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
@@ -40,7 +46,9 @@ void	free_tab(char **tab);
 void	free_list_item(t_env *env);
 void	free_linked_list(t_env *env);
 
+			/* Inits */
 t_cmd	cmd_init(void);
+t_shell	shell_init(char **env);
 
 			/* Env */
 t_env	*env_init(char **env_tab);

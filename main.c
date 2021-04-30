@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 12:04:35 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 12:24:14 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,39 @@ int main(int argc, char **argv, char **env)
 {
 	int		exit;
 	char 	*line;
-	t_cmd	cmd;
-	t_env	*env_s;
+	t_shell	shell;
+
 
 	(void)argc;
 	(void)argv;
+
 	exit = 0;
 	line = NULL;
-	env_s = env_init(env);
-	cmd = cmd_init();
+	shell = shell_init(env);
 	ft_putstr_fd("minishell-0.1$ ", 1);
 	while (ft_get_next_line(0, 5, &line))
 	{
-		if (!quoting(&cmd, line))
+		if (!quoting(&shell.cmd, line))
 			continue ;
-		history_save(&cmd);
+		history_save(&shell.cmd);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))
-			ft_export(env_s);
+			ft_export(shell.env);
 		else if (!strncmp(line, "env", 3))
-			ft_env(env_s);
+			ft_env(shell.env);
 		else if (!strncmp(line, "exit", 5))
 		{
 			exit = 0;
 			break ;
 		}
 		else
-			ft_cd(line, env_s);
+			ft_cd(line, shell.env);
 			// ft_echo(line);
 		free(line);
 		line = NULL;
 		ft_putstr_fd("minishell-0.1$ ", 1);
 	}
-	dbl_array_print(cmd.history);
+	dbl_array_print(shell.cmd.history);
 	return (exit);
 }

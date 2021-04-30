@@ -5,7 +5,6 @@ HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
-		./env/env_init.c \
 		./env/env_utils.c \
 		list_utils.c \
 		./builtins/echo.c \
@@ -15,11 +14,11 @@ SRCS =  main.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
-		./parsing/cmd_init.c \
 		./parsing/quoting.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
 		./utils/mem_utils.c \
+		./utils/strct_init.c \
 		
 OBJS = $(SRCS:.c=.o)
 
