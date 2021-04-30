@@ -6,12 +6,12 @@
 #    By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/04/30 14:33:24 by kdelport         ###   ########lyon.fr    #
+#    Updated: 2021/04/30 15:47:34 by kdelport         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 

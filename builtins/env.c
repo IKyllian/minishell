@@ -6,25 +6,25 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:07 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 13:00:56 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 16:03:05 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 //Exit status = 0 if no error
-int	ft_env(t_env *env, t_cmd *cmd)
+int	ft_env(t_shell *shell)
 {
-	while (env)
+	while (shell->env)
 	{
-		if (env->value != NULL)
+		if (shell->env->value != NULL)
 		{
-			ft_putstr_fd(env->name, cmd->fd);
-			ft_putchar_fd('=', cmd->fd);
-			ft_putstr_fd(env->value, cmd->fd);
-			ft_putchar_fd('\n', cmd->fd);
+			ft_putstr_fd(shell->env->name, shell->cmd.fd);
+			ft_putchar_fd('=', shell->cmd.fd);
+			ft_putstr_fd(shell->env->value, shell->cmd.fd);
+			ft_putchar_fd('\n', shell->cmd.fd);
 		}
-		env = env->next;
+		shell->env = shell->env->next;
 	}
 	return (0);
 }

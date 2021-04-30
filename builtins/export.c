@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 14:37:31 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 16:02:14 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@ t_env	*cpy_env_list(t_env *env)
 	cpy_env = NULL;
 	while (env)
 	{
-		ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name), \
+		ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name),\
 			ft_strdup(env->value)));
 		env = env->next;
 	}
 	return (cpy_env);
 }
 
-void	print_env_line(t_env *env, t_cmd *cmd)
+void	print_env_line(t_shell *shell)
 {
-	ft_putstr_fd("declare -x ", cmd->fd);
-	ft_putstr_fd(env->name, cmd->fd);
-	if (env->value != NULL)
+	ft_putstr_fd("declare -x ", shell->cmd.fd);
+	ft_putstr_fd(shell->env->name, shell->cmd.fd);
+	if (shell->env->value != NULL)
 	{
-		ft_putstr_fd("=\"", cmd->fd);
-		ft_putstr_fd(env->value, cmd->fd);
-		ft_putchar_fd('\"', cmd->fd);
+		ft_putstr_fd("=\"", shell->cmd.fd);
+		ft_putstr_fd(shell->env->value, shell->cmd.fd);
+		ft_putchar_fd('\"', shell->cmd.fd);
 	}
-	ft_putchar_fd('\n', cmd->fd);
+	ft_putchar_fd('\n', shell->cmd.fd);
 }
 
 void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier element de la liste
@@ -67,27 +67,27 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 	}
 }
 
-void	sort_and_print_env(t_env *env, t_cmd *cmd)
+void	sort_and_print_env(t_shell *shell)
 {
 	t_env *env_cpy;
-	t_env *first;
+	t_env *env;
 
-	env_cpy = cpy_env_list(env);
-	first = env_cpy;
-	sort_env(env_cpy, first);
-	while (first)
+	env_cpy = cpy_env_list(shell->env);
+	env = env_cpy;
+	sort_env(env_cpy, env);
+	while (env)
 	{
-		print_env_line(first, cmd);
-		first = first->next;
+		print_env_line(shell);
+		env = env->next;
 	}
 	free_linked_list(env_cpy);
 }
 
 // exit status = 0 if no error, >0 if an error occured
-int	ft_export(t_env *env, t_cmd *cmd)//, char **arg)
+int	ft_export(t_shell *shell)//, char **arg)
 {
 	// if (line[1] == NULL) // Si aucun argument print juste les variables env
-		sort_and_print_env(env, cmd);
+		sort_and_print_env(shell);
 	// else // Sinon add une variable dans la liste
 	// {
 			//Check si la variable existe deja
