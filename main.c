@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 12:24:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 17:11:11 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int main(int argc, char **argv, char **env)
 		if (!quoting(&shell.cmd, line))
 			continue ;
 		history_save(&shell.cmd);
+		tokenizer(&shell.cmd);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))
@@ -65,8 +66,10 @@ int main(int argc, char **argv, char **env)
 			// ft_echo(line);
 		free(line);
 		line = NULL;
+		lstclear_pars(&shell.cmd.parsed);
 		ft_putstr_fd("minishell-0.1$ ", 1);
 	}
 	dbl_array_print(shell.cmd.history);
+	lstput_pars(shell.cmd.parsed);
 	return (exit);
 }

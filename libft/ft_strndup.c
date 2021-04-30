@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/04/30 17:12:26 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2021/04/30 15:15:58 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/04/30 15:18:52 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-int	tokenizer(t_cmd *cmd)
+char	*ft_strndup(const char *str, int len)
 {
-	int	i;
-	int	j;
-	int t;
+	char	*cpy;
+	int		size;
 
-	i = 0;
-	j = dbl_array_len(cmd->history) - 1;
-	t = 0;
-	while (cmd->history[j][i])
-	{
-		i++;
-		t++;
-	}
-	if (t == 0)
-	{
-		lstaddback_pars(&cmd->parsed, lstnew_pars(&cmd->history[j][i]));
-		return (0);
-	}
-	else
-	{
-		lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
-		return (0);
-	}
-	return (0);
+	size = ft_strlen((char *)str);
+	if (size < len)
+		len = size;
+	cpy = ft_calloc(len + 1, sizeof(char));
+	if (!cpy)
+		return (NULL);
+	ft_memcpy(cpy, str, len);
+	return (cpy);
 }

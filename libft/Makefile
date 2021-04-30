@@ -6,7 +6,7 @@
 #    By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/04/23 12:03:30 by ctaleb           ###   ########lyon.fr    #
+#    Updated: 2021/04/30 15:19:40 by ctaleb           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS = ft_memset.c\
 		ft_atoi.c\
 		ft_calloc.c\
 		ft_strdup.c\
+		ft_strndup.c \
 		ft_substr.c\
 		ft_strjoin.c\
 		ft_strtrim.c\

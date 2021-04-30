@@ -15,8 +15,10 @@ SRCS =  main.c \
 		./builtins/env.c \
 		./builtins/exit.c \
 		./parsing/quoting.c \
+		./parsing/tokenizer.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
+		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
 		./utils/strct_init.c \
 		
