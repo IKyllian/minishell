@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 17:11:11 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 12:57:47 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int main(int argc, char **argv, char **env)
 			// ft_echo(line);
 		free(line);
 		line = NULL;
+		lstput_pars(shell.cmd.parsed);
 		lstclear_pars(&shell.cmd.parsed);
 		ft_putstr_fd("minishell-0.1$ ", 1);
 	}

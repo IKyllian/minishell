@@ -20,6 +20,7 @@ SRCS =  main.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
+		./utils/operators_utils.c \
 		./utils/strct_init.c \
 		
 OBJS = $(SRCS:.c=.o)

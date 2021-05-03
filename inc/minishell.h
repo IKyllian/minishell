@@ -77,6 +77,10 @@ int		ft_unset(t_env *env, char **arg);
 int		ft_env(t_env *env);
 int		ft_exit(t_env *env);
 
+			/* Tokenizer utils */
+int		is_operator(char c);
+int 	is_long_operator(char c, char b);
+
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);
 t_env	*ft_lstnew_env(char *name, char *value);

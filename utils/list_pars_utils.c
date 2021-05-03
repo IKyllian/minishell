@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/04/30 17:10:54 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 14:05:57 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	lstput_pars(t_pars *lst)
 	i = 0;
 	while (lst)
 	{
-		printf("%i\t%s\n", i, lst->value);
+		printf("*%i\t%s*\n", i, lst->value);
 		i++;
 		lst = lst->next;
 	}
