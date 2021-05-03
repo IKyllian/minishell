@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/23 16:45:56 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 11:11:57 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	print_error(int errnum)
 {
 	ft_putstr_fd(strerror(errnum), 1);
 	ft_putchar_fd('\n', 1);
+	errno = 0;
 }

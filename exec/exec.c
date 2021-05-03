@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 15:35:45 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 11:15:39 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,23 @@ void	ft_exec(t_env *env, char **arg)
 {
 	char	*path;
 	pid_t	pid;
-	// char	**envp;
 
 	path = search_path(srch_and_return_env_var(env, "PATH"), arg);
+	errno = 0;
 	if (path == NULL)
 		return ;
 	pid = fork();
+	if (pid == -1)
+		print_error(errno);
 	if (pid == 0)
-		execve(path, arg, NULL);
+	{
+		if (execve(path, arg, NULL) == -1)
+			print_error(errno);
+	}
 	else
 	{
-		wait(NULL);
+		if (wait(NULL) == -1)
+			printf("Error with Wait\n");
 	}
 	if (path)
 		free(path);
