@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
+/*   Updated: 2021/04/30 11:11:10 by kdelport         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	num_is_valid(char *str)
@@ -23,15 +35,16 @@ int	num_is_valid(char *str)
 }
 // exit [n] exit status = if n specified exit status is n except if n is not an unsigned decimal integer
 // or greater than 255, else the value of exit status is the value of the last command 
-// int	ft_exit(t_env *env, char **arg)
-// {
-	// int nb;
-	// if (arg[1])
-	// {
-	// 	nb = check_num(arg[1]);
-	// 	if (nb =! -1)
-	// 		//set exit status with the value of nb
-	// }
-	// free_linked_list(env);
-// 	return (0);
-// }
+int	ft_exit(t_env *env, char **arg)
+{
+	int nb;
+	
+	if (arg[1])
+	{
+		nb = num_is_valid(arg[1]);
+		// if (nb =! -1)
+			//set exit status with the value of nb
+	}
+	free_linked_list(env);
+	exit(1);
+}
