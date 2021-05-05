@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 16:02:14 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 13:45:18 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ t_env	*cpy_env_list(t_env *env)
 	return (cpy_env);
 }
 
-void	print_env_line(t_shell *shell)
+void	print_env_line(t_env *env, int fd)
 {
-	ft_putstr_fd("declare -x ", shell->cmd.fd);
-	ft_putstr_fd(shell->env->name, shell->cmd.fd);
-	if (shell->env->value != NULL)
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(env->name, fd);
+	if (env->value != NULL)
 	{
-		ft_putstr_fd("=\"", shell->cmd.fd);
-		ft_putstr_fd(shell->env->value, shell->cmd.fd);
-		ft_putchar_fd('\"', shell->cmd.fd);
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(env->value, fd);
+		ft_putchar_fd('\"', fd);
 	}
-	ft_putchar_fd('\n', shell->cmd.fd);
+	ft_putchar_fd('\n', fd);
 }
 
 void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier element de la liste
@@ -70,15 +70,15 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 void	sort_and_print_env(t_shell *shell)
 {
 	t_env *env_cpy;
-	t_env *env;
+	t_env *first;
 
 	env_cpy = cpy_env_list(shell->env);
-	env = env_cpy;
-	sort_env(env_cpy, env);
-	while (env)
+	first = env_cpy;
+	sort_env(env_cpy, first);
+	while (first)
 	{
-		print_env_line(shell);
-		env = env->next;
+		print_env_line(first, shell->cmd.fd);
+		first = first->next;
 	}
 	free_linked_list(env_cpy);
 }

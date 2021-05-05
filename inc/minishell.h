@@ -10,10 +10,17 @@
 # include "libft.h"
 #include <dirent.h>
 
+typedef struct	s_pars
+{
+	int				type;
+	char			*value;
+	struct s_pars	*next;
+}	t_pars;
+
 typedef struct s_cmd {
 	char	**history;
 	char	*line;
-	char	**parsed;
+	t_pars	*parsed;
 	int		exit_status;
 	int		fd;
 	int		squote;
@@ -64,7 +71,7 @@ int		quoting(t_cmd *cmd, char *line);
 int		ft_echo(char *str);
 // int		ft_echo(char **arg, t_env *env, t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
-int		ft_cd(const char *path, t_env *env);
+int		ft_cd(const char *path, t_shell *shell);
 int		ft_export(t_shell *shell);
 int		ft_unset(t_env *env, char **arg);
 int		ft_env(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:58:56 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 10:16:29 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 13:05:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ t_env	*srch_and_return_env_var(t_env *env, char *to_search)
 		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
 		{
 			if (to_search[i + 1] == '\0')
-			{
 				return (env);
-			}
 			i++;
 		}
 		env = env->next;
