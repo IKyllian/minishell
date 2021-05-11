@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/03 13:45:18 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/11 17:02:51 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,32 @@ void	sort_and_print_env(t_shell *shell)
 }
 
 // exit status = 0 if no error, >0 if an error occured
-int	ft_export(t_shell *shell)//, char **arg)
+// int	ft_export(t_shell *shell)
+// {
+// 	sort_and_print_env(shell);
+// 	return (0);	
+// }
+
+int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 {
-	// if (line[1] == NULL) // Si aucun argument print juste les variables env
+	if ((*cmd_parsed)->next == NULL || (*cmd_parsed)->next->type != 2) // Si aucun argument ou que le type n'est pas un argument print juste les variables env
+	{
 		sort_and_print_env(shell);
-	// else // Sinon add une variable dans la liste
-	// {
-			//Check si la variable existe deja
-			//Si oui modifie la valeur de la variable
-			// if (!srch_and_rplce_env_var(env, arg[1], arg[2]))
-			// 	ft_lstadd_back_env(env, ft_lstnew_env(arg[1], arg[2]));
-			//Sinon ajoute la variable dans la liste env
-	// 			
-	// }
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
+	else // Sinon add une variable dans la liste
+	{
+		(*cmd_parsed) = (*cmd_parsed)->next;
+		// while (cmd && (*cmd_parsed)->type == 2)
+		// {
+			// Check si la variable existe deja
+			// Si oui modifie la valeur de la variable / Check si la prochaine liste est aussi un argument
+			if ((*cmd_parsed)->value && (*cmd_parsed)->next && (*cmd_parsed)->next->type == 2
+				&& !srch_and_rplce_env_var(shell->env, (*cmd_parsed)->value, (*cmd_parsed)->next->value))
+				ft_lstadd_back_env(&shell->env, ft_lstnew_env((*cmd_parsed)->value, (*cmd_parsed)->next->value)); // Sinon ajoute la variable dans la liste env
+			// (*cmd_parsed) = (*cmd_parsed)->next;
+		// }
+		shell->cmd.exit_status = 0;
+	}
 	return (0);	
 }

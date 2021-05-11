@@ -21,6 +21,7 @@ SRCS =  main.c \
 		./utils/mem_utils.c \
 		./exec/exec.c \
 		./utils/strct_init.c \
+		test_pipe.c
 		
 OBJS = $(SRCS:.c=.o)
 

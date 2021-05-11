@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:43 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 12:55:41 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/11 10:58:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int ft_pwd(t_cmd *cmd)
 	else
 	{
 		print_error(errno);
+		cmd->exit_status = 1;
 		return (1);
 	}
 	ft_putchar_fd('\n', cmd->fd);
+	cmd->exit_status = 0;
 	return (0);
 }

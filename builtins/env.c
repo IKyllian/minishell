@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:07 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 16:03:05 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/11 16:30:38 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 //Exit status = 0 if no error
 int	ft_env(t_shell *shell)
 {
-	while (shell->env)
+	t_env *env;
+
+	env = shell->env;
+	while (env)
 	{
-		if (shell->env->value != NULL)
+		if (env->value != NULL)
 		{
-			ft_putstr_fd(shell->env->name, shell->cmd.fd);
+			ft_putstr_fd(env->name, shell->cmd.fd);
 			ft_putchar_fd('=', shell->cmd.fd);
-			ft_putstr_fd(shell->env->value, shell->cmd.fd);
+			ft_putstr_fd(env->value, shell->cmd.fd);
 			ft_putchar_fd('\n', shell->cmd.fd);
 		}
-		shell->env = shell->env->next;
+		env = env->next;
 	}
+	shell->cmd.exit_status = 0;
 	return (0);
 }

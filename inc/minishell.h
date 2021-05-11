@@ -68,14 +68,22 @@ t_env	*srch_and_return_env_var(t_env *env, char *to_search);
 int		quoting(t_cmd *cmd, char *line);
 
 			/* Builtins */
-int		ft_echo(char *str);
-// int		ft_echo(char **arg, t_env *env, t_cmd *cmd);
+// int		ft_echo(char *str);
+int		ft_echo(t_shell *shell, t_pars **cmd_parsed);
+
 int		ft_pwd(t_cmd *cmd);
-int		ft_cd(const char *path, t_shell *shell);
-int		ft_export(t_shell *shell);
-int		ft_unset(t_env *env, char **arg);
+
+// int		ft_cd(const char *path, t_shell *shell);
+int		ft_cd(t_shell *shell, t_pars **cmd_parsed);
+
+// int		ft_export(t_shell *shell);
+int		ft_export(t_shell *shell, t_pars **cmd_parded);
+
+// int		ft_unset(t_env *env, char **arg);
+int		ft_unset(t_shell *shell);
+
 int		ft_env(t_shell *shell);
-int		ft_exit(t_env *env, char **arg);
+int		ft_exit(t_shell *shell);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);
@@ -85,6 +93,9 @@ void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
 int		ft_redirect(char **arg, t_cmd *cmd);
 
-void	ft_exec(t_env *env, char **arg);
+void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
+
+
+void	init_pars(t_cmd *cmd, char **arg);
 
 #endif
