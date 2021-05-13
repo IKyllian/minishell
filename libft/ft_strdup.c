@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 16:07:23 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/03/18 14:16:40 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 14:26:10 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_strdup(const char *str)
 	cpy = ft_calloc(size, sizeof(char));
 	if (!cpy)
 		return (NULL);
-	ft_memcpy(cpy, str, size - 1);
+	if (ft_memcpy(cpy, str, size - 1) == NULL)
+		return (NULL);
 	return (cpy);
 }

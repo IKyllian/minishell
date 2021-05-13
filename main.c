@@ -6,42 +6,19 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/11 16:57:43 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 15:47:24 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
-// void	check_cmd(char **arg, t_shell *shell)
-// {
-// 	if (arg[1] && (ft_strcmp(arg[1], "<") || ft_strcmp(arg[1], ">")
-// 		|| ft_strcmp(arg[1], ">>") == 0))
-// 		ft_redirect(arg, &shell->cmd);
-// 	if (ft_strcmp(arg[0], "pwd") == 0)
-// 		shell->cmd.exit_status = ft_pwd(&shell->cmd);
-// 	else if (ft_strcmp(arg[0], "cd") == 0)
-// 		shell->cmd.exit_status = ft_cd(*arg + 1, shell->env);
-// 	else if (ft_strcmp(arg[0], "echo") == 0)
-// 		shell->cmd.exit_status = ft_echo(arg, shell->env, &shell->cmd);
-// 	else if (ft_strcmp(arg[0], "export") == 0)
-// 		shell->cmd.exit_status = ft_export(shell);
-// 	else if (ft_strcmp(arg[0], "unset") == 0)
-// 		shell->cmd.exit_status = ft_unset(shell->env, arg);
-// 	else if (ft_strcmp(arg[0], "env") == 0)
-// 		shell->cmd.exit_status = ft_env(shell);
-//  	else if (ft_strcmp(arg[0], "exit") == 0)
-// 	 	cmd->exit_status = ft_exit(env, arg);
-// 	else
-// 		ft_exec(shell->env, arg);
-// }
-
 void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 {
-	// else if (arg[1] && (ft_strcmp(arg[1], "<") || ft_strcmp(arg[1], ">")
-		// 	|| ft_strcmp(arg[1], ">>") == 0))
-		// 	ft_redirect(arg, &shell->cmd);
+	// if (arg[1] && (ft_strcmp(arg[1], "<") || ft_strcmp(arg[1], ">")
+	// 		|| ft_strcmp(arg[1], ">>") == 0))
+	// 		ft_redirect(arg, &shell->cmd);
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
-		shell->cmd.exit_status = ft_pwd(&shell->cmd);
+		shell->cmd.exit_status = ft_pwd(&shell->cmd, parsed);
 	else if (ft_strcmp((*parsed)->value, "cd") == 0)
 		shell->cmd.exit_status = ft_cd(shell, parsed);
 	else if (ft_strcmp((*parsed)->value, "echo") == 0)
@@ -49,11 +26,11 @@ void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 	else if (ft_strcmp((*parsed)->value, "export") == 0)
 		shell->cmd.exit_status = ft_export(shell, parsed);
 	else if (ft_strcmp((*parsed)->value, "unset") == 0)
-		shell->cmd.exit_status = ft_unset(shell);
+		shell->cmd.exit_status = ft_unset(shell, parsed);
 	else if (ft_strcmp((*parsed)->value, "env") == 0)
-		shell->cmd.exit_status = ft_env(shell);
-	// else if (ft_strcmp((*parsed)->value, "exit") == 0)
-	//  	shell->cmd.exit_status = ft_exit(env, (*parsed)->value);
+		shell->cmd.exit_status = ft_env(shell, parsed);
+	else if (ft_strcmp((*parsed)->value, "exit") == 0)
+	 	shell->cmd.exit_status = ft_exit(shell, parsed);
 	else
 		ft_exec(shell, parsed);
 }
@@ -62,7 +39,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 {
 	pid_t	pid;
 	int		pipefd[2];
-	// char	buff;
+	char	buff;
 	
 	errno = 0;
 	if (pipe(pipefd) == -1)
@@ -70,9 +47,12 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 	pid = fork();
 	if (pid == 0)
 	{
+		ft_putstr_fd((*parsed)->value, 1);
+		ft_putstr_fd("\n", 1);
 		if (dup2(pipefd[1], shell->cmd.fd) == -1)
 			print_error(errno);
 		close(pipefd[0]);
+		(*parsed) = (*parsed)->next;
 		check_cmd_arg(shell, parsed);
 		close(pipefd[1]);
 	}
@@ -82,8 +62,8 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 		if (dup2(pipefd[0], shell->cmd.fd) == -1)
 			print_error(errno);
 		close(pipefd[1]);
-		// while (read(pipefd[0], &buff, 1) > 0)
-		// 	write(shell->cmd.fd, &buff, 1);
+		while (read(pipefd[0], &buff, 1) > 0)
+			write(shell->cmd.fd, &buff, 1);
 		check_cmd_arg(shell, parsed);
 		close(pipefd[0]);		
 		if (ft_strcmp((*parsed)->value, "|") == 0)
@@ -102,7 +82,6 @@ void	check_cmd(t_shell *shell)
 			exec_pipe(shell, &parsed);
 		else
 			check_cmd_arg(shell, &parsed);
-		// parsed = (*parsed)->next;
 	}
 }
 
@@ -148,6 +127,57 @@ void	check_cmd(t_shell *shell)
 // 	return (exit);
 // }
 
+char	*get_prompt_path(t_env *env)
+{
+	t_env	*env_pwd;
+	char	*path;
+	int		i;
+	int 	size;
+	int		j;
+
+	env_pwd = srch_and_return_env_var(env, "PWD");
+	if (!env_pwd || !env_pwd->value)
+		return (NULL);
+	i = ft_strlen(env_pwd->value) - 1;
+	size = ft_strlen(env_pwd->value) - 1;
+	j = 0;
+	if (env_pwd->value[i] != '/')
+	{
+		while (env_pwd->value[i] && env_pwd->value[i] != '/')
+		i--;
+		path = malloc(sizeof(char) * ((size - i) + 1));
+		while (env_pwd->value[++i])
+			path[j++] = env_pwd->value[i];
+		path[j] = '\0';
+	}
+	else
+	{
+		path = malloc(sizeof(char) * 2);
+		path[0] = '~';
+		path[1] = '\0';
+	}
+	return (path);
+}
+
+void	print_prompt(t_shell *shell)
+{
+	char	*path;
+
+	path = get_prompt_path(shell->env);
+	if (shell->cmd.exit_status == 0)
+		ft_putstr_fd("\033[0;32m=>", 1);
+	else
+		ft_putstr_fd("\033[0;31m=>", 1);
+	ft_putstr_fd("\033[1;36m minishell-0.1(", 1);
+	ft_putstr_fd("\033[1;37m", 1);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\033[0;36m", 1);
+	ft_putstr_fd(")$ ", 1);
+	ft_putstr_fd("\033[0;37m", 1);
+	if (path)
+		free(path);
+}
+
 /* ----------------- Main de test avec Liste ----------------------- */
 int main(int argc, char **argv, char **env)
 {
@@ -162,7 +192,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	shell = shell_init(env);
 	arg = malloc(sizeof(char *) * 4);
-	ft_putstr_fd("minishell-0.1$ ", 1);
+	print_prompt(&shell);
 	while (ft_get_next_line(0, 5, &line))
 	{
 		arg = ft_split(line, ' ');
@@ -172,7 +202,7 @@ int main(int argc, char **argv, char **env)
 		line = NULL;
 		if (shell.cmd.fd != 1)
 			shell.cmd.fd = 1;
-		ft_putstr_fd("minishell-0.1$ ", 1);
+		print_prompt(&shell);
 	}
 	// dbl_array_print(shell.cmd.history);
 	return (exit);

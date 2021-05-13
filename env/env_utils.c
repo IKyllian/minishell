@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:58:56 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/03 13:05:45 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 13:33:48 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	srch_and_dlt_env_var(t_env *env, char *to_search)
 					prev->next = NULL;
 				else if (prev && env->next)
 					prev->next = env->next;
-				free_list_item(env);
+				free_env_list_item(env);
 				return ;
 			}
 			i++;
@@ -50,7 +50,8 @@ int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
 		{
 			if (to_search[i + 1] == '\0')
 			{
-				free(env->value);
+				if (env->value)
+					free(env->value);
 				env->value = new_value;
 				return (1);
 			}
@@ -61,7 +62,7 @@ int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
 	return (0);
 }
 
-void	srch_and_dislay_env_var(t_env *env, char *to_search)
+void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd)
 {
 	int i;
 
@@ -72,7 +73,7 @@ void	srch_and_dislay_env_var(t_env *env, char *to_search)
 		{
 			if (to_search[i + 1] == '\0')
 			{
-				ft_putstr_fd(env->value, 1);
+				ft_putstr_fd(env->value, fd);
 				return ;
 			}
 			i++;

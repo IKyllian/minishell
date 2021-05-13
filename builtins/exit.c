@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/11 15:36:39 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/12 13:40:34 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,20 @@ int	num_is_valid(char *str)
 }
 // exit [n] exit status = if n specified exit status is n except if n is not an unsigned decimal integer
 // or greater than 255, else the value of exit status is the value of the last command 
-// int	ft_exit(t_env *env, char **arg)
-// {
-// 	int nb;
-	
-// 	if (arg[1])
-// 	{
-// 		nb = num_is_valid(arg[1]);
-// 		// if (nb =! -1)
-// 			//set exit status with the value of nb
-// 	}
-// 	free_linked_list(env);
-// 	exit(1);
-// }
 
-int	ft_exit(t_shell *shell)
+int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 {
-	int		nb;
-	t_pars	*cmd;
-	
-	cmd = shell->cmd.parsed;
-	if (cmd->next && cmd->next->type == 1)// Si le type est un argument
+	int	nb;
+
+	if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 1)// Si le type est un argument
 	{
-		nb = num_is_valid(cmd->next->value);
+		nb = num_is_valid((*cmd_parsed)->next->value);
 		if (nb != -1)
 			shell->cmd.exit_status = nb;
 		else
 			shell->cmd.exit_status = 0;
 	}
-	free_linked_list(shell->env);
+	free_parse_linked_list(shell->cmd.parsed);
+	free_env_linked_list(shell->env);
 	exit(1);
 }

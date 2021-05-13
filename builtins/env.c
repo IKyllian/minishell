@@ -6,14 +6,14 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:07 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/11 16:30:38 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/12 11:41:02 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 //Exit status = 0 if no error
-int	ft_env(t_shell *shell)
+int	ft_env(t_shell *shell, t_pars **cmd_parsed)
 {
 	t_env *env;
 
@@ -29,6 +29,7 @@ int	ft_env(t_shell *shell)
 		}
 		env = env->next;
 	}
+	(*cmd_parsed) = (*cmd_parsed)->next;
 	shell->cmd.exit_status = 0;
 	return (0);
 }

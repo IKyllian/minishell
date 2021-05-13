@@ -52,8 +52,9 @@ int		history_save(t_cmd *cmd);
 			/* Errors, free */
 void	print_error(int errnum);
 void	free_tab(char **tab);
-void	free_list_item(t_env *env);
-void	free_linked_list(t_env *env);
+void	free_env_list_item(t_env *env);
+void	free_env_linked_list(t_env *env);
+void	free_parse_linked_list(t_pars *parse);
 
 			/* Inits */
 t_cmd	cmd_init(void);
@@ -63,27 +64,18 @@ t_shell	shell_init(char **env);
 t_env	*env_init(char **env_tab);
 int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
-void	srch_and_dislay_env_var(t_env *env, char *to_search);
+void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
 int		quoting(t_cmd *cmd, char *line);
 
 			/* Builtins */
-// int		ft_echo(char *str);
 int		ft_echo(t_shell *shell, t_pars **cmd_parsed);
-
-int		ft_pwd(t_cmd *cmd);
-
-// int		ft_cd(const char *path, t_shell *shell);
+int		ft_pwd(t_cmd *cmd, t_pars **cmd_parsed);
 int		ft_cd(t_shell *shell, t_pars **cmd_parsed);
-
-// int		ft_export(t_shell *shell);
 int		ft_export(t_shell *shell, t_pars **cmd_parded);
-
-// int		ft_unset(t_env *env, char **arg);
-int		ft_unset(t_shell *shell);
-
-int		ft_env(t_shell *shell);
-int		ft_exit(t_shell *shell);
+int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
+int		ft_env(t_shell *shell, t_pars **cmd_parsed);
+int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);

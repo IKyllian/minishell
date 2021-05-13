@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/11 17:02:51 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 14:23:44 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,66 @@ void	sort_and_print_env(t_shell *shell)
 		print_env_line(first, shell->cmd.fd);
 		first = first->next;
 	}
-	free_linked_list(env_cpy);
+	free_env_linked_list(env_cpy);
 }
 
-// exit status = 0 if no error, >0 if an error occured
-// int	ft_export(t_shell *shell)
-// {
-// 	sort_and_print_env(shell);
-// 	return (0);	
-// }
+char	*get_export_name(char *cmd_value, int *index)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (cmd_value[*index] && cmd_value[*index] != '=')
+		(*index)++;
+	name = malloc(sizeof(char) * (*index + 1));
+	mem_check(name);
+	while (cmd_value[i] && cmd_value[i] != '=')
+	{
+		name[i] = cmd_value[i];
+		i++;
+	}
+	name[i] = '\0';
+	return (name);
+}
+
+char	*get_export_value(char *cmd_value, int *index)
+{
+	int		size;
+	char	*value;
+
+	size = ft_strlen(cmd_value);
+	if (cmd_value[*index] == '\0')
+		return (NULL);
+	else
+	{
+		if (cmd_value[++(*index)] == '\0')
+		{
+			value = malloc(sizeof(char));
+			mem_check(value);
+			value[0] = '\0';
+		}
+		else
+		{
+			value = malloc(sizeof(char) * ((size - *index) + 1));
+			mem_check(value);
+			size = 0;
+			while (cmd_value[*index])
+				value[size++] = cmd_value[(*index)++];
+			value[size] = '\0';
+		}
+		return (value);
+	}
+}
 
 int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 {
+	char	*name;
+	char	*value;
+	int		index;
+
+	name = NULL;
+	value = NULL;
+	index = 0;
 	if ((*cmd_parsed)->next == NULL || (*cmd_parsed)->next->type != 2) // Si aucun argument ou que le type n'est pas un argument print juste les variables env
 	{
 		sort_and_print_env(shell);
@@ -100,15 +148,16 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 	else // Sinon add une variable dans la liste
 	{
 		(*cmd_parsed) = (*cmd_parsed)->next;
-		// while (cmd && (*cmd_parsed)->type == 2)
-		// {
+		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+		{
 			// Check si la variable existe deja
 			// Si oui modifie la valeur de la variable / Check si la prochaine liste est aussi un argument
-			if ((*cmd_parsed)->value && (*cmd_parsed)->next && (*cmd_parsed)->next->type == 2
-				&& !srch_and_rplce_env_var(shell->env, (*cmd_parsed)->value, (*cmd_parsed)->next->value))
-				ft_lstadd_back_env(&shell->env, ft_lstnew_env((*cmd_parsed)->value, (*cmd_parsed)->next->value)); // Sinon ajoute la variable dans la liste env
-			// (*cmd_parsed) = (*cmd_parsed)->next;
-		// }
+			name = get_export_name((*cmd_parsed)->value, &index);
+			value = get_export_value((*cmd_parsed)->value, &index);
+			if (!srch_and_rplce_env_var(shell->env, name, value))
+				ft_lstadd_back_env(&shell->env, ft_lstnew_env(name, value)); // Sinon ajoute la variable dans la liste env
+			(*cmd_parsed) = (*cmd_parsed)->next;
+		}
 		shell->cmd.exit_status = 0;
 	}
 	return (0);	
