@@ -12,17 +12,49 @@
 
 #include "../inc/minishell.h"
 
-int	tokenizer(t_cmd *cmd)
+int	tokenizer(t_cmd *cmd, char *line)
 {
 	int	i;
 	int	j;
 	int t;
 
+	if (!line[0])
+		return (0);
+	cmd->dquote = 0;//nd dbl chk
+	cmd->squote = 0;
 	i = 0;
 	j = dbl_array_len(cmd->history) - 1;
 	t = 0;
 	while (cmd->history[j][i])
 	{
+		if (cmd->history[j][i] == '\\' && cmd->history[j][i + 1])
+		{
+			i += 2;
+			t += 2;
+		}
+		if (is_quote(cmd->history[j][i]))
+		{
+			if (cmd->history[j][i] == 34 && !cmd->squote)
+			{
+				if (cmd->dquote)
+					cmd->dquote = 0;
+				else
+					cmd->dquote = 1;
+			}
+			else if (cmd->history[j][i] == 39 && !cmd->dquote)
+			{
+				if (cmd->squote)
+					cmd->squote = 0;
+				else
+					cmd->squote = 1;
+			}
+		}
+		if (cmd->dquote || cmd->squote)
+		{
+			i++;
+			t++;
+			continue ;
+		}
 		if (t == 1 && i >= 1 /*&& is_operator(cmd->history[j][i - 1])*/
 			&& is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{

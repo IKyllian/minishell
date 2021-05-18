@@ -12,13 +12,19 @@
 
 #include "../inc/minishell.h"
 
+int	is_quote(char c)
+{
+	if (c == 34 || c == 39)
+		return (1);
+	return (0);
+}
+
 int	is_operator(char c)
 {
 	if (c == ';' || c == '<' || c == '>' || c == '|' || c == '*'
 		|| c == '&')
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 int is_long_operator(char c, char b)
@@ -26,6 +32,5 @@ int is_long_operator(char c, char b)
 	if ((b == '>' && c == b) || (b == '<' && c == b) || (b == '&' && c == b)
 		|| (b == '|' && c == b) || (b == '$' && c == '?'))
 		return (1);
-	else
-		return (0);
+	return (0);
 }

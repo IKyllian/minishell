@@ -48,8 +48,8 @@ void	dbl_array_print(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
 			/* Parsing */
-int		history_save(t_cmd *cmd);
-int		tokenizer(t_cmd *cmd);
+int		history_save(t_cmd *cmd, char *line);
+int		tokenizer(t_cmd *cmd, char *line);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -80,6 +80,7 @@ int		ft_exit(t_env *env);
 			/* Tokenizer utils */
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
+int		is_quote(char c);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);

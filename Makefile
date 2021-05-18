@@ -26,7 +26,7 @@ SRCS =  main.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-FLAGS = -Wextra -Werror -Wall -g
+FLAGS = -Wextra -Werror -Wall -g -fPIC
 RM = rm -f
 
 all : $(NAME)

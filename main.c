@@ -48,8 +48,8 @@ int main(int argc, char **argv, char **env)
 	{
 		if (!quoting(&shell.cmd, line))
 			continue ;
-		history_save(&shell.cmd);
-		tokenizer(&shell.cmd);
+		history_save(&shell.cmd, line);
+		tokenizer(&shell.cmd, line);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd();
 		else if (!strncmp(line, "export", 6))

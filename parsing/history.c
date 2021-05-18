@@ -20,8 +20,10 @@ static void	history_init(t_cmd *cmd)
 	mem_check(cmd->history[0]);
 }
 
-int	history_save(t_cmd *cmd)
+int	history_save(t_cmd *cmd, char *line)
 {
+	if (!line[0])
+		return (0);
 	if (!ft_strlen(cmd->line))
 		return (-1);
 	if (!cmd->history)

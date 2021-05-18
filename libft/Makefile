@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fPIC
 
 RM = rm -f
 

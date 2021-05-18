@@ -42,6 +42,8 @@ int	check_quotes(t_cmd *cmd, char *line)
 
 int	quoting(t_cmd *cmd, char *line)
 {
+	if (!line[0])
+		return (1);
 	if (!cmd->line)
 		cmd->line = ft_strdup(line);
 	else
