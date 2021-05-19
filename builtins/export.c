@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/13 14:23:44 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 16:06:53 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	sort_and_print_env(t_shell *shell)
 	sort_env(env_cpy, first);
 	while (first)
 	{
-		print_env_line(first, shell->cmd.fd);
+		print_env_line(first, shell->cmd.fd_out);
 		first = first->next;
 	}
 	free_env_linked_list(env_cpy);

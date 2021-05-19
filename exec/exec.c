@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/11 16:58:26 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/18 13:11:37 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ char	*search_path(t_env *env_path, char *cmd_path)
 			break ;
 	}
 	free_tab(path_split);
+	if (path == NULL)
+	{
+		ft_putstr_fd("minishell: ", 1);
+		ft_putstr_fd(cmd_path, 1);
+		ft_putstr_fd(": command not found\n", 1);
+	}
 	return (path);
 }
 
@@ -117,9 +123,13 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	char	**args;
 	char	**envp;
 
+
 	path = search_path(srch_and_return_env_var(shell->env, "PATH"), (*cmd_parsed)->value);
 	if (path == NULL)
+	{
+		(*cmd_parsed) = (*cmd_parsed)->next;
 		return ;
+	}
 	errno = 0;
 	args = fill_arg(cmd_parsed);
 	envp = fill_envp(shell->env);
@@ -130,6 +140,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	{
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
+		exit(0);
 	}
 	else
 	{

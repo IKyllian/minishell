@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:57:13 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/13 12:22:09 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 14:46:24 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	init_pars(t_cmd *cmd, char **arg)
 	{
 		if (i == 0 )//|| i == 3)
 			type = 1;
+		else if (ft_strcmp(arg[i], "<") == 0 || ft_strcmp(arg[i], ">>") == 0 || ft_strcmp(arg[i], ">") == 0)
+			type = 4;
 		else if (ft_strcmp(arg[i], "|") == 0)
 			type = 3;
 		else

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:07 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/12 11:41:02 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 16:06:46 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	ft_env(t_shell *shell, t_pars **cmd_parsed)
 	{
 		if (env->value != NULL)
 		{
-			ft_putstr_fd(env->name, shell->cmd.fd);
-			ft_putchar_fd('=', shell->cmd.fd);
-			ft_putstr_fd(env->value, shell->cmd.fd);
-			ft_putchar_fd('\n', shell->cmd.fd);
+			ft_putstr_fd(env->name, shell->cmd.fd_out);
+			ft_putchar_fd('=', shell->cmd.fd_out);
+			ft_putstr_fd(env->value, shell->cmd.fd_out);
+			ft_putchar_fd('\n', shell->cmd.fd_out);
 		}
 		env = env->next;
 	}

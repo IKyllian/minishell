@@ -22,7 +22,10 @@ typedef struct s_cmd {
 	char	*line;
 	t_pars	*parsed;
 	int		exit_status;
-	int		fd;
+	int		fd_stdin;
+	int		fd_stdout;
+	int		fd_out;
+	int		fd_in;
 	int		squote;
 	int		dquote;
 }	t_cmd;
@@ -83,11 +86,13 @@ t_env	*ft_lstnew_env(char *name, char *value);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
-int		ft_redirect(char **arg, t_cmd *cmd);
+int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
+void	restaure_fd(t_shell *shell);
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
 
-
 void	init_pars(t_cmd *cmd, char **arg);
+
+void	print_prompt(t_shell *shell);
 
 #endif
