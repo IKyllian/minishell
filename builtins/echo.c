@@ -6,62 +6,40 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 15:41:18 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/13 16:06:39 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_echo(char *str)
+//Exit status = 0 if no error
+int	ft_echo(t_shell *shell, t_pars **cmd_parsed)
 {
-	char *env_var;
-	int	flag_exist;
+	int		flag_exist;
 
-	flag_exist = 0;
-	if (str)
+	if ((*cmd_parsed)->next != NULL)
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	if (ft_strcmp((*cmd_parsed)->value, "-n") == 0)
 	{
-		if (str[0] != '$')
-			ft_putstr_fd(str, 1);
+		flag_exist = 1;
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
+	else
+		flag_exist = 0;
+	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+	{
+		if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] == '?')
+			ft_putnbr_fd(shell->cmd.exit_status, shell->cmd.fd_out);
+		else if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] != ' ')
+			srch_and_dislay_env_var(shell->env, (*cmd_parsed)->value + 1, shell->cmd.fd_out);// +1 pour skip le $
 		else
-		{
-			if (str[1] == ' ')
-				ft_putstr_fd(str, 1);
-			else
-			{
-				env_var = getenv(str + 1);
-				if (env_var != NULL)
-					ft_putstr_fd(env_var, 1);
-			}
-		} 
+			ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)
+			ft_putchar_fd(' ', shell->cmd.fd_out);
+		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
 	if (!flag_exist)
-		ft_putchar_fd('\n', 1);
-	return (1);
+		ft_putchar_fd('\n', shell->cmd.fd_out);
+	shell->cmd.exit_status = 0;
+	return (0);
 }
-
-//Exit status = 0 if no error
-// int	ft_echo(char **arg, t_env *env, t_cmd *cmd)
-// {
-// 	int i;
-// 	int	flag_exist;
-
-// 	flag_exist = 0;
-// 	i = -1;
-// 	while (arg[++i])
-// 	{	
-// 		if (i == 1 && ft_strcmp(arg[i], "-n") == 0)
-// 			flag_exist = 1;
-// 		if (arg[i][0] == '$' && arg[i][1] != ' ')
-// 			srch_and_dislay_env_var(env, arg[i]);
-// 		// else if (arg[i][0] == '$' && arg[i][1] != '?')
-// 			// ft_putnbr_fd(cmd->exit_status, cmd->fd);
-// 		else
-// 		{
-// 			ft_putstr_fd(arg[i], cmd->fd);
-// 			ft_putchar_fd(' ', cmd->fd);
-// 		}
-// 	}
-// 	if (!flag_exist)
-// 		ft_putchar_fd('\n', cmd->fd);
-// 	return (0);
-// }

@@ -6,13 +6,13 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/03 11:11:57 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/12 13:37:12 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
-void	free_list_item(t_env *env)
+void	free_env_list_item(t_env *env)
 {
 	if (env->name)
 		free(env->name);
@@ -22,7 +22,7 @@ void	free_list_item(t_env *env)
 		free(env);
 }
 
-void	free_linked_list(t_env *env)
+void	free_env_linked_list(t_env *env)
 {
 	t_env *next;
 
@@ -33,8 +33,27 @@ void	free_linked_list(t_env *env)
 			next = env->next;
 		else
 			next = NULL;
-		free_list_item(env);
+		free_env_list_item(env);
 		env = next;
+	}
+}
+
+void	free_parse_linked_list(t_pars *parse)
+{
+	t_pars *next;
+
+	next = NULL;
+	while (parse)
+	{
+		if (parse->next)
+			next = parse->next;
+		else
+			next = NULL;
+		if (parse->value)
+			free(parse->value);
+		if (parse)
+			free(parse);
+		parse = next;
 	}
 }
 

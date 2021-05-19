@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 17:27:45 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/03/19 14:45:52 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/05 12:29:53 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	size_t	size;
 
 	size = 0;
+	if (!str)
+		return (0);
 	while (str[size])
 		size++;
 	return (size);

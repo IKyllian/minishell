@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strct_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/04/30 14:55:01 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 15:18:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ t_cmd	cmd_init(void)
 	cmd.parsed = NULL;
 	cmd.exit_status = 0;
 	cmd.line = NULL;
+	if (dup2(1, cmd.fd_stdout) == -1)
+		print_error(errno);
+	if (dup2(0, cmd.fd_stdin) == -1)
+		print_error(errno);
+	cmd.fd_out = 1;
+	cmd.fd_in = 0;
 	cmd.squote = 0;
 	cmd.dquote = 0;
 	return (cmd);
