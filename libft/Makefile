@@ -6,7 +6,7 @@
 #    By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/04/30 15:19:40 by ctaleb           ###   ########lyon.fr    #
+#    Updated: 2021/05/19 11:58:37 by ctaleb           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = ft_memset.c\
 		ft_toupper.c\
 		ft_tolower.c\
 		ft_strchr.c\
+		ft_strcmp.c\
 		ft_strrchr.c\
 		ft_strncmp.c\
 		ft_strlcpy.c\

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/22 10:39:43 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/29 12:55:41 by kdelport         ###   ########lyon.fr   */
+/*   Created: 2021/04/30 14:31:06 by kdelport          #+#    #+#             */
+/*   Updated: 2021/04/30 14:31:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-int ft_pwd(t_cmd *cmd)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	char	path[PATH_MAX];
+	unsigned int	i;
 
-	errno = 0;
-	if (getcwd(path, PATH_MAX))
-		ft_putstr_fd(path, cmd->fd);
-	else
+	i = 0;
+	while (str1[i] && str2[i])
 	{
-		print_error(errno);
-		return (1);
+		if ((unsigned char)str1[i] != (unsigned char)str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
 	}
-	ft_putchar_fd('\n', cmd->fd);
-	return (0);
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:02:18 by ctaleb            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/04/30 15:20:13 by ctaleb           ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/04/30 14:36:33 by kdelport         ###   ########lyon.fr   */
+>>>>>>> ad6262344006db83ab258f67d37c79defa3ef9c0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +49,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 char				*ft_strchr(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
+int					ft_strcmp(const char *str1, const char *str2);
 int					ft_strncmp(const char *str1, const char *str2, size_t size);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dst_size);
 size_t				ft_strlcat(char *dst, const char *src, size_t dst_size);

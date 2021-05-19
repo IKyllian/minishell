@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/22 12:22:12 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/04/30 15:41:18 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,28 @@ int	ft_echo(char *str)
 }
 
 //Exit status = 0 if no error
-// int	ft_echo(char **arg, t_env *env)
+// int	ft_echo(char **arg, t_env *env, t_cmd *cmd)
 // {
 // 	int i;
 // 	int	flag_exist;
 
 // 	flag_exist = 0;
-	// i = -1;
+// 	i = -1;
 // 	while (arg[++i])
 // 	{	
-// 		if (i == 1 && ft_strncmp(arg[i], "-n", 2) == 0)
+// 		if (i == 1 && ft_strcmp(arg[i], "-n") == 0)
 // 			flag_exist = 1;
 // 		if (arg[i][0] == '$' && arg[i][1] != ' ')
-// 			srch_and_dislay_env_var(env, arg[i][1]);
+// 			srch_and_dislay_env_var(env, arg[i]);
 // 		// else if (arg[i][0] == '$' && arg[i][1] != '?')
-// 			//print exit status of the last command
+// 			// ft_putnbr_fd(cmd->exit_status, cmd->fd);
 // 		else
-// 			ft_putstr_fd(arg[i], 1);
+// 		{
+// 			ft_putstr_fd(arg[i], cmd->fd);
+// 			ft_putchar_fd(' ', cmd->fd);
+// 		}
 // 	}
 // 	if (!flag_exist)
-// 		ft_putchar_fd('\n', 1);
+// 		ft_putchar_fd('\n', cmd->fd);
 // 	return (0);
 // }

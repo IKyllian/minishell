@@ -5,6 +5,7 @@ HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
+		redirect.c \
 		./env/env_utils.c \
 		list_utils.c \
 		./builtins/echo.c \
@@ -22,6 +23,7 @@ SRCS =  main.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
 		./utils/operators_utils.c \
+		./exec/exec.c \
 		./utils/strct_init.c \
 		
 OBJS = $(SRCS:.c=.o)
