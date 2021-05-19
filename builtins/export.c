@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/13 16:06:53 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 16:37:44 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 		{
+			index = 0;
 			// Check si la variable existe deja
 			// Si oui modifie la valeur de la variable / Check si la prochaine liste est aussi un argument
 			name = get_export_name((*cmd_parsed)->value, &index);

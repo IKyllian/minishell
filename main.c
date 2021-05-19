@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/19 14:58:43 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 15:41:34 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,14 +132,22 @@ int main(int argc, char **argv, char **env)
 	print_prompt(&shell);
 	while (ft_get_next_line(0, 5, &line))
 	{
-		arg = ft_split(line, ' ');
-		init_pars(&shell.cmd, arg);
+		if (!quoting(&shell.cmd, line))
+			continue ;
+		history_save(&shell.cmd, line);
+		tokenizer(&shell.cmd, line);
+		// arg = ft_split(line, ' ');
+		// init_pars(&shell.cmd, arg);
 		check_cmd(&shell);
-		free(line);
+		if (line)
+			free(line);
 		line = NULL;
 		restaure_fd(&shell);
+		lstput_pars(shell.cmd.parsed);
+		lstclear_pars(&shell.cmd.parsed);
 		print_prompt(&shell);
 	}
-	// dbl_array_print(shell.cmd.history);
+	dbl_array_print(shell.cmd.history);
+	lstput_pars(shell.cmd.parsed);
 	return (exit);
 }

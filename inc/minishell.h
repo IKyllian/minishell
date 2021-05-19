@@ -17,7 +17,8 @@ typedef struct	s_pars
 	struct s_pars	*next;
 }	t_pars;
 
-typedef struct s_cmd {
+typedef struct s_cmd
+{
 	char	**history;
 	char	*line;
 	t_pars	*parsed;
@@ -32,12 +33,13 @@ typedef struct s_cmd {
 
 typedef struct	s_env
 {
-	char	*name;
-	char	*value;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_shell {
+typedef struct s_shell
+{
 	t_cmd	cmd;
 	t_env	*env;
 }	t_shell;
@@ -50,7 +52,9 @@ char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
-int		history_save(t_cmd *cmd);
+			/* Parsing */
+int		history_save(t_cmd *cmd, char *line);
+int		tokenizer(t_cmd *cmd, char *line);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -80,19 +84,33 @@ int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
-			/* List utils */
+			/* Tokenizer utils */
+int		is_operator(char c);
+int 	is_long_operator(char c, char b);
+int		is_quote(char c);
+int		type_set(char *value);
+
+			/* List utils (t_env) */
 int		ft_lstsize_env(t_env *lst);
 t_env	*ft_lstnew_env(char *name, char *value);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
-int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
-void	restaure_fd(t_shell *shell);
+			/* List utils (t_pars) */
+void	lstput_pars(t_pars *lst);
+void	lstclear_pars(t_pars **lst);
+int		lstsize_pars(t_pars *lst);
+t_pars	*lstnew_pars(char *value);
+t_pars	*lstlast_pars(t_pars *lst);
+void	lstaddback_pars(t_pars **alst, t_pars *new);
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
 
-void	init_pars(t_cmd *cmd, char **arg);
+int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
+void	restaure_fd(t_shell *shell);
 
 void	print_prompt(t_shell *shell);
+
+// void	init_pars(t_cmd *cmd, char **arg);
 
 #endif

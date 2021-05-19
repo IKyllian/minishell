@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/18 13:11:37 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 15:47:25 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**fill_arg(t_pars **cmd_parsed)
 		exit(0);// Appeler une fonction d'erreur
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2))
 	{
-		args[i++] = (*cmd_parsed)->value;
+		args[i++] = ft_strdup((*cmd_parsed)->value);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
 	args[i] = NULL;

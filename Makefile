@@ -15,19 +15,22 @@ SRCS =  main.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
+		./parsing/escaper.c \
+		./parsing/tokenizer.c \
 		./parsing/quoting.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
+		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
+		./utils/operators_utils.c \
 		./exec/exec.c \
 		./utils/strct_init.c \
-		test_pipe.c \
 		prompt.c \
 		
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-FLAGS = -Wextra -Werror -Wall -g
+FLAGS = -Wextra -Werror -Wall -g -fPIC
 RM = rm -f
 
 all : $(NAME)

@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:12:03 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/04/23 12:12:36 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/03 11:59:57 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ static void	history_init(t_cmd *cmd)
 	mem_check(cmd->history[0]);
 }
 
-int	history_save(t_cmd *cmd)
+int	history_save(t_cmd *cmd, char *line)
 {
+	if (!line[0])
+		return (0);
 	if (!ft_strlen(cmd->line))
 		return (-1);
 	if (!cmd->history)

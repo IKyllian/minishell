@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/28 15:12:07 by ctaleb            #+#    #+#              #
-#    Updated: 2021/04/30 15:47:34 by kdelport         ###   ########lyon.fr    #
+#    Updated: 2021/05/19 11:58:37 by ctaleb           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fPIC
 
 RM = rm -f
 
@@ -45,6 +45,7 @@ SRCS = ft_memset.c\
 		ft_atoi.c\
 		ft_calloc.c\
 		ft_strdup.c\
+		ft_strndup.c \
 		ft_substr.c\
 		ft_strjoin.c\
 		ft_strtrim.c\
