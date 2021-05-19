@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/03 15:28:23 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/18 15:29:50 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,33 @@ int	is_quote(char c)
 
 int	is_operator(char c)
 {
-	if (c == ';' || c == '<' || c == '>' || c == '|' || c == '*'
-		|| c == '&')
+	if (c == ';' || c == '<' || c == '>' || c == '|'/* || c == '*'
+		|| c == '&'*/)
 		return (1);
 	return (0);
 }
 
 int is_long_operator(char c, char b)
 {
-	if ((b == '>' && c == b) || (b == '<' && c == b) || (b == '&' && c == b)
-		|| (b == '|' && c == b) || (b == '$' && c == '?'))
+	if ((b == '>' && c == b)/* || (b == '<' && c == b) || (b == '&' && c == b)
+		|| (b == '|' && c == b) */|| (b == '$' && c == '?'))
 		return (1);
 	return (0);
+}
+
+int	type_set(char *value)
+{
+	int		len;
+
+	len = ft_strlen(value);
+	if (len == 1 && value[0] == '|')
+		return (3);
+	else if (len == 1 && (value[0] == '<' || value[0] == '>'))
+		return (4);
+	else if (len == 1 && value[0] == ';')
+		return (5);
+	else if (len == 2 && value[0] == '>' && value[1] == '>')
+		return (4);
+	else
+		return (2);
 }

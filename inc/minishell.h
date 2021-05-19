@@ -81,6 +81,7 @@ int		ft_exit(t_env *env);
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
 int		is_quote(char c);
+int		type_set(char *value);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);

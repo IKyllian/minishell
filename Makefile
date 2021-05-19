@@ -14,8 +14,9 @@ SRCS =  main.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
-		./parsing/quoting.c \
+		./parsing/escaper.c \
 		./parsing/tokenizer.c \
+		./parsing/quoting.c \
 		./parsing/history.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \

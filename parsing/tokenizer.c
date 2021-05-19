@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/03 15:29:36 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 11:15:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 		{
 			i += 2;
 			t += 2;
+			continue ;
 		}
 		if (is_quote(cmd->history[j][i]))
 		{
@@ -61,16 +62,16 @@ int	tokenizer(t_cmd *cmd, char *line)
 			printf("i%i, lop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t + 1)));
-			t = 0;
+			t = 2;
 		}
-		else if (t == 1 && i >= 1 && is_operator(cmd->history[j][i - 1])
-			&& !is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
-		{
-			printf("i%i, nop\n", i);
-			if (i >= 1 && cmd->history[j][i - 1] != ' ')
-				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
-			t = 1;
-		}
+		// else if (t == 1 && i >= 1 && is_operator(cmd->history[j][i - 1])
+		// 	&& !is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
+		// {
+		// 	printf("i%i, nop\n", i);
+		// 	if (i >= 1 && cmd->history[j][i - 1] != ' ')
+		// 		lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
+		// 	t = 1;
+		// }
 		else if (is_operator(cmd->history[j][i]))
 		{
 			printf("i%i, op\n", i);

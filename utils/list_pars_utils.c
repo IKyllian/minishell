@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/03 14:05:57 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/18 15:34:18 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	lstput_pars(t_pars *lst)
 	i = 0;
 	while (lst)
 	{
-		printf("*%i\t%s*\n", i, lst->value);
+		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
 		i++;
 		lst = lst->next;
 	}
@@ -62,6 +62,7 @@ t_pars	*lstnew_pars(char *value)
 	parsed = ft_calloc(1, sizeof(t_pars));
 	mem_check(parsed);
 	parsed->value = value;
+	parsed->type = type_set(value);
 	parsed->next = NULL;
 	return (parsed);
 }
@@ -89,9 +90,13 @@ void	lstaddback_pars(t_pars **alst, t_pars *new)
 		return ;
 	if (!*alst)
 	{
+		if (new->type == 2)
+			new->type = 1;
 		*alst = new;
 		return ;
 	}
 	tmp = lstlast_pars(*alst);
+	if ((tmp->type == 3 || tmp->type == 5) && new->type == 2)
+		new->type = 1;
 	tmp->next = new;
 }
