@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   escaper.c                                          :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/19 14:02:35 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2021/05/19 14:44:20 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/05/19 14:46:56 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	search_and_escape(t_cmd *cmd)
+void	check_quote(t_cmd *cmd, char c)
 {
-	int	i;
-
-	cmd->squote = 0;
-	cmd->dquote = 0;
-	while(cmd->parsed)
+	if (is_quote(c))
 	{
-		i = 0;
-		while(cmd->parsed->value[i])
+		if (c == 34 && !cmd->squote)
 		{
-			if (cmd->parsed->value[i] == '\\' && cmd->parsed->value[i + 1])
-			{
-				
-			}
-			i++;
+			if (cmd->dquote)
+				cmd->dquote = 0;
+			else
+				cmd->dquote = 1;
+		}
+		else if (c == 39 && !cmd->dquote)
+		{
+			if (cmd->squote)
+				cmd->squote = 0;
+			else
+				cmd->squote = 1;
 		}
 	}
 }

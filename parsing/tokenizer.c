@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/19 11:59:35 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 14:48:31 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 			t += 2;
 			continue ;
 		}
-		if (is_quote(cmd->history[j][i]))
-		{
-			if (cmd->history[j][i] == 34 && !cmd->squote)
-			{
-				if (cmd->dquote)
-					cmd->dquote = 0;
-				else
-					cmd->dquote = 1;
-			}
-			else if (cmd->history[j][i] == 39 && !cmd->dquote)
-			{
-				if (cmd->squote)
-					cmd->squote = 0;
-				else
-					cmd->squote = 1;
-			}
-		}
+		check_quote(cmd, cmd->history[j][i]);
 		if (cmd->dquote || cmd->squote)
 		{
 			i++;

@@ -81,11 +81,12 @@ int		ft_unset(t_env *env, char **arg);
 int		ft_env(t_shell *shell);
 int		ft_exit(t_env *env, char **arg);
 
-			/* Tokenizer utils */
+			/* Parsing utils */
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
 int		is_quote(char c);
 int		type_set(char *value);
+void	check_quote(t_cmd *cmd, char c);
 
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);
