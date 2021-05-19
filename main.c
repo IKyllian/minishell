@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/04/30 16:07:16 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/19 12:00:33 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int main(int argc, char **argv, char **env)
 	{
 		if (!quoting(&shell.cmd, line))
 			continue ;
-		history_save(&shell.cmd);
+		history_save(&shell.cmd, line);
+		tokenizer(&shell.cmd, line);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd(&shell.cmd);
 		else if (!strncmp(line, "export", 6))
@@ -70,11 +71,12 @@ int main(int argc, char **argv, char **env)
 			// ft_echo(line);
 		free(line);
 		line = NULL;
-		if (shell.cmd.fd != 1)
-			shell.cmd.fd = 1;
+		lstput_pars(shell.cmd.parsed);
+		lstclear_pars(&shell.cmd.parsed);
 		ft_putstr_fd("minishell-0.1$ ", 1);
 	}
 	dbl_array_print(shell.cmd.history);
+	lstput_pars(shell.cmd.parsed);
 	return (exit);
 }
 

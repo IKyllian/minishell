@@ -10,10 +10,18 @@
 # include "libft.h"
 #include <dirent.h>
 
-typedef struct s_cmd {
+typedef struct	s_pars
+{
+	int				type;
+	char			*value;
+	struct s_pars	*next;
+}	t_pars;
+
+typedef struct s_cmd
+{
 	char	**history;
 	char	*line;
-	char	**parsed;
+	t_pars	*parsed;
 	int		exit_status;
 	int		fd;
 	int		squote;
@@ -22,12 +30,13 @@ typedef struct s_cmd {
 
 typedef struct	s_env
 {
-	char	*name;
-	char	*value;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_shell {
+typedef struct s_shell
+{
 	t_cmd	cmd;
 	t_env	*env;
 }	t_shell;
@@ -40,7 +49,9 @@ char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
-int		history_save(t_cmd *cmd);
+			/* Parsing */
+int		history_save(t_cmd *cmd, char *line);
+int		tokenizer(t_cmd *cmd, char *line);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -70,11 +81,24 @@ int		ft_unset(t_env *env, char **arg);
 int		ft_env(t_shell *shell);
 int		ft_exit(t_env *env, char **arg);
 
+			/* Tokenizer utils */
+int		is_operator(char c);
+int 	is_long_operator(char c, char b);
+int		is_quote(char c);
+int		type_set(char *value);
+
 			/* List utils */
 int		ft_lstsize_env(t_env *lst);
 t_env	*ft_lstnew_env(char *name, char *value);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
+
+void	lstput_pars(t_pars *lst);
+void	lstclear_pars(t_pars **lst);
+int		lstsize_pars(t_pars *lst);
+t_pars	*lstnew_pars(char *value);
+t_pars	*lstlast_pars(t_pars *lst);
+void	lstaddback_pars(t_pars **alst, t_pars *new);
 
 int		ft_redirect(char **arg, t_cmd *cmd);
 
