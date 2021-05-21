@@ -107,6 +107,7 @@ void	lstaddback_pars(t_pars **alst, t_pars *new);
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
 
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
+int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restaure_fd(t_shell *shell);
 
 void	print_prompt(t_shell *shell);
