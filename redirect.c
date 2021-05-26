@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/21 15:49:58 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/26 12:39:40 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed)
 		return (0);
 	fd = -1;
 	close(cmd->fd_in);
-	fd = open((*cmd_parsed)->value, O_CREAT | O_RDONLY | O_WRONLY | O_APPEND, 00777);
+	fd = open((*cmd_parsed)->value, O_CREAT | O_RDONLY, S_IRWXU);
 	errno = 0;
 	if (fd == -1)
 	{
@@ -53,9 +53,9 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 	fd = -1;
 	close(cmd->fd_out);
 	if (ft_strcmp(redirect, ">>") == 0)
-		fd = open((*cmd_parsed)->value, O_CREAT | O_RDONLY | O_WRONLY | O_APPEND, 00777);
+		fd = open((*cmd_parsed)->value, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	else if (ft_strcmp(redirect, ">") == 0)
-		fd = open((*cmd_parsed)->value, O_CREAT | O_RDONLY | O_WRONLY | O_TRUNC, 00777);
+		fd = open((*cmd_parsed)->value, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	errno = 0;
 	if (fd == -1)
 	{
