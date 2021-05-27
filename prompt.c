@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/26 12:59:27 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 10:41:45 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ void	print_prompt(t_shell *shell)
 
 	path = get_prompt_path(shell->env);
 	if (shell->cmd.exit_status == 0)
-		ft_putstr_fd("\033[1;32m=>", 1);
+		ft_putstr_fd("\33[1;32m=>", 1);
 	else
-		ft_putstr_fd("\033[1;31m=>", 1);
-	ft_putstr_fd("\033[1;36m minishell-0.1(", 1);
-	ft_putstr_fd("\033[1;37m", 1);
+		ft_putstr_fd("\33[1;31m=>", 1);
+	ft_putstr_fd("\33[1;36m minishell-0.1(", 1);
+	ft_putstr_fd("\33[1;37m", 1);
 	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\033[0;36m", 1);
+	ft_putstr_fd("\33[0;36m", 1);
 	ft_putstr_fd(")$ ", 1);
-	ft_putstr_fd("\033[0;37m", 1);
+	ft_putstr_fd("\33[0;37m", 1);
 	if (path)
 		free(path);
 }

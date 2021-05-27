@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/21 15:24:16 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 09:48:02 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 		if (t == 1 && i >= 1 /*&& is_operator(cmd->history[j][i - 1])*/
 			&& is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{
-			// printf("i%i, lop\n", i);
+			printf("i%i, lop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t + 1)));
 			t = 2;

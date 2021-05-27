@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/21 15:04:00 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 13:29:47 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 	t_pars	*parsed_check;
 
 	parsed_check = (*parsed);
-	while (parsed_check && parsed_check->type != 3)
+	while (parsed_check && parsed_check->type != 3 && parsed_check->type != 5)
 	{
 		if (parsed_check->type == 4)
 		{
@@ -62,7 +62,10 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
 			print_error(errno);
 		close(pipefd[0]);
-		check_cmd_arg(shell, parsed);
+		if ((*parsed) && (*parsed)->type == 3)
+			(*parsed) = (*parsed)->next;
+		if ((*parsed))
+			check_cmd_arg(shell, parsed);
 		close(pipefd[1]);
 		if (pid == 0)
 			exit(1);
@@ -74,13 +77,37 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 		close(pipefd[1]);
 		while ((*parsed) && (*parsed)->type != 3)
 			(*parsed) = (*parsed)->next;
-		(*parsed) = (*parsed)->next;
-		check_cmd_arg(shell, parsed);
+		if ((*parsed) && (*parsed)->next)
+			(*parsed) = (*parsed)->next;
+		if ((*parsed))
+			check_cmd_arg(shell, parsed);
 		if ((*parsed) && (*parsed)->type == 3)
 			exec_pipe(shell, parsed);
 		wait(NULL);
 		close(pipefd[0]);
 	}
+}
+
+int	check_pipe(t_pars **parsed_check, int *pipe_exist, t_pars **parsed, t_shell *shell)
+{
+	while ((*parsed_check))
+	{
+		if ((*parsed_check)->type == 3)
+		{
+			*pipe_exist = 1;
+			exec_pipe(shell, parsed);
+			(*parsed_check) = (*parsed_check)->next;
+			return (1);
+		}
+		if ((*parsed_check)->type == 5)
+		{
+			(*parsed_check) = (*parsed_check)->next;
+			return (0);
+		}
+		else
+			(*parsed_check) = (*parsed_check)->next;
+	}
+	return (0);
 }
 
 void	check_cmd(t_shell *shell)
@@ -91,23 +118,18 @@ void	check_cmd(t_shell *shell)
 
 	parsed = shell->cmd.parsed;
 	parsed_check = shell->cmd.parsed;
-	pipe_exist = 0; 
+	pipe_exist = 0;
 	while (parsed)
 	{
-		while (parsed_check)
-		{
-			if (parsed_check->type == 3)
-			{
-				pipe_exist = 1;
-				exec_pipe(shell, &parsed);
-				break ;
-			}
-			parsed_check = parsed_check->next;
-		}
-		if (pipe_exist)
-			break ;
-		if (parsed->type == 1)
+		if (check_pipe(&parsed_check, &pipe_exist, &parsed, shell) == 0 && parsed && parsed->type == 1)
 			check_cmd_arg(shell, &parsed);
+		if (!parsed)
+			break ;
+		else if (parsed->type == 5)
+		{
+			restaure_fd(shell);
+			parsed = parsed->next;
+		}
 		else
 			parsed = parsed->next;
 	}
