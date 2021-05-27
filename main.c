@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/27 15:03:12 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 15:20:22 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 	t_pars	*parsed_check;
 
 	parsed_check = (*parsed);
-	while (parsed_check && parsed_check->type != 3)
+	while (parsed_check && parsed_check->type != 3 && parsed_check->type != 5)
 	{
 		if (parsed_check->type == 4)
-			ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
+		{
+			if (ft_strcmp(parsed_check->value, "<") == 0)
+				ft_redirect_in(&shell->cmd, &parsed_check);
+			else
+				ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
+		}
 		parsed_check = parsed_check->next;
 	}
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
@@ -57,62 +62,73 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
 			print_error(errno);
 		close(pipefd[0]);
-		check_cmd_arg(shell, parsed);
+		if ((*parsed) && (*parsed)->type == 3)
+			(*parsed) = (*parsed)->next;
+		if ((*parsed))
+			check_cmd_arg(shell, parsed);
 		close(pipefd[1]);
-		exit(0);
+		if (pid == 0)
+			exit(1);
 	}
 	else
 	{
-		wait(NULL);
 		if (dup2(pipefd[0], shell->cmd.fd_in) == -1)
 			print_error(errno);
 		close(pipefd[1]);
 		while ((*parsed) && (*parsed)->type != 3)
 			(*parsed) = (*parsed)->next;
-		(*parsed) = (*parsed)->next;
-		check_cmd_arg(shell, parsed);
-		close(pipefd[0]);		
+		if ((*parsed) && (*parsed)->next)
+			(*parsed) = (*parsed)->next;
+		if ((*parsed))
+			check_cmd_arg(shell, parsed);
 		if ((*parsed) && (*parsed)->type == 3)
 			exec_pipe(shell, parsed);
+		wait(NULL);
+		close(pipefd[0]);
 	}
+}
+
+int	check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell)
+{
+	while ((*parsed_check))
+	{
+		if ((*parsed_check)->type == 3)
+		{
+			exec_pipe(shell, parsed);
+			(*parsed_check) = (*parsed_check)->next;
+			return (1);
+		}
+		if ((*parsed_check)->type == 5)
+		{
+			(*parsed_check) = (*parsed_check)->next;
+			return (0);
+		}
+		else
+			(*parsed_check) = (*parsed_check)->next;
+	}
+	return (0);
 }
 
 void	check_cmd(t_shell *shell)
 {
 	t_pars	*parsed;
 	t_pars	*parsed_check;
-	int		pipe_exist;
 
 	parsed = shell->cmd.parsed;
 	parsed_check = shell->cmd.parsed;
-	pipe_exist = 0; 
 	while (parsed)
 	{
-		while (parsed_check)
-		{
-			if (parsed_check->type == 3)
-			{
-				pipe_exist = 1;
-				exec_pipe(shell, &parsed);
-				break ;
-			}
-			parsed_check = parsed_check->next;
-		}
-		if (pipe_exist)
+		if (parsed && parsed->type == 1 && check_pipe(&parsed_check, &parsed, shell) == 0 && parsed->type == 1)
+			check_cmd_arg(shell, &parsed);
+		if (!parsed)
 			break ;
-		if (parsed->type == 3 || parsed->type == 4)
+		else if (parsed->type == 5)
 		{
-			if (parsed->type == 4)
-			{
-				parsed = parsed->next;
-				if (parsed)
-					parsed = parsed->next;
-			}
-			else
-				parsed = parsed->next;
-			continue ;
+			restaure_fd(shell);
+			parsed = parsed->next;
 		}
-		check_cmd_arg(shell, &parsed);
+		else
+			parsed = parsed->next;
 	}
 }
 
@@ -136,14 +152,13 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
-		// arg = ft_split(line, ' ');
-		// init_pars(&shell.cmd, arg);
+		lstput_pars(shell.cmd.parsed);
 		check_cmd(&shell);
+		restaure_fd(&shell);
 		search_and_escape(&shell.cmd);
 		if (line)
 			free(line);
 		line = NULL;
-		restaure_fd(&shell);
 		lstput_pars(shell.cmd.parsed);
 		lstclear_pars(&shell.cmd.parsed);
 		print_prompt(&shell);
