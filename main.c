@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/19 15:41:34 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 14:57:58 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,30 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
+<<<<<<< HEAD
+		search_and_escape(&shell.cmd);
+		if (!strncmp(line, "pwd", 3))
+			ft_pwd(&shell.cmd);
+		else if (!strncmp(line, "export", 6))
+			ft_export(&shell);
+		else if (!strncmp(line, "env", 3))
+			ft_env(&shell);
+		else if (!strncmp(line, "exit", 5))
+		{
+			exit = 0;
+			break ;
+		}
+		else
+			ft_cd(line, shell.env);
+			// ft_echo(line);
+		free(line);
+=======
 		// arg = ft_split(line, ' ');
 		// init_pars(&shell.cmd, arg);
 		check_cmd(&shell);
 		if (line)
 			free(line);
+>>>>>>> 916ebfac675c837eef0505b4b3c0c525752bbea4
 		line = NULL;
 		restaure_fd(&shell);
 		lstput_pars(shell.cmd.parsed);

@@ -84,11 +84,15 @@ int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
-			/* Tokenizer utils */
+			/* Parsing utils */
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
 int		is_quote(char c);
 int		type_set(char *value);
+char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
+int		is_escapable(char c);
+void	search_and_escape(t_cmd *cmd);
+char	*char_remover(char *src, int i);
 
 			/* List utils (t_env) */
 int		ft_lstsize_env(t_env *lst);

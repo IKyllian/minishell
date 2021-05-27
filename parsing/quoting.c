@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:47:53 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/18 13:07:18 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/21 12:43:47 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_quotes(t_cmd *cmd, char *line)
 
 int	quoting(t_cmd *cmd, char *line)
 {
-	if (!line[0])
+	if (line && !line[0])
 		return (1);
 	if (!cmd->line)
 		cmd->line = ft_strdup(line);
