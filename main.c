@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/27 15:11:42 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 15:20:22 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int main(int argc, char **argv, char **env)
 		lstput_pars(shell.cmd.parsed);
 		check_cmd(&shell);
 		restaure_fd(&shell);
+		search_and_escape(&shell.cmd);
 		if (line)
 			free(line);
 		line = NULL;
