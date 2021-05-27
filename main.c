@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/27 13:29:47 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/05/27 15:11:42 by kdelport         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,12 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 	}
 }
 
-int	check_pipe(t_pars **parsed_check, int *pipe_exist, t_pars **parsed, t_shell *shell)
+int	check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell)
 {
 	while ((*parsed_check))
 	{
 		if ((*parsed_check)->type == 3)
 		{
-			*pipe_exist = 1;
 			exec_pipe(shell, parsed);
 			(*parsed_check) = (*parsed_check)->next;
 			return (1);
@@ -114,14 +113,12 @@ void	check_cmd(t_shell *shell)
 {
 	t_pars	*parsed;
 	t_pars	*parsed_check;
-	int		pipe_exist;
 
 	parsed = shell->cmd.parsed;
 	parsed_check = shell->cmd.parsed;
-	pipe_exist = 0;
 	while (parsed)
 	{
-		if (check_pipe(&parsed_check, &pipe_exist, &parsed, shell) == 0 && parsed && parsed->type == 1)
+		if (parsed && parsed->type == 1 && check_pipe(&parsed_check, &parsed, shell) == 0 && parsed->type == 1)
 			check_cmd_arg(shell, &parsed);
 		if (!parsed)
 			break ;
