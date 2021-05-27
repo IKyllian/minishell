@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/19 12:00:33 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/05/21 15:52:37 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
+		search_and_escape(&shell.cmd);
 		if (!strncmp(line, "pwd", 3))
 			ft_pwd(&shell.cmd);
 		else if (!strncmp(line, "export", 6))
