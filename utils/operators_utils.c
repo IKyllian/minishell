@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/18 15:29:50 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 16:57:47 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_operator(char c)
 
 int is_long_operator(char c, char b)
 {
-	if ((b == '>' && c == b)/* || (b == '<' && c == b) || (b == '&' && c == b)
+	if ((b == '<' && c == b) || (b == '>' && c == b)/* || (b == '&' && c == b)
 		|| (b == '|' && c == b) */|| (b == '$' && c == '?'))
 		return (1);
 	return (0);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/26 12:39:40 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 16:39:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
-void	restaure_fd(t_shell *shell)
+void	restore_fd(t_shell *shell)
 {
 	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
 		print_error(errno);

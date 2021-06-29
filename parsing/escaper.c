@@ -6,13 +6,13 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/27 14:53:26 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 14:48:49 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	search_and_escape(t_cmd *cmd)
+int	search_and_escape(t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -28,6 +28,8 @@ void	search_and_escape(t_cmd *cmd)
 		while(lst->value[i])
 		{
 			lst->value = check_quote(cmd, lst->value, i, 1);
+			if (!lst->value[i + 1] && (cmd->dquote || cmd->squote))
+				return (0);
 			if (cmd->dquote || cmd->squote)
 				j++;
 			if (j == 1 && (cmd->squote || cmd->dquote))
@@ -37,8 +39,10 @@ void	search_and_escape(t_cmd *cmd)
 				j = 0;
 				continue ;
 			}
+			// printf("%c\n", lst->value[i]);
 			if (lst->value[i] == '\\' && lst->value[i + 1])
 			{
+				// printf("%i\tsq%i\tdq%i\n", i, cmd->squote, cmd->dquote);
 				if (cmd->squote)
 				{
 					i++;
@@ -53,4 +57,5 @@ void	search_and_escape(t_cmd *cmd)
 		}
 		lst = lst->next;
 	}
+	return (1);
 }

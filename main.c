@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/27 15:20:22 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 14:51:37 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	check_cmd(t_shell *shell)
 			break ;
 		else if (parsed->type == 5)
 		{
-			restaure_fd(shell);
+			restore_fd(shell);
 			parsed = parsed->next;
 		}
 		else
@@ -152,18 +152,20 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
-		lstput_pars(shell.cmd.parsed);
-		check_cmd(&shell);
-		restaure_fd(&shell);
-		search_and_escape(&shell.cmd);
+		// lstput_pars(shell.cmd.parsed);
+		if (search_and_escape(&shell.cmd))
+			check_cmd(&shell);
+		else
+			printf("Missing quotes\n");
+		restore_fd(&shell);
 		if (line)
 			free(line);
 		line = NULL;
-		lstput_pars(shell.cmd.parsed);
+		// lstput_pars(shell.cmd.parsed);
 		lstclear_pars(&shell.cmd.parsed);
 		print_prompt(&shell);
 	}
 	dbl_array_print(shell.cmd.history);
-	lstput_pars(shell.cmd.parsed);
+	// lstput_pars(shell.cmd.parsed);
 	return (exit);
 }

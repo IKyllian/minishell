@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/27 09:49:24 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 14:03:19 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	lstput_pars(t_pars *lst)
 	i = 0;
 	while (lst)
 	{
-		// printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
+		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
 		i++;
 		lst = lst->next;
 	}

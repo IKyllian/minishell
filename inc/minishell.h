@@ -91,7 +91,7 @@ int		is_quote(char c);
 int		type_set(char *value);
 char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
 int		is_escapable(char c);
-void	search_and_escape(t_cmd *cmd);
+int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 
 			/* List utils (t_env) */
@@ -112,7 +112,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
 
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
-void	restaure_fd(t_shell *shell);
+void	restore_fd(t_shell *shell);
 
 void	print_prompt(t_shell *shell);
 
