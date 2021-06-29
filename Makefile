@@ -27,6 +27,7 @@ SRCS =  main.c \
 		./exec/exec.c \
 		./utils/strct_init.c \
 		prompt.c \
+		pipe.c \
 		
 OBJS = $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/21 11:27:54 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 17:22:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		print_error(errno);
 	if (pid == 0)
 	{
+		dbl_array_print(args);
+		printf("Path = %s\n", path);
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
 		exit(0);

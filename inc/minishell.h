@@ -108,11 +108,17 @@ t_pars	*lstnew_pars(char *value);
 t_pars	*lstlast_pars(t_pars *lst);
 void	lstaddback_pars(t_pars **alst, t_pars *new);
 
+			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
+void	check_cmd_arg(t_shell *shell, t_pars **parsed);
+void	exec_pipe(t_shell *shell, t_pars **parsed);
+int		check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell);
 
+			/* Redirect */
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
+void	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
 
 void	print_prompt(t_shell *shell);
 

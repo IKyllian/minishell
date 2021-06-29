@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/06/15 16:39:07 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 15:46:13 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,32 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 	if (dup2(fd, cmd->fd_out) == -1)
 		print_error(errno);
 	return (1);
+}
+
+void ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
+{
+	t_pars	*args;
+	int		ret;
+	char	*line;
+	t_pars *temp;
+
+	if (!exit_word)
+		ft_putstr_fd("Error : Pas de mot de sortie", shell->cmd.fd_out);
+	ret = 1;
+	args = lstnew_pars((*cmd_parsed)->value);
+	(*cmd_parsed) = (*cmd_parsed)->next;
+	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+	{
+		lstaddback_pars(&args, lstnew_pars((*cmd_parsed)->value));
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
+	while (ret)
+	{
+		ret = ft_get_next_line(0, 2, &line);
+		if (ft_strcmp(line, exit_word->value) == 0)
+			break ;
+		lstaddback_pars(&args, lstnew_pars(line));
+	}
+	temp = args;
+	check_cmd_arg(shell, &args);
 }
