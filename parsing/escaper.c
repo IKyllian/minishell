@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/22 10:40:02 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/09/22 11:18:40 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@ int	search_and_escape(t_cmd *cmd)
 	cmd->squote = 0;
 	cmd->dquote = 0;
 	lst = cmd->parsed;
-	printf("SIZE: %i\n", lstsize_pars(lst));
 	while(lst)
 	{
 		j = 0;
 		i = 0;
-		printf("%s\n", lst->value);
 		while(lst->value[i])
 		{
-			printf ("> %c \t sq= %i \t dq= %i", lst->value[i], cmd->squote, cmd->dquote);
 			lst->value = check_quote(cmd, lst->value, i, 1);
-			printf ("\t <> \t sq= %i \t dq= %i\n", cmd->squote, cmd->dquote);
-			if (!lst->value[i + 1] && (cmd->dquote || cmd->squote))
+			if (!lst->value[i + 1] && (cmd->dquote || cmd->squote) && (lst->value[i] != '\"' && lst->value[i] != '\''))
 				return (0);
 			if (cmd->dquote || cmd->squote)
 				j++;
