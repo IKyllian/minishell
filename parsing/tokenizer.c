@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/27 15:22:54 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/09/22 10:45:39 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ int	tokenizer(t_cmd *cmd, char *line)
 	t = 0;
 	while (cmd->history[j][i])
 	{
-		if (cmd->history[j][i] == '\\' && cmd->history[j][i + 1])
-		{
-			i += 2;
-			t += 2;
-			continue ;
-		}
+		//probably not needed anymore
+		// if (cmd->history[j][i] == '\\' && cmd->history[j][i + 1])
+		// {
+		// 	i += 2;
+		// 	t += 2;
+		// 	continue ;
+		// }
 		check_quote(cmd, cmd->history[j], i, 0);
 		if (cmd->dquote || cmd->squote)
 		{
@@ -96,7 +97,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 	else
 	{
 		// printf("i%i, all\n", i);
-		if (i >= 1 && cmd->history[j][i - 1] != ' ')
+		if (i >= 1 && (cmd->history[j][i - 1] != ' ' || (cmd->squote || cmd->dquote)))
 			lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 		return (0);
 	}
