@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/06/29 14:51:37 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/09/23 10:27:08 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int main(int argc, char **argv, char **env)
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
 		// lstput_pars(shell.cmd.parsed);
+		search_and_sub(&shell.cmd, shell.env);
 		if (search_and_escape(&shell.cmd))
 			check_cmd(&shell);
 		else

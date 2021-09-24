@@ -91,6 +91,7 @@ int		is_quote(char c);
 int		type_set(char *value);
 char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
 // int		is_escapable(char c);
+void	search_and_sub(t_cmd *cmd, t_env *env);
 int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 

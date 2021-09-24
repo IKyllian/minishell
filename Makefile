@@ -19,6 +19,7 @@ SRCS =  main.c \
 		./parsing/tokenizer.c \
 		./parsing/quoting.c \
 		./parsing/history.c \
+		./parsing/subber.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
