@@ -7,8 +7,10 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
-#include <dirent.h>
+# include <dirent.h>
 
 typedef struct	s_pars
 {
@@ -22,6 +24,7 @@ typedef struct s_cmd
 	char	**history;
 	char	*line;
 	t_pars	*parsed;
+	char	*prompt;
 	int		exit_status;
 	int		fd_stdin;
 	int		fd_stdout;
@@ -115,7 +118,7 @@ int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
 
-void	print_prompt(t_shell *shell);
+void	set_prompt(t_shell *shell, char **prompt);
 
 // void	init_pars(t_cmd *cmd, char **arg);
 

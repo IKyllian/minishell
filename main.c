@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/23 10:27:08 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/09/28 15:09:49 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,10 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	shell = shell_init(env);
 	arg = malloc(sizeof(char *) * 4);
-	print_prompt(&shell);
-	while (ft_get_next_line(0, 5, &line))
+	while (1)
 	{
+		set_prompt(&shell, &shell.cmd.prompt);
+		line = readline(shell.cmd.prompt);
 		if (!quoting(&shell.cmd, line))
 			continue ;
 		history_save(&shell.cmd, line);
@@ -164,8 +165,8 @@ int main(int argc, char **argv, char **env)
 		line = NULL;
 		// lstput_pars(shell.cmd.parsed);
 		lstclear_pars(&shell.cmd.parsed);
-		print_prompt(&shell);
 	}
+	free(&shell.cmd.prompt);
 	dbl_array_print(shell.cmd.history);
 	// lstput_pars(shell.cmd.parsed);
 	return (exit);

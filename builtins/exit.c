@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/12 13:40:34 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/09/28 15:12:36 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 		else
 			shell->cmd.exit_status = 0;
 	}
+	free(shell->cmd.prompt);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
 	exit(1);
