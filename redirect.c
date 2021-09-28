@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/06/29 15:46:13 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/09/28 16:44:51 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	restore_fd(t_shell *shell)
 		print_error(errno);
 	if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
 		print_error(errno);
+	shell->cmd.is_db_redir = 0;
 }
 
 int	ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed)
@@ -46,6 +47,7 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 {
 	int	fd;
 
+	printf("TEST\n");
 	if ((*cmd_parsed)->next)
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	else
@@ -67,16 +69,21 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 	return (1);
 }
 
-void ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
+int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
 {
 	t_pars	*args;
 	int		ret;
 	char	*line;
-	t_pars *temp;
+	int		fd;
 
 	if (!exit_word)
-		ft_putstr_fd("Error : Pas de mot de sortie", shell->cmd.fd_out);
+	{
+		ft_putstr_fd("Error : No exit word\n", shell->cmd.fd_out);
+		return (0);
+	}
 	ret = 1;
+	shell->cmd.is_db_redir = 1;
+	fd = open("tmp_file", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	args = lstnew_pars((*cmd_parsed)->value);
 	(*cmd_parsed) = (*cmd_parsed)->next;
 	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
@@ -86,11 +93,13 @@ void ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
 	}
 	while (ret)
 	{
+		ft_putstr_fd("> ", shell->cmd.fd_stdout);
 		ret = ft_get_next_line(0, 2, &line);
 		if (ft_strcmp(line, exit_word->value) == 0)
 			break ;
-		lstaddback_pars(&args, lstnew_pars(line));
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
 	}
-	temp = args;
 	check_cmd_arg(shell, &args);
+	return (1);
 }

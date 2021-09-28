@@ -29,6 +29,7 @@ typedef struct s_cmd
 	int		fd_in;
 	int		squote;
 	int		dquote;
+	int		is_db_redir;
 }	t_cmd;
 
 typedef struct	s_env
@@ -110,7 +111,7 @@ void	lstaddback_pars(t_pars **alst, t_pars *new);
 
 			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
-void	check_cmd_arg(t_shell *shell, t_pars **parsed);
+int		check_cmd_arg(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed);
 int		check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell);
 
@@ -118,7 +119,7 @@ int		check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell);
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
-void	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
+int		ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
 
 void	print_prompt(t_shell *shell);
 

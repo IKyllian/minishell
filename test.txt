@@ -1,8 +1,26 @@
-Ceci
-est
-un
-test
-
-1 = commande
-2 = argument
-3 = pipe
+##### LOG #####
+ls
+###############
+Path = /bin/ls
+Makefile
+builtins
+env
+error.c
+error.o
+exec
+inc
+libft
+list_utils.c
+list_utils.o
+main.c
+main.o
+minishell
+parsing
+pipe.c
+pipe.o
+prompt.c
+prompt.o
+redirect.c
+redirect.o
+test.txt
+utils
