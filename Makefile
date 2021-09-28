@@ -1,8 +1,6 @@
 NAME = minishell
 LIB_NAME = libft.a
 
-USER = ctaleb
-
 HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
@@ -35,7 +33,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 FLAGS = -Wextra -Werror -Wall -g -fPIC
-RLFLAGS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+RLFLAGS = -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
 RM = rm -f
 
 all : $(NAME)
