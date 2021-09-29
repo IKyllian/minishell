@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/22 10:45:39 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/09/29 09:38:26 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 		if (t == 1 && i >= 1 /*&& is_operator(cmd->history[j][i - 1])*/
 			&& is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{
-			printf("i%i, lop\n", i);
+			// printf("i%i, lop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t + 1)));
 			if (cmd->history[j][i] == ' ')
@@ -54,7 +54,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 		else if (t == 1 && i >= 1 && is_operator(cmd->history[j][i - 1])
 			&& !is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{
-			printf("i%i, nop\n", i);
+			// printf("i%i, nop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			if (cmd->history[j][i] == ' ')
@@ -64,7 +64,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 		}
 		else if (is_operator(cmd->history[j][i]))
 		{
-			printf("i%i, op\n", i);
+			// printf("i%i, op\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ' && t > 0)
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			t = 1;
@@ -89,7 +89,7 @@ int	tokenizer(t_cmd *cmd, char *line)
 	}
 	if (t == 0)
 	{
-		printf("i%i, empty\n", i);
+		// printf("i%i, empty\n", i);
 		// if (i >= 1 && cmd->history[j][i - 1] != ' ')
 		// 	lstaddback_pars(&cmd->parsed, lstnew_pars(&cmd->history[j][i]));
 		return (0);

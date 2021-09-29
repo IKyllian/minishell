@@ -6,16 +6,45 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/29 09:12:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/09/29 14:43:36 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
+void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
+{
+	char **temp;
+	int i;
+
+	i = 0;
+	temp = malloc(sizeof(char *) * (size + 1));
+	if (size > 1)
+	{
+		while (i < size - 1)
+		{
+			temp[i] = (*exit_words)[i];
+			i++;
+		}
+	}
+	if (new_exit_word)
+		temp[i++] = new_exit_word->value;
+	else
+		temp[i++] = NULL;
+	temp[i] = NULL;
+	if (*exit_words != NULL)
+		free(*exit_words);
+	*exit_words = temp;
+}
+
 int	check_redirect(t_shell *shell, t_pars **parsed)
 {
 	t_pars	*parsed_check;
+	int		ret;
+	char 	**exit_words;
 
+	ret = 0;
+	exit_words = NULL;
 	parsed_check = (*parsed);
 	while (parsed_check && parsed_check->type != 3 && parsed_check->type != 5)
 	{
@@ -25,13 +54,19 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 				ft_redirect_in(&shell->cmd, &parsed_check);
 			else if (ft_strcmp(parsed_check->value, "<<") == 0)
 			{
-				if (ft_db_redirect_in(shell, parsed, parsed_check->next) == 0)
-					return (-1);
+				ret++;
+				fill_exit_words(ret, &exit_words, parsed_check->next);
 			}
 			else
 				ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
 		}
 		parsed_check = parsed_check->next;
+	}
+	if (ret)
+	{
+		if (ft_db_redirect_in(shell, parsed, exit_words, ret) == 0)
+			return (-1);
+		return (0);
 	}
 	return (1);
 }

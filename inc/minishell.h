@@ -123,10 +123,11 @@ int		check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell);
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
-int		ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
+// int		ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
+int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
 
 void	set_prompt(t_shell *shell, char **prompt);
-
+int		check_redirect(t_shell *shell, t_pars **parsed);
 // void	init_pars(t_cmd *cmd, char **arg);
 
 #endif
