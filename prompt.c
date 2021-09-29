@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/28 10:20:05 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/09/29 09:11:56 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,27 @@ char	*get_prompt_path(t_env *env)
 	return (path);
 }
 
-void	print_prompt(t_shell *shell)
+void	set_prompt(t_shell *shell, char **prompt)
 {
 	char	*path;
+	char	*prefix;
+	char	*suffix;
+	char	*temp;
 
 	path = get_prompt_path(shell->env);
+	if (*prompt)
+		free(*prompt);
 	if (shell->cmd.exit_status == 0)
-		ft_putstr_fd("\33[1;32m=>", 1);
+		prefix = "\33[1;32m=>\33[1;36m minishell-0.1(\33[1;37m";
 	else
-		ft_putstr_fd("\33[1;31m=>", 1);
-	ft_putstr_fd("\33[1;36m minishell-0.1(", 1);
-	ft_putstr_fd("\33[1;37m", 1);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\33[0;36m", 1);
-	ft_putstr_fd(")$ ", 1);
-	ft_putstr_fd("\33[0;37m", 1);
+		prefix = "\33[1;31m=>\33[1;36m minishell-0.1(\33[1;37m";
+	suffix = "\33[0;36m)$ \33[0;37m";
+	*prompt = ft_strjoin("", prefix);
+	temp = ft_strjoin(*prompt, path);
+	free(*prompt);
+	*prompt = ft_strjoin(temp, suffix);
+	free(temp);
 	if (path)
 		free(path);
+	return ;
 }

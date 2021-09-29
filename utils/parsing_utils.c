@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:44:20 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/06/29 14:52:06 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/09/22 08:58:31 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ char	*check_quote(t_cmd *cmd, char *src, int i, int mode)
 	return src;
 }
 
-int	is_escapable(char c)
-{
-	if (c == '\n' || c == '\t' || c == '\"' || c == '$' || c == '\\')
-		return (1);
-	return (0);
-}
+// int	is_escapable(char c)
+// {
+// 	if (c == '\n' || c == '\t' || c == '\"' || c == '$' || c == '\\')
+// 		return (1);
+// 	return (0);
+// }
 
 char	*char_remover(char *src, int i)
 {

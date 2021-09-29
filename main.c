@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/28 16:35:58 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/09/29 09:12:32 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,6 @@ void	check_cmd(t_shell *shell)
 	}
 }
 
-void	new_prompt()
-{
-	ft_putstr_fd("\n", 0);
-	ft_putstr_fd("minishell\n", 0);
-	signal(SIGINT, new_prompt);
-}
-
 int main(int argc, char **argv, char **env)
 {
 	int		exit;
@@ -110,16 +103,16 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	shell = shell_init(env);
 	arg = malloc(sizeof(char *) * 4);
-	print_prompt(&shell);
-	signal(SIGINT, new_prompt);
-	// signal(SIGQUIT, new_prompt); "CTRL \" \*
-	while (ft_get_next_line(0, 5, &line))
+	while (1)
 	{
+		set_prompt(&shell, &shell.cmd.prompt);
+		line = readline(shell.cmd.prompt);
 		if (!quoting(&shell.cmd, line))
 			continue ;
 		history_save(&shell.cmd, line);
 		tokenizer(&shell.cmd, line);
 		// lstput_pars(shell.cmd.parsed);
+		search_and_sub(&shell.cmd, shell.env);
 		if (search_and_escape(&shell.cmd))
 			check_cmd(&shell);
 		else
@@ -130,8 +123,8 @@ int main(int argc, char **argv, char **env)
 		line = NULL;
 		// lstput_pars(shell.cmd.parsed);
 		lstclear_pars(&shell.cmd.parsed);
-		print_prompt(&shell);
 	}
+	free(&shell.cmd.prompt);
 	dbl_array_print(shell.cmd.history);
 	// lstput_pars(shell.cmd.parsed);
 	return (exit);

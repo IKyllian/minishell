@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/28 15:31:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/09/29 09:12:50 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_cmd	cmd_init(void)
 	cmd.parsed = NULL;
 	cmd.exit_status = 0;
 	cmd.line = NULL;
+	cmd.prompt = NULL;
 	cmd.fd_stdout = dup(1);
 	cmd.fd_stdin = dup(0);
 	cmd.fd_out = 1;

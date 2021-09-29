@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/13 16:06:39 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/09/24 07:43:26 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	ft_echo(t_shell *shell, t_pars **cmd_parsed)
 	{
 		if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] == '?')
 			ft_putnbr_fd(shell->cmd.exit_status, shell->cmd.fd_out);
-		else if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] != ' ')
-			srch_and_dislay_env_var(shell->env, (*cmd_parsed)->value + 1, shell->cmd.fd_out);// +1 pour skip le $
+		// else if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] != ' ')
+		// 	srch_and_dislay_env_var(shell->env, (*cmd_parsed)->value + 1, shell->cmd.fd_out);// +1 pour skip le $
 		else
 			ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
 		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)

@@ -7,8 +7,10 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
-#include <dirent.h>
+# include <dirent.h>
 
 typedef struct	s_pars
 {
@@ -22,6 +24,7 @@ typedef struct s_cmd
 	char	**history;
 	char	*line;
 	t_pars	*parsed;
+	char	*prompt;
 	int		exit_status;
 	int		fd_stdin;
 	int		fd_stdout;
@@ -91,7 +94,8 @@ int 	is_long_operator(char c, char b);
 int		is_quote(char c);
 int		type_set(char *value);
 char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
-int		is_escapable(char c);
+// int		is_escapable(char c);
+void	search_and_sub(t_cmd *cmd, t_env *env);
 int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 
@@ -121,7 +125,7 @@ int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
 int		ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
 
-void	print_prompt(t_shell *shell);
+void	set_prompt(t_shell *shell, char **prompt);
 
 // void	init_pars(t_cmd *cmd, char **arg);
 
