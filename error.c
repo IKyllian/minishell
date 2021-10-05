@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/12 13:37:12 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/10/01 15:27:56 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	free_parse_linked_list(t_pars *parse)
 	}
 }
 
-void	free_tab(char **tab)
+void	free_tab(char **tabl)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (tabl[i])
+		free(tabl[i++]);
+	free(tabl);
 }
 
 void	print_error(int errnum)

@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/24 08:20:55 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 08:20:17 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*substitute(char *src, int i, int j, t_env *env)
 {
-	char 	*temp;
+	char 	*temp;//CHECK case '$PWD'"$PWD"
 	char 	*dup;
 	t_env	*env_rslt;
 

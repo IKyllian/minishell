@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/29 14:43:36 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/05 10:11:33 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,39 +128,52 @@ void	check_cmd(t_shell *shell)
 int main(int argc, char **argv, char **env)
 {
 	int		exit;
-	char 	*line;
 	t_shell	shell;
-	char	**arg;
+	// char	**arg;
 
 	(void)argc;
 	(void)argv;
 	exit = 0;
-	line = NULL;
 	shell = shell_init(env);
-	arg = malloc(sizeof(char *) * 4);
-	while (1)
-	{
-		set_prompt(&shell, &shell.cmd.prompt);
-		line = readline(shell.cmd.prompt);
-		if (!quoting(&shell.cmd, line))
-			continue ;
-		history_save(&shell.cmd, line);
-		tokenizer(&shell.cmd, line);
-		// lstput_pars(shell.cmd.parsed);
-		search_and_sub(&shell.cmd, shell.env);
-		if (search_and_escape(&shell.cmd))
-			check_cmd(&shell);
-		else
-			printf("Missing quotes\n");
-		restore_fd(&shell);
-		if (line)
-			free(line);
-		line = NULL;
-		// lstput_pars(shell.cmd.parsed);
-		lstclear_pars(&shell.cmd.parsed);
-	}
-	free(&shell.cmd.prompt);
-	dbl_array_print(shell.cmd.history);
+	// arg = malloc(sizeof(char *) * 4);
+
+
+	// while (line)
+	// {
+	// 	set_term(&shell);
+	// 	signal(SIGINT, &m_sigkill);
+	// 	// signal(SIGQUIT, SIG_IGN);
+	// 	// signal(SIGQUIT, &m_sigquit);
+	// 	set_prompt(&shell, &shell.cmd.prompt);
+	// 	line = readline(shell.cmd.prompt);
+	// 	if (!line)
+	// 	{
+	// 		// tputs(cursor_up, 1, (int (*)(int))ft_putchar_fd);
+	// 		printf("exit\n");
+	// 		//exit point here
+	// 		break ;
+	// 	}
+	// 	if (!quoting(&shell.cmd, line))
+	// 		continue ;
+	// 	history_save(&shell.cmd, line);
+	// 	tokenizer(&shell.cmd, line);
+	// 	// lstput_pars(shell.cmd.parsed);
+	// 	search_and_sub(&shell.cmd, shell.env);
+	// 	if (search_and_escape(&shell.cmd))
+	// 		check_cmd(&shell);
+	// 	else
+	// 		printf("Missing quotes\n");
+	// 	restore_fd(&shell);
+	// 	if (line)
+	// 		free(line);
+	// 	// line = NULL;
+	// 	// lstput_pars(shell.cmd.parsed);
+	// 	lstclear_pars(&shell.cmd.parsed);
+	// }
+	prompt(&shell);
+
+	unset_term(&shell);
+	// dbl_array_print(shell.cmd.history);
 	// lstput_pars(shell.cmd.parsed);
 	return (exit);
 }
