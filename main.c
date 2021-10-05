@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
 /*   Updated: 2021/10/05 10:11:33 by ctaleb           ###   ########lyon.fr   */
@@ -12,10 +12,39 @@
 
 #include "./inc/minishell.h"
 
-void	check_cmd_arg(t_shell *shell, t_pars **parsed)
+void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
+{
+	char **temp;
+	int i;
+
+	i = 0;
+	temp = malloc(sizeof(char *) * (size + 1));
+	if (size > 1)
+	{
+		while (i < size - 1)
+		{
+			temp[i] = (*exit_words)[i];
+			i++;
+		}
+	}
+	if (new_exit_word)
+		temp[i++] = new_exit_word->value;
+	else
+		temp[i++] = NULL;
+	temp[i] = NULL;
+	if (*exit_words != NULL)
+		free(*exit_words);
+	*exit_words = temp;
+}
+
+int	check_redirect(t_shell *shell, t_pars **parsed)
 {
 	t_pars	*parsed_check;
+	int		ret;
+	char 	**exit_words;
 
+	ret = 0;
+	exit_words = NULL;
 	parsed_check = (*parsed);
 	while (parsed_check && parsed_check->type != 3 && parsed_check->type != 5)
 	{
@@ -23,11 +52,34 @@ void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 		{
 			if (ft_strcmp(parsed_check->value, "<") == 0)
 				ft_redirect_in(&shell->cmd, &parsed_check);
+			else if (ft_strcmp(parsed_check->value, "<<") == 0)
+			{
+				ret++;
+				fill_exit_words(ret, &exit_words, parsed_check->next);
+			}
 			else
 				ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
 		}
 		parsed_check = parsed_check->next;
 	}
+	if (ret)
+	{
+		if (ft_db_redirect_in(shell, parsed, exit_words, ret) == 0)
+			return (-1);
+		return (0);
+	}
+	return (1);
+}
+
+int	check_cmd_arg(t_shell *shell, t_pars **parsed)
+{
+	int ret;
+
+	ret = check_redirect(shell, parsed);
+	if (ret == -1)
+		return (-1);
+	else if (ret == 0)
+		return (0);
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
 		shell->cmd.exit_status = ft_pwd(&shell->cmd, parsed);
 	else if (ft_strcmp((*parsed)->value, "cd") == 0)
@@ -44,69 +96,7 @@ void	check_cmd_arg(t_shell *shell, t_pars **parsed)
 	 	shell->cmd.exit_status = ft_exit(shell, parsed);
 	else
 		ft_exec(shell, parsed);
-}
-
-void	exec_pipe(t_shell *shell, t_pars **parsed)
-{
-	pid_t	pid;
-	int		pipefd[2];
-
-	errno = 0;
-	if (pipe(pipefd) == -1)
-		print_error(errno);
-	pid = fork();
-	if (pid == -1)
-		print_error(errno);
-	else if (pid == 0)
-	{
-		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
-			print_error(errno);
-		close(pipefd[0]);
-		if ((*parsed) && (*parsed)->type == 3)
-			(*parsed) = (*parsed)->next;
-		if ((*parsed))
-			check_cmd_arg(shell, parsed);
-		close(pipefd[1]);
-		if (pid == 0)
-			exit(1);
-	}
-	else
-	{
-		if (dup2(pipefd[0], shell->cmd.fd_in) == -1)
-			print_error(errno);
-		close(pipefd[1]);
-		while ((*parsed) && (*parsed)->type != 3)
-			(*parsed) = (*parsed)->next;
-		if ((*parsed) && (*parsed)->next)
-			(*parsed) = (*parsed)->next;
-		if ((*parsed))
-			check_cmd_arg(shell, parsed);
-		if ((*parsed) && (*parsed)->type == 3)
-			exec_pipe(shell, parsed);
-		wait(NULL);
-		close(pipefd[0]);
-	}
-}
-
-int	check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell)
-{
-	while ((*parsed_check))
-	{
-		if ((*parsed_check)->type == 3)
-		{
-			exec_pipe(shell, parsed);
-			(*parsed_check) = (*parsed_check)->next;
-			return (1);
-		}
-		if ((*parsed_check)->type == 5)
-		{
-			(*parsed_check) = (*parsed_check)->next;
-			return (0);
-		}
-		else
-			(*parsed_check) = (*parsed_check)->next;
-	}
-	return (0);
+	return (1);
 }
 
 void	check_cmd(t_shell *shell)
@@ -118,8 +108,11 @@ void	check_cmd(t_shell *shell)
 	parsed_check = shell->cmd.parsed;
 	while (parsed)
 	{
-		if (parsed && parsed->type == 1 && check_pipe(&parsed_check, &parsed, shell) == 0 && parsed->type == 1)
-			check_cmd_arg(shell, &parsed);
+		if (parsed && parsed->type == 1
+			&& check_pipe(&parsed_check, &parsed, shell) == 0
+			&& parsed->type == 1)
+			if (check_cmd_arg(shell, &parsed) == -1)
+				break;
 		if (!parsed)
 			break ;
 		else if (parsed->type == 5)

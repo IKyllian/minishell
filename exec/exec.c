@@ -89,7 +89,7 @@ char	**fill_envp(t_env *env)
 	return(envp);
 }
 
-char	**fill_arg(t_pars **cmd_parsed)
+char	**fill_arg(t_pars **cmd_parsed, int is_db_redir)
 {
 	t_pars	*temp;
 	int		size;
@@ -104,7 +104,11 @@ char	**fill_arg(t_pars **cmd_parsed)
 		size++;
 		temp = temp->next;
 	}
-	args = malloc(sizeof(char *) * (size + 1));
+	if (is_db_redir == 0)
+		size++;
+	else
+		size += 2;
+	args = malloc(sizeof(char *) * (size));
 	if (!args)
 		exit(0);// Appeler une fonction d'erreur
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2))
@@ -112,6 +116,8 @@ char	**fill_arg(t_pars **cmd_parsed)
 		args[i++] = ft_strdup((*cmd_parsed)->value);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
+	if (is_db_redir)
+		args[i++] = ft_strdup("tmp_file");
 	args[i] = NULL;
 	return (args);
 }
@@ -123,7 +129,6 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	char	**args;
 	char	**envp;
 
-
 	path = search_path(srch_and_return_env_var(shell->env, "PATH"), (*cmd_parsed)->value);
 	if (path == NULL)
 	{
@@ -131,7 +136,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		return ;
 	}
 	errno = 0;
-	args = fill_arg(cmd_parsed);
+	args = fill_arg(cmd_parsed, shell->cmd.is_db_redir);
 	envp = fill_envp(shell->env);
 	unset_term(shell);
 	g_pid = fork();
@@ -139,6 +144,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		print_error(errno);
 	if (g_pid == 0)
 	{
+		// dbl_array_print(args);
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
 		exit(0);

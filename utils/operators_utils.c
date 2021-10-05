@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operators_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/06/15 16:57:47 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 15:18:07 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	type_set(char *value)
 	else if (len == 1 && value[0] == ';')
 		return (5);
 	else if (len == 2 && value[0] == '>' && value[1] == '>')
+		return (4);
+	else if (len == 2 && value[0] == '<' && value[1] == '<')
 		return (4);
 	else
 		return (2);

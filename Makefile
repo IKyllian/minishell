@@ -30,6 +30,7 @@ SRCS =  main.c \
 		./utils/prompt.c \
 		./exec/exec.c \
 		prompt.c \
+		pipe.c \
 		
 OBJS = $(SRCS:.c=.o)
 

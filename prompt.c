@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
 /*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
@@ -29,7 +29,7 @@ char	*get_prompt_path(t_env *env)
 	if (env_pwd->value[i] != '/')
 	{
 		while (env_pwd->value[i] && env_pwd->value[i] != '/')
-		i--;
+			i--;
 		path = malloc(sizeof(char) * ((size - i) + 1));
 		while (env_pwd->value[++i])
 			path[j++] = env_pwd->value[i];
