@@ -116,8 +116,8 @@ void	lstaddback_pars(t_pars **alst, t_pars *new);
 			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
 int		check_cmd_arg(t_shell *shell, t_pars **parsed);
-void	exec_pipe(t_shell *shell, t_pars **parsed);
-int		check_pipe(t_pars **parsed_check, t_pars **parsed, t_shell *shell);
+void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe);
+int		check_pipe(t_pars **parsed, t_shell *shell);
 
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);

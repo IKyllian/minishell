@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/29 15:01:51 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/05 14:30:44 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,41 +68,6 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 	return (1);
 }
 
-// int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
-// {
-// 	t_pars	*args;
-// 	int		ret;
-// 	char	*line;
-// 	int		fd;
-
-// 	if (!exit_word)
-// 	{
-// 		ft_putstr_fd("Error : No exit word\n", shell->cmd.fd_out);
-// 		return (0);
-// 	}
-// 	ret = 1;
-// 	shell->cmd.is_db_redir = 1;
-// 	fd = open("tmp_file", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-// 	args = lstnew_pars((*cmd_parsed)->value);
-// 	(*cmd_parsed) = (*cmd_parsed)->next;
-// 	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
-// 	{
-// 		lstaddback_pars(&args, lstnew_pars((*cmd_parsed)->value));
-// 		(*cmd_parsed) = (*cmd_parsed)->next;
-// 	}
-// 	while (ret)
-// 	{
-// 		ft_putstr_fd("> ", shell->cmd.fd_stdout);
-// 		ret = ft_get_next_line(0, 2, &line);
-// 		if (ft_strcmp(line, exit_word->value) == 0)
-// 			break ;
-// 		ft_putstr_fd(line, fd);
-// 		ft_putstr_fd("\n", fd);
-// 	}
-// 	check_cmd_arg(shell, &args);
-// 	return (1);
-// }
-
 int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size)
 {
 	t_pars	*args;
@@ -111,6 +76,7 @@ int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, char **exit_words, in
 	int		fd;
 	int		i;
 
+	// printf("TEST\n");
 	if (!exit_words[size - 1])
 	{
 		ft_putstr_fd("Error : No exit word\n", shell->cmd.fd_out);
