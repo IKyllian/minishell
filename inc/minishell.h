@@ -9,8 +9,14 @@
 # include <sys/uio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
+# include <signal.h>
 # include "libft.h"
 # include <dirent.h>
+
+# include <term.h>
+
+pid_t	g_pid;
 
 typedef struct	s_pars
 {
@@ -45,6 +51,10 @@ typedef struct s_shell
 {
 	t_cmd	cmd;
 	t_env	*env;
+	struct termios	saved_term;
+	struct termios	new_term;
+	pid_t	pid;
+	char	*line;
 }	t_shell;
 
 void	mem_check(void *ptr);
@@ -61,7 +71,7 @@ int		tokenizer(t_cmd *cmd, char *line);
 
 			/* Errors, free */
 void	print_error(int errnum);
-void	free_tab(char **tab);
+void	free_tab(char **tabl);
 void	free_env_list_item(t_env *env);
 void	free_env_linked_list(t_env *env);
 void	free_parse_linked_list(t_pars *parse);
@@ -87,13 +97,19 @@ int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
+			/* Signals */
+void	set_term(t_shell *shell);
+void	unset_term(t_shell *shell);
+void	f_sigkill(int sig);
+void	f_sigquit(int sig);
+void	m_sigkill(int sig);
+
 			/* Parsing utils */
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
 int		is_quote(char c);
 int		type_set(char *value);
 char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
-// int		is_escapable(char c);
 void	search_and_sub(t_cmd *cmd, t_env *env);
 int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
@@ -118,7 +134,9 @@ int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
 
+void	check_cmd(t_shell *shell);
 void	set_prompt(t_shell *shell, char **prompt);
+int		prompt(t_shell *shell);
 
 // void	init_pars(t_cmd *cmd, char **arg);
 

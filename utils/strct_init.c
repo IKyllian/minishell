@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/28 15:04:57 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 10:10:58 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_shell	shell_init(char **env)
 
 	shell.env = env_init(env);
 	shell.cmd = cmd_init();
+	tcgetattr(0, &shell.saved_term);
 	return (shell);
 }
 

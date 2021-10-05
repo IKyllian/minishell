@@ -20,20 +20,22 @@ SRCS =  main.c \
 		./parsing/quoting.c \
 		./parsing/history.c \
 		./parsing/subber.c \
+		./sig/signals.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
 		./utils/operators_utils.c \
 		./utils/parsing_utils.c \
-		./exec/exec.c \
 		./utils/strct_init.c \
+		./utils/prompt.c \
+		./exec/exec.c \
 		prompt.c \
 		
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 FLAGS = -Wextra -Werror -Wall -g -fPIC
-RLFLAGS = -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
+RLFLAGS = -ltermcap -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
 RM = rm -f
 
 all : $(NAME)
