@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:11:33 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 10:40:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,51 +129,12 @@ int main(int argc, char **argv, char **env)
 {
 	int		exit;
 	t_shell	shell;
-	// char	**arg;
 
 	(void)argc;
 	(void)argv;
 	exit = 0;
 	shell = shell_init(env);
-	// arg = malloc(sizeof(char *) * 4);
-
-
-	// while (line)
-	// {
-	// 	set_term(&shell);
-	// 	signal(SIGINT, &m_sigkill);
-	// 	// signal(SIGQUIT, SIG_IGN);
-	// 	// signal(SIGQUIT, &m_sigquit);
-	// 	set_prompt(&shell, &shell.cmd.prompt);
-	// 	line = readline(shell.cmd.prompt);
-	// 	if (!line)
-	// 	{
-	// 		// tputs(cursor_up, 1, (int (*)(int))ft_putchar_fd);
-	// 		printf("exit\n");
-	// 		//exit point here
-	// 		break ;
-	// 	}
-	// 	if (!quoting(&shell.cmd, line))
-	// 		continue ;
-	// 	history_save(&shell.cmd, line);
-	// 	tokenizer(&shell.cmd, line);
-	// 	// lstput_pars(shell.cmd.parsed);
-	// 	search_and_sub(&shell.cmd, shell.env);
-	// 	if (search_and_escape(&shell.cmd))
-	// 		check_cmd(&shell);
-	// 	else
-	// 		printf("Missing quotes\n");
-	// 	restore_fd(&shell);
-	// 	if (line)
-	// 		free(line);
-	// 	// line = NULL;
-	// 	// lstput_pars(shell.cmd.parsed);
-	// 	lstclear_pars(&shell.cmd.parsed);
-	// }
 	prompt(&shell);
-
-	unset_term(&shell);
-	// dbl_array_print(shell.cmd.history);
-	// lstput_pars(shell.cmd.parsed);
+	// unset_term(&shell);
 	return (exit);
 }

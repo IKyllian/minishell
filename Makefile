@@ -27,7 +27,6 @@ SRCS =  main.c \
 		./utils/operators_utils.c \
 		./utils/parsing_utils.c \
 		./utils/strct_init.c \
-		./utils/prompt.c \
 		./exec/exec.c \
 		prompt.c \
 		pipe.c \

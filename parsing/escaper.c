@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/09/23 13:03:05 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 12:39:53 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	search_and_escape(t_cmd *cmd)
 		while(lst->value[i])
 		{
 			lst->value = check_quote(cmd, lst->value, i, 1);
-			if (!lst->value[i + 1] && (cmd->dquote || cmd->squote) && (lst->value[i] != '\"' && lst->value[i] != '\''))
+			if (!lst->value[i + 1] && ((cmd->dquote && lst->value[i] != '\"') || (cmd->squote && lst->value[i] != '\'')))
 				return (0);
 			if (cmd->dquote || cmd->squote)
 				j++;
