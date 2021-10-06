@@ -25,6 +25,12 @@ typedef struct	s_pars
 	struct s_pars	*next;
 }	t_pars;
 
+typedef struct	s_pids
+{
+	pid_t	pid;
+	int		is_heredoc;
+}				t_pids;
+
 typedef struct s_cmd
 {
 	char	**history;
@@ -38,7 +44,9 @@ typedef struct s_cmd
 	int		fd_in;
 	int		squote;
 	int		dquote;
-	int		is_db_redir;
+	int		is_heredoc;
+	int 	i_pids;
+	t_pids	*pids;
 }	t_cmd;
 
 typedef struct	s_env

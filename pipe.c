@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 10:33:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/06 14:35:18 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ void next_cmd(t_pars **parsed)
 		(*parsed) = (*parsed)->next;
 	if ((*parsed) && (*parsed)->next)
 		(*parsed) = (*parsed)->next;
-}
-
-void	exec_parent(t_shell *shell, t_pars **parsed)
-{
-	next_cmd(parsed);
-	if ((*parsed))
-		check_cmd_arg(shell, parsed);
 }
 
 void	exec_child(t_shell *shell, t_pars **parsed)
@@ -49,7 +42,10 @@ void exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], pid_t *pid2)
 		next_cmd(parsed);
 		if ((*parsed))
 			check_cmd_arg(shell, parsed);
+		exit(1);
 	}
+	shell->cmd.pids[shell->cmd.i_pids].pid = *pid2;
+	shell->cmd.i_pids++;
 }
 
 pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
@@ -70,6 +66,8 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		exec_child(shell, parsed);
 		exit(1);
 	}
+	shell->cmd.pids[shell->cmd.i_pids].pid = pid;
+	shell->cmd.i_pids++;
 	return (pid);
 }
 
@@ -124,6 +122,7 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	count = pipe_count((*parsed));
 	if (count > 0)
 	{
+		shell->cmd.pids = malloc(sizeof(pid_t) * (count + 2));
 		exec_pipe(shell, parsed, count);
 		return (1);
 	}
