@@ -115,6 +115,12 @@ void	search_and_sub(t_cmd *cmd, t_env *env);
 int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 
+			/* Prompt */
+char	*pather(void);
+void	check_cmd(t_shell *shell);
+void	set_prompt(t_shell *shell, char **prompt);
+int		prompt(t_shell *shell);
+
 			/* List utils (t_env) */
 int		ft_lstsize_env(t_env *lst);
 t_env	*ft_lstnew_env(char *name, char *value);
@@ -139,12 +145,8 @@ int		check_pipe(t_pars **parsed, t_shell *shell);
 int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
 int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
 void	restore_fd(t_shell *shell);
-// int		ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
-int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
-
-void	check_cmd(t_shell *shell);
-void	set_prompt(t_shell *shell, char **prompt);
-int		prompt(t_shell *shell);
+// int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
+int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
 
 int		check_redirect(t_shell *shell, t_pars **parsed);
 // void	init_pars(t_cmd *cmd, char **arg);

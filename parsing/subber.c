@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/05 08:20:17 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 13:04:21 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*substitute(char *src, int i, int j, t_env *env)
 {
-	char 	*temp;//CHECK case '$PWD'"$PWD"
+	char 	*temp;
 	char 	*dup;
 	t_env	*env_rslt;
 
@@ -66,7 +66,17 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 		while (lst->value[i])
 		{
 			if (lst->value[i] == '\'')
-				break ;
+			{
+				while (lst->value[i])
+				{
+					i++;
+					if (lst->value[i] && lst->value[i] == '\'')
+					{
+						i++;
+						break ;
+					}
+				}
+			}
 			if (lst->value[i] == '$' && lst->value[i + 1]
 					&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
 			{
