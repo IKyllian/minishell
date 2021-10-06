@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 08:29:01 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 10:33:39 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,26 +102,18 @@ int	check_cmd_arg(t_shell *shell, t_pars **parsed)
 void	check_cmd(t_shell *shell)
 {
 	t_pars	*parsed;
-	t_pars	*parsed_check;
 
 	parsed = shell->cmd.parsed;
-	parsed_check = shell->cmd.parsed;
 	while (parsed)
 	{
 		if (parsed && parsed->type == 1
-			&& check_pipe(&parsed_check, &parsed, shell) == 0
+			&& check_pipe(&parsed, shell) == 0
 			&& parsed->type == 1)
 			if (check_cmd_arg(shell, &parsed) == -1)
 				break ;
 		if (!parsed)
 			break ;
-		else if (parsed->type == 5)
-		{
-			restore_fd(shell);
-			parsed = parsed->next;
-		}
-		else
-			parsed = parsed->next;
+		parsed = parsed->next;
 	}
 }
 

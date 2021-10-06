@@ -1,1 +1,8 @@
-/Users/kdelport/Documents/Projets/minishell
+24
+8
+62
+42
+15
+3
+0
+0
