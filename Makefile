@@ -26,8 +26,8 @@ SRCS =  main.c \
 		./utils/mem_utils.c \
 		./utils/operators_utils.c \
 		./utils/parsing_utils.c \
+		./utils/prompt_utils.c \
 		./utils/strct_init.c \
-		./utils/prompt.c \
 		./exec/exec.c \
 		prompt.c \
 		pipe.c \
@@ -36,7 +36,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 FLAGS = -Wextra -Werror -Wall -g -fPIC
-RLFLAGS = -ltermcap -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
+RLFLAGS = -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
 RM = rm -f
 
 all : $(NAME)

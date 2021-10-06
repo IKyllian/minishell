@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/01 15:27:56 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 08:24:40 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_env_list_item(t_env *env)
 
 void	free_env_linked_list(t_env *env)
 {
-	t_env *next;
+	t_env	*next;
 
 	next = NULL;
 	while (env)
@@ -40,7 +40,7 @@ void	free_env_linked_list(t_env *env)
 
 void	free_parse_linked_list(t_pars *parse)
 {
-	t_pars *next;
+	t_pars	*next;
 
 	next = NULL;
 	while (parse)
@@ -59,7 +59,7 @@ void	free_parse_linked_list(t_pars *parse)
 
 void	free_tab(char **tabl)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tabl[i])

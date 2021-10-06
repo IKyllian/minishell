@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 08:11:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_prompt_path(t_env *env)
 	t_env	*env_pwd;
 	char	*path;
 	int		i;
-	int 	size;
+	int		size;
 	int		j;
 
 	env_pwd = srch_and_return_env_var(env, "PWD");
@@ -36,11 +36,7 @@ char	*get_prompt_path(t_env *env)
 		path[j] = '\0';
 	}
 	else
-	{
-		path = malloc(sizeof(char) * 2);
-		path[0] = '~';
-		path[1] = '\0';
-	}
+		return (pather());
 	return (path);
 }
 
@@ -67,4 +63,43 @@ void	set_prompt(t_shell *shell, char **prompt)
 	if (path)
 		free(path);
 	return ;
+}
+
+void	deep_parser(t_shell *shell)
+{
+	history_save(&shell->cmd, shell->line);
+	tokenizer(&shell->cmd, shell->line);
+	search_and_sub(&shell->cmd, shell->env);
+	if (search_and_escape(&shell->cmd))
+		check_cmd(shell);
+	else
+		printf("Missing quotes\n");
+}
+
+int	prompt(t_shell *shell)
+{
+	shell->line = "";
+	while (shell->line)
+	{
+		set_term(shell);
+		set_prompt(shell, &shell->cmd.prompt);
+		signal(SIGINT, &m_sigkill);
+		shell->line = readline(shell->cmd.prompt);
+		if (!shell->line)
+		{
+			printf("exit\n");
+			ft_exit(shell, &shell->cmd.parsed);
+			break ;
+		}
+		if (!quoting(&shell->cmd, shell->line))
+			continue ;
+		deep_parser(shell);
+		restore_fd(shell);
+		if (shell->line)
+			free(shell->line);
+		lstclear_pars(&shell->cmd.parsed);
+	}
+	// if (shell->line)
+	// 	free(&shell->cmd.prompt);
+	return (0);
 }
