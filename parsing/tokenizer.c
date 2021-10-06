@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/05 12:50:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 10:07:41 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,13 @@ int	tokenizer(t_cmd *cmd, char *line)
 
 	if (line && !line[0])
 		return (0);
-	cmd->dquote = 0;//nd dbl chk
+	cmd->dquote = 0;
 	cmd->squote = 0;
 	i = 0;
 	j = dbl_array_len(cmd->history) - 1;
 	t = 0;
 	while (cmd->history[j][i])
 	{
-		//probably not needed anymore
-		// if (cmd->history[j][i] == '\\' && cmd->history[j][i + 1])
-		// {
-		// 	i += 2;
-		// 	t += 2;
-		// 	continue ;
-		// }
 		check_quote(cmd, cmd->history[j], i, 0);
 		if (cmd->dquote || cmd->squote)
 		{
@@ -44,7 +37,6 @@ int	tokenizer(t_cmd *cmd, char *line)
 		if (t == 1 && i >= 1 /*&& is_operator(cmd->history[j][i - 1])*/
 			&& is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{
-			// printf("i%i, lop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t + 1)));
 			if (cmd->history[j][i] == ' ')
@@ -54,7 +46,6 @@ int	tokenizer(t_cmd *cmd, char *line)
 		else if (t == 1 && i >= 1 && is_operator(cmd->history[j][i - 1])
 			&& !is_long_operator(cmd->history[j][i], cmd->history[j][i - 1]))
 		{
-			// printf("i%i, nop\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			if (cmd->history[j][i] == ' ')
@@ -64,21 +55,18 @@ int	tokenizer(t_cmd *cmd, char *line)
 		}
 		else if (is_operator(cmd->history[j][i]))
 		{
-			// printf("i%i, op\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ' && t > 0)
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			t = 1;
 		}
 		else if (cmd->history[j][i] == '\n')
 		{
-			// printf("i%i, nl\n", i);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ')
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			t = 0;
 		}
 		else if (cmd->history[j][i] == ' ')
 		{
-			// printf("i%i\t*%c*, space\n", i, cmd->history[j][i]);
 			if (i >= 1 && cmd->history[j][i - 1] != ' ' && t != 0)
 				lstaddback_pars(&cmd->parsed, lstnew_pars(ft_strndup(&cmd->history[j][i - t], t)));
 			t = 0;

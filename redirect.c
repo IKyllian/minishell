@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 08:29:01 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 	return (1);
 }
 
-// int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word)
+// int	ft_heredoc(t_shell *shell,
+//		t_pars **cmd_parsed, t_pars *exit_word)
 // {
 // 	t_pars	*args;
 // 	int		ret;
@@ -103,7 +104,8 @@ int	ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
 // 	return (1);
 // }
 
-int	ft_db_redirect_in(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size)
+int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
+		char **exit_words, int size)
 {
 	t_pars	*args;
 	int		ret;

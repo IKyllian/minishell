@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:56:21 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 08:11:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ char	*get_prompt_path(t_env *env)
 		path[j] = '\0';
 	}
 	else
-	{
-		path = malloc(sizeof(char) * 2);
-		path[0] = '~';
-		path[1] = '\0';
-	}
+		return (pather());
 	return (path);
 }
 

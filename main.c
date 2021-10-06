@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:40:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 08:29:01 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
 {
-	char **temp;
-	int i;
+	char	**temp;
+	int		i;
 
 	i = 0;
 	temp = malloc(sizeof(char *) * (size + 1));
@@ -41,12 +41,12 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 {
 	t_pars	*parsed_check;
 	int		ret;
-	char 	**exit_words;
+	char	**exit_words;
 
 	ret = 0;
 	exit_words = NULL;
 	parsed_check = (*parsed);
-	while (parsed_check && parsed_check->type != 3 && parsed_check->type != 5)
+	while (parsed_check && parsed_check->type != 3)
 	{
 		if (parsed_check->type == 4)
 		{
@@ -64,7 +64,7 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 	}
 	if (ret)
 	{
-		if (ft_db_redirect_in(shell, parsed, exit_words, ret) == 0)
+		if (ft_heredoc(shell, parsed, exit_words, ret) == 0)
 			return (-1);
 		return (0);
 	}
@@ -73,7 +73,7 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 
 int	check_cmd_arg(t_shell *shell, t_pars **parsed)
 {
-	int ret;
+	int	ret;
 
 	ret = check_redirect(shell, parsed);
 	if (ret == -1)
@@ -93,7 +93,7 @@ int	check_cmd_arg(t_shell *shell, t_pars **parsed)
 	else if (ft_strcmp((*parsed)->value, "env") == 0)
 		shell->cmd.exit_status = ft_env(shell, parsed);
 	else if (ft_strcmp((*parsed)->value, "exit") == 0)
-	 	shell->cmd.exit_status = ft_exit(shell, parsed);
+		shell->cmd.exit_status = ft_exit(shell, parsed);
 	else
 		ft_exec(shell, parsed);
 	return (1);
@@ -112,7 +112,7 @@ void	check_cmd(t_shell *shell)
 			&& check_pipe(&parsed_check, &parsed, shell) == 0
 			&& parsed->type == 1)
 			if (check_cmd_arg(shell, &parsed) == -1)
-				break;
+				break ;
 		if (!parsed)
 			break ;
 		else if (parsed->type == 5)
@@ -125,7 +125,7 @@ void	check_cmd(t_shell *shell)
 	}
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	int		exit;
 	t_shell	shell;
