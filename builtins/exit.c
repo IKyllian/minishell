@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/09/28 15:12:36 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/05 10:20:34 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,18 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 {
 	int	nb;
 
-	if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 1)// Si le type est un argument
+	unset_term(shell);
+	if (shell->line)
 	{
-		nb = num_is_valid((*cmd_parsed)->next->value);
-		if (nb != -1)
-			shell->cmd.exit_status = nb;
-		else
-			shell->cmd.exit_status = 0;
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 1)// Si le type est un argument
+		{
+			nb = num_is_valid((*cmd_parsed)->next->value);
+			if (nb != -1)
+				shell->cmd.exit_status = nb;
+			else
+				shell->cmd.exit_status = 0;
+		}
+		
 	}
 	free(shell->cmd.prompt);
 	free_parse_linked_list(shell->cmd.parsed);
