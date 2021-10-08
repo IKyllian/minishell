@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 10:33:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/06 11:12:48 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], pid_t *pid2)
 		next_cmd(parsed);
 		if ((*parsed))
 			check_cmd_arg(shell, parsed);
+		exit (1);
 	}
 }
 
