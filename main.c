@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 13:00:54 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/08 11:07:27 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 	return (1);
 }
 
-int	check_cmd_arg(t_shell *shell, t_pars **parsed)
+int ft_redirect_(t_shell *shell, t_pars **parsed)
 {
 	int	ret;
 
@@ -80,6 +80,11 @@ int	check_cmd_arg(t_shell *shell, t_pars **parsed)
 		return (-1);
 	else if (ret == 0)
 		return (0);
+	return (1);
+}
+
+int	cmd_to_exec(t_shell *shell, t_pars **parsed)
+{
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
 		shell->cmd.exit_status = ft_pwd(&shell->cmd, parsed);
 	else if (ft_strcmp((*parsed)->value, "cd") == 0)
@@ -109,8 +114,11 @@ void	check_cmd(t_shell *shell)
 		if (parsed && parsed->type == 1
 			&& check_pipe(&parsed, shell) == 0
 			&& parsed->type == 1)
-			if (check_cmd_arg(shell, &parsed) == -1)
+		{
+			if (check_redirect(shell, &parsed) <= 0)
 				break ;
+			cmd_to_exec(shell, &parsed);
+		}
 		if (!parsed)
 			break ;
 		parsed = parsed->next;

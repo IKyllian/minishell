@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 12:56:46 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/08 13:19:31 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
 	char	**args;
 	int		i;
 
+	(void)is_heredoc;
 	temp = (*cmd_parsed);
 	size = 0;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 14:04:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/08 07:54:55 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	prompt(t_shell *shell)
 			continue ;
 		deep_parser(shell);
 		restore_fd(shell);
-		if (shell->cmd.pids)
-			free(shell->cmd.pids);
+		// if (shell->cmd.pids)
+		// 	free(shell->cmd.pids);
 		shell->cmd.i_pids = 0;
 		if (shell->line)
 			free(shell->line);
