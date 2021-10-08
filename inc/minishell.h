@@ -25,6 +25,12 @@ typedef struct	s_pars
 	struct s_pars	*next;
 }	t_pars;
 
+typedef struct	s_pids
+{
+	pid_t	pid;
+	int		is_heredoc;
+}				t_pids;
+
 typedef struct s_cmd
 {
 	char	**history;
@@ -38,7 +44,9 @@ typedef struct s_cmd
 	int		fd_in;
 	int		squote;
 	int		dquote;
-	int		is_db_redir;
+	int		is_heredoc;
+	int 	i_pids;
+	t_pids	*pids;
 }	t_cmd;
 
 typedef struct	s_env
@@ -137,7 +145,7 @@ void	lstaddback_pars(t_pars **alst, t_pars *new);
 
 			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
-int		check_cmd_arg(t_shell *shell, t_pars **parsed);
+int		cmd_to_exec(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe);
 int		check_pipe(t_pars **parsed, t_shell *shell);
 

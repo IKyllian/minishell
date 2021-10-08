@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:10:10 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/08 13:19:31 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,14 @@ char	**fill_envp(t_env *env)
 	return(envp);
 }
 
-char	**fill_arg(t_pars **cmd_parsed, int is_db_redir)
+char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
 {
 	t_pars	*temp;
 	int		size;
 	char	**args;
 	int		i;
 
+	(void)is_heredoc;
 	temp = (*cmd_parsed);
 	size = 0;
 	i = 0;
@@ -104,7 +105,7 @@ char	**fill_arg(t_pars **cmd_parsed, int is_db_redir)
 		size++;
 		temp = temp->next;
 	}
-	if (is_db_redir == 0)
+	if (is_heredoc == 0)
 		size++;
 	else
 		size += 2;
@@ -116,7 +117,7 @@ char	**fill_arg(t_pars **cmd_parsed, int is_db_redir)
 		args[i++] = ft_strdup((*cmd_parsed)->value);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
-	if (is_db_redir)
+	if (is_heredoc)
 		args[i++] = ft_strdup("tmp_file");
 	args[i] = NULL;
 	return (args);
@@ -136,7 +137,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		return ;
 	}
 	errno = 0;
-	args = fill_arg(cmd_parsed, shell->cmd.is_db_redir);
+	args = fill_arg(cmd_parsed, shell->cmd.is_heredoc);
 	envp = fill_envp(shell->env);
 	unset_term(shell);
 	g_pid = fork();
