@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/06 10:13:54 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/08 08:14:47 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,22 @@
 void	f_sigkill(int sig)
 {
 	(void)sig;
-	signal(SIGINT, f_sigkill);
-	kill(g_pid, SIGKILL);
-	printf("\n");
+	// signal(SIGINT, f_sigkill);
+	// printf("pid: %i\n", g_pid);
+	if (g_pid)
+	{
+		kill(g_pid, SIGKILL);
+		printf("\n");
+	}
 }
 
 void	f_sigquit(int sig)
 {
 	printf("Quit: %i\n", sig);
-	signal(SIGQUIT, f_sigquit);
-	kill(g_pid, SIGQUIT);
+	// signal(SIGQUIT, f_sigquit);
+	// printf("pid: %i\n", g_pid);
+	if (g_pid)
+		kill(g_pid, SIGQUIT);
 }
 
 void	m_sigkill(int sig)
