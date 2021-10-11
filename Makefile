@@ -26,6 +26,8 @@ SRCS =  main.c \
 		./utils/mem_utils.c \
 		./utils/operators_utils.c \
 		./utils/parsing_utils.c \
+		./utils/tokenizer_utils.c \
+		./utils/subber_utils.c \
 		./utils/prompt_utils.c \
 		./utils/strct_init.c \
 		./exec/exec.c \
