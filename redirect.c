@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/08 13:46:14 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:39:56 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int    ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
     ret = 1;
     line = NULL;
     shell->cmd.is_heredoc = 1;
-    fd = open("tmp_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+    fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777);
     args = lstnew_pars((*cmd_parsed)->value);
     (*cmd_parsed) = (*cmd_parsed)->next;
     while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
@@ -97,7 +97,7 @@ int    ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
     while (ret)
     {
         ft_putstr_fd("> ", shell->cmd.fd_stdout);
-        ret = ft_get_next_line(shell->cmd.fd_in, 2, &line);
+        ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
         if (i == size - 1 && ft_strcmp(line, exit_words[i]) != 0)
         {
             ft_putstr_fd(line, fd);
@@ -106,10 +106,16 @@ int    ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
         if (ft_strcmp(line, exit_words[i]) == 0)
         {
             if (i++ == size - 1)
+            {
+                free(line);
                 break ;
+            }
         }
+        free(line);
     }
+    close(fd);
+    fd = open("heredoc.txt", O_RDWR, 0777);
+    dup2(fd, STDIN_FILENO);
 	cmd_to_exec(shell, &args);
-	close(fd);
     return (1);
 }

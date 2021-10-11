@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/08 13:19:31 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:44:01 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,13 @@ char	**fill_envp(t_env *env)
 	return(envp);
 }
 
-char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
+char	**fill_arg(t_pars **cmd_parsed)
 {
 	t_pars	*temp;
 	int		size;
 	char	**args;
 	int		i;
 
-	(void)is_heredoc;
 	temp = (*cmd_parsed);
 	size = 0;
 	i = 0;
@@ -105,11 +104,7 @@ char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
 		size++;
 		temp = temp->next;
 	}
-	if (is_heredoc == 0)
-		size++;
-	else
-		size += 2;
-	args = malloc(sizeof(char *) * (size));
+	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
 		exit(0);// Appeler une fonction d'erreur
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2))
@@ -117,8 +112,6 @@ char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
 		args[i++] = ft_strdup((*cmd_parsed)->value);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
-	if (is_heredoc)
-		args[i++] = ft_strdup("tmp_file");
 	args[i] = NULL;
 	return (args);
 }
@@ -126,7 +119,7 @@ char	**fill_arg(t_pars **cmd_parsed, int is_heredoc)
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 {
 	char	*path;
-	// pid_t	pid;
+	pid_t	pid;
 	char	**args;
 	char	**envp;
 
@@ -137,13 +130,13 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		return ;
 	}
 	errno = 0;
-	args = fill_arg(cmd_parsed, shell->cmd.is_heredoc);
+	args = fill_arg(cmd_parsed);
 	envp = fill_envp(shell->env);
 	unset_term(shell);
-	g_pid = fork();
-	if (g_pid == -1)
+	pid = fork();
+	if (pid == -1)
 		print_error(errno);
-	if (g_pid == 0)
+	if (pid == 0)
 	{
 		// dbl_array_print(args);
 		if (execve(path, args, envp) == -1)
