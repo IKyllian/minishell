@@ -123,6 +123,21 @@ void	search_and_sub(t_cmd *cmd, t_env *env);
 int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 
+			/* Tokenizer utils */
+void	long_operator(t_cmd *cmd, int *i, int *j, int *t);
+void	short_operator(t_cmd *cmd, int *i, int *j, int *t);
+void	operator(t_cmd *cmd, int *i, int *j, int *t);
+void	endofline(t_cmd *cmd, int *i, int *j, int *t);
+void	space(t_cmd *cmd, int *i, int *j, int *t);
+
+			/* Subber utils */
+char	*sub_empty(char *src, int i, int j);
+char	*sub_found(char *src, char *env_rslt, int i, int j);
+void	search_squote(char *src, int *i);
+void	search_dquote(char *src, int i, int *j);
+int		presubber(char **src, int *i, int j, t_env *env);
+char	*substitute(char *src, int i, int j, t_env *env);
+
 			/* Prompt */
 char	*pather(void);
 void	check_cmd(t_shell *shell);

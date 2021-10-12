@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operators_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/05 09:10:29 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/08 08:26:35 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+//need to prevent lone operators from doing nothing; should give a syntax error
 
 int	is_quote(char c)
 {
