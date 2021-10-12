@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/08 13:50:14 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:54:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,11 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 		waitpid(pid, NULL, 0);
 		if (count == nb_pipe - 1)
 			waitpid(pid2, NULL, 0);
-		fdd = pipefd[0];
 		count++;
+		if (count < nb_pipe)
+			fdd = pipefd[0];
+		else
+			close(pipefd[0]);
 		next_cmd(parsed);
 	}
 }
@@ -151,20 +154,6 @@ void set_heredoc_check(t_pars *parsed, t_shell *shell, int count)
 	}
 }
 
-void check_heredoc_tab(t_shell *shell, int count)
-{
-	int i = 0;
-	while (i <= count)
-	{
-		ft_putstr_fd("i = ", 1);
-		ft_putnbr_fd(i, 1);
-		ft_putstr_fd(" | is hd =", 1);
-		ft_putnbr_fd(shell->cmd.pids[i].is_heredoc, 1);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-}
-
 int	check_pipe(t_pars **parsed, t_shell *shell)
 {
 	int count;
@@ -174,7 +163,6 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	{
 		shell->cmd.pids = malloc(sizeof(pid_t) * (count + 2));
 		set_heredoc_check((*parsed), shell, count);
-		// check_heredoc_tab(shell, count);
 		exec_pipe(shell, parsed, count);
 		return (1);
 	}
