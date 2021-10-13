@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/08 08:26:35 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 12:58:37 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ int	type_set(char *value)
 		return (3);
 	else if (len == 1 && (value[0] == '<' || value[0] == '>'))
 		return (4);
-	else if (len == 1 && value[0] == ';')
-		return (5);
 	else if (len == 2 && value[0] == '>' && value[1] == '>')
 		return (4);
 	else if (len == 2 && value[0] == '<' && value[1] == '<')
 		return (4);
+	else if (value[0] && value [1]
+		&& (((value[0] == '.' || value[0] == '~') && value[1] == '/')
+			|| value[0] == '/'))
+		return (5);
 	else
 		return (2);
 }

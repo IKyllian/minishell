@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/06 09:30:45 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 15:36:03 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	search_and_escape(t_cmd *cmd)
 			i++;
 		}
 		if (cmd->squote || cmd->dquote)
+		{
+			printf("Missing quotes\n");
 			return (0);
+		}
 		lst = lst->next;
 	}
 	return (1);

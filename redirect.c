@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/11 14:39:56 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:34:18 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    restore_fd(t_shell *shell)
     if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
         print_error(errno);
     shell->cmd.is_heredoc = 0;
+	free(shell->cmd.redir);
 }
 
 int    ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed)
