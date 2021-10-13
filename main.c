@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/11 11:37:20 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/13 08:39:01 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 	t_pars	*parsed_check;
 	int		ret;
 	char	**exit_words;
+	int		heredoc;
 
-	ret = 0;
+	heredoc = 0;
+	ret = 1;
 	exit_words = NULL;
 	parsed_check = (*parsed);
 	while (parsed_check && parsed_check->type != 3)
@@ -51,20 +53,20 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 		if (parsed_check->type == 4)
 		{
 			if (ft_strcmp(parsed_check->value, "<") == 0)
-				ft_redirect_in(&shell->cmd, &parsed_check);
+				ret = ft_redirect_in(&shell->cmd, &parsed_check);
 			else if (ft_strcmp(parsed_check->value, "<<") == 0)
 			{
-				ret++;
-				fill_exit_words(ret, &exit_words, parsed_check->next);
+				heredoc++;
+				fill_exit_words(heredoc, &exit_words, parsed_check->next);
 			}
 			else
-				ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
+				ret = ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
 		}
 		parsed_check = parsed_check->next;
 	}
-	if (ret)
+	if (heredoc)
 	{
-		if (ft_heredoc(shell, parsed, exit_words, ret) == 0)
+		if (ft_heredoc(shell, parsed, exit_words, heredoc) == 0)
 			return (-1);
 		return (0);
 	}
@@ -85,6 +87,11 @@ int ft_redirect_(t_shell *shell, t_pars **parsed)
 
 int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 {
+	if ((*parsed)->type == 5)
+	{
+		ft_exec(shell, parsed, 1);
+		return (0);
+	}
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
 		shell->cmd.exit_status = ft_pwd(&shell->cmd, parsed);
 	else if (ft_strcmp((*parsed)->value, "cd") == 0)
@@ -100,7 +107,7 @@ int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 	else if (ft_strcmp((*parsed)->value, "exit") == 0)
 		shell->cmd.exit_status = ft_exit(shell, parsed);
 	else
-		ft_exec(shell, parsed);
+		ft_exec(shell, parsed, 0);
 	return (1);
 }
 
@@ -111,9 +118,9 @@ void	check_cmd(t_shell *shell)
 	parsed = shell->cmd.parsed;
 	while (parsed)
 	{
-		if (parsed && parsed->type == 1
+		if (parsed && (parsed->type == 1 | parsed->type == 5)
 			&& check_pipe(&parsed, shell) == 0
-			&& parsed->type == 1)
+			&& (parsed->type == 1 | parsed->type == 5))
 		{
 			if (check_redirect(shell, &parsed) <= 0)
 				break ;
