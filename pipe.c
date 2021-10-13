@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/13 13:16:41 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/13 13:52:02 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void next_cmd(t_pars **parsed)
 		(*parsed) = (*parsed)->next;
 }
 
-void	exec_child(t_shell *shell, t_pars **parsed, int count)
+void	exec_child(t_shell *shell, t_pars **parsed)
 {
 	if ((*parsed) && (*parsed)->type == 3)
 		(*parsed) = (*parsed)->next;
 	if ((*parsed))
 	{
-		if (check_redirect(shell, parsed, count) > 0)
+		if (check_redirect(shell, parsed, shell->cmd.index_pipe) > 0)
 			cmd_to_exec(shell, parsed);
 	}
 }
@@ -61,7 +61,7 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], int count)
 	return (pid);
 }
 
-pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd, int count)
+pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 {
 	pid_t	pid;
 	
@@ -80,7 +80,7 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd, int c
 			print_error(errno);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exec_child(shell, parsed, count);
+		exec_child(shell, parsed);
 		exit(1);
 	}
 	g_pids.pid[shell->cmd.i_pids].pid = pid;
@@ -93,25 +93,23 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 	pid_t	pid;
     pid_t	pid2;
     int		pipefd[2];
-	int		count;
 	int		fdd;
 
-	count = 0;
 	fdd = shell->cmd.fd_in;
-	while (count < nb_pipe)
+	while (shell->cmd.index_pipe < nb_pipe)
 	{
 		errno = 0;
 		if (pipe(pipefd) == -1)
 			print_error(errno);
-		pid = first_fork(shell, parsed, pipefd, &fdd, count); // Execute la commande a gauche du pipe
-		if (count == nb_pipe - 1)
-			pid2 = exec_last_pipe(shell, parsed, pipefd, count + 1); // Execute la commande a droite du pipe
+		pid = first_fork(shell, parsed, pipefd, &fdd); // Execute la commande a gauche du pipe
+		if (shell->cmd.index_pipe == nb_pipe - 1)
+			pid2 = exec_last_pipe(shell, parsed, pipefd, shell->cmd.index_pipe + 1); // Execute la commande a droite du pipe
 		close(pipefd[1]);
 		waitpid(pid, NULL, 0);
-		if (count == nb_pipe - 1)
+		if (shell->cmd.index_pipe == nb_pipe - 1)
 			waitpid(pid2, NULL, 0);
-		count++;
-		if (count < nb_pipe)
+		shell->cmd.index_pipe++;
+		if (shell->cmd.index_pipe < nb_pipe)
 			fdd = pipefd[0];
 		else
 			close(pipefd[0]);

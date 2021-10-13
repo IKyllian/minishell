@@ -65,6 +65,7 @@ typedef struct s_cmd
 	t_redir	*redir;
 	int		i_redir;
 	int		recount;
+	int		index_pipe;
 	// t_pid	*pids;
 }	t_cmd;
 
