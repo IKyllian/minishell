@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/13 09:34:18 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 10:43:34 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,17 @@ void    restore_fd(t_shell *shell)
     if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
         print_error(errno);
     shell->cmd.is_heredoc = 0;
+    shell->cmd.i_redir = 0;
 	free(shell->cmd.redir);
 }
 
-int    ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed)
+int    ft_redirect_in(t_cmd *cmd, t_redir redir)
 {
     int    fd;
 
-    if ((*cmd_parsed)->next)
-        (*cmd_parsed) = (*cmd_parsed)->next;
-    else
-        return (0);
     fd = -1;
     close(cmd->fd_in);
-    fd = open((*cmd_parsed)->value, O_RDONLY, S_IRWXU);
+    fd = open(redir.value, O_RDONLY, S_IRWXU);
     errno = 0;
     if (fd == -1)
     {
@@ -44,20 +41,16 @@ int    ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed)
     return (1);
 }    
 
-int    ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed)
+int    ft_redirect(t_cmd *cmd, t_redir redir)
 {
     int    fd;
-
-    if ((*cmd_parsed)->next)
-        (*cmd_parsed) = (*cmd_parsed)->next;
-    else
-        return (0);
+    
     fd = -1;
     close(cmd->fd_out);
-    if (ft_strcmp(redirect, ">>") == 0)
-        fd = open((*cmd_parsed)->value, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-    else if (ft_strcmp(redirect, ">") == 0)
-		fd = open((*cmd_parsed)->value, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+    if (redir.type == 3)
+        fd = open(redir.value, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+    else if (redir.type == 2)
+		fd = open(redir.value, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
     errno = 0;
     if (fd == -1)
     {

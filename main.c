@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/13 09:39:36 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/13 13:16:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,25 @@ void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
 	*exit_words = temp;
 }
 
-int	check_redirect(t_shell *shell, t_pars **parsed)
+
+int check_heredoc(t_shell *shell, t_pars **parsed)
 {
 	t_pars	*parsed_check;
-	int		ret;
-	char	**exit_words;
 	int		heredoc;
+	char	**exit_words;
 
-	heredoc = 0;
-	ret = 1;
-	exit_words = NULL;
 	parsed_check = (*parsed);
+	heredoc = 0;
+	exit_words = NULL;
 	while (parsed_check && parsed_check->type != 3)
 	{
 		if (parsed_check->type == 4)
 		{
-			if (ft_strcmp(parsed_check->value, "<") == 0)
-				ret = ft_redirect_in(&shell->cmd, &parsed_check);
-			else if (ft_strcmp(parsed_check->value, "<<") == 0)
+			if (ft_strcmp(parsed_check->value, "<<") == 0)
 			{
 				heredoc++;
 				fill_exit_words(heredoc, &exit_words, parsed_check->next);
 			}
-			else
-				ret = ft_redirect(&shell->cmd, parsed_check->value, &parsed_check);
 		}
 		parsed_check = parsed_check->next;
 	}
@@ -73,16 +68,23 @@ int	check_redirect(t_shell *shell, t_pars **parsed)
 	return (1);
 }
 
-int ft_redirect_(t_shell *shell, t_pars **parsed)
+int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd)
 {
-	int	ret;
+	int		first_index;
 
-	ret = check_redirect(shell, parsed);
-	if (ret == -1)
-		return (-1);
-	else if (ret == 0)
-		return (0);
-	return (1);
+	first_index = 0;
+	while (shell->cmd.redir[shell->cmd.i_redir].value != NULL && shell->cmd.redir[shell->cmd.i_redir].pipe_index <= index_cmd)
+	{
+		if (shell->cmd.redir[shell->cmd.i_redir].pipe_index == index_cmd)
+		{
+			if (shell->cmd.redir[shell->cmd.i_redir].type == 1)
+				ft_redirect_in(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
+			else
+				ft_redirect(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
+		}
+		shell->cmd.i_redir++;
+	}
+	return (check_heredoc(shell, parsed));
 }
 
 int	cmd_to_exec(t_shell *shell, t_pars **parsed)
@@ -122,7 +124,7 @@ void	check_cmd(t_shell *shell)
 			&& check_pipe(&parsed, shell) == 0
 			&& (parsed->type == 1 | parsed->type == 5))
 		{
-			if (check_redirect(shell, &parsed) <= 0)
+			if (check_redirect(shell, &parsed, 0) <= 0)
 				break ;
 			g_pids.mode = 1;
 			cmd_to_exec(shell, &parsed);
