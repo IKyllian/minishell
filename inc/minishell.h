@@ -16,7 +16,8 @@
 
 # include <term.h>
 
-pid_t	g_pid;
+struct s_pids	g_pids;
+// pid_t	g_pid;
 
 typedef struct	s_pars
 {
@@ -25,11 +26,26 @@ typedef struct	s_pars
 	struct s_pars	*next;
 }	t_pars;
 
-typedef struct	s_pids
+typedef struct	s_pid
 {
 	pid_t	pid;
 	int		is_heredoc;
+}				t_pid;
+
+typedef struct	s_pids
+{
+	t_pid	*pid;
+	pid_t	spid;
+	int		count;
+	int		mode;
 }				t_pids;
+
+typedef struct	s_redir
+{
+	int		type;
+	char	*value;
+	int		pipe_index;
+}				t_redir;
 
 typedef struct s_cmd
 {
@@ -46,7 +62,9 @@ typedef struct s_cmd
 	int		dquote;
 	int		is_heredoc;
 	int 	i_pids;
-	t_pids	*pids;
+	t_redir	*redir;
+	int		recount;
+	// t_pid	*pids;
 }	t_cmd;
 
 typedef struct	s_env
@@ -77,6 +95,7 @@ void	array_joiner(char *src, char *elem);
 			/* Parsing */
 int		history_save(t_cmd *cmd, char *line);
 int		tokenizer(t_cmd *cmd, char *line);
+int		redirect(t_cmd *cmd);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -109,6 +128,8 @@ int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 			/* Signals */
 void	set_term(t_shell *shell);
 void	unset_term(t_shell *shell);
+void	p_sigkill(int sig);
+void	p_sigquit(int sig);
 void	f_sigkill(int sig);
 void	f_sigquit(int sig);
 void	m_sigkill(int sig);
@@ -152,6 +173,7 @@ void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
 			/* List utils (t_pars) */
 void	lstput_pars(t_pars *lst);
+void	lstdeltwo_pars(t_pars *lst, int d);
 void	lstclear_pars(t_pars **lst);
 int		lstsize_pars(t_pars *lst);
 t_pars	*lstnew_pars(char *value);

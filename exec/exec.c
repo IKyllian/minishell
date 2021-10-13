@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/11 14:44:01 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/12 11:47:49 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ char	**fill_arg(t_pars **cmd_parsed)
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 {
 	char	*path;
-	pid_t	pid;
 	char	**args;
 	char	**envp;
 
@@ -133,10 +132,12 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	args = fill_arg(cmd_parsed);
 	envp = fill_envp(shell->env);
 	unset_term(shell);
-	pid = fork();
-	if (pid == -1)
+	signal(SIGQUIT, &f_sigquit);
+	signal(SIGINT, &f_sigkill);
+	g_pids.spid = fork();
+	if (g_pids.spid == -1)
 		print_error(errno);
-	if (pid == 0)
+	if (g_pids.spid == 0)
 	{
 		// dbl_array_print(args);
 		if (execve(path, args, envp) == -1)
@@ -145,8 +146,6 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	}
 	else
 	{
-		signal(SIGQUIT, &f_sigquit);
-		signal(SIGINT, &f_sigkill);
 		if (wait(NULL) == -1)
 			printf("Error with Wait\n");
 	}
