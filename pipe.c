@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/11 14:54:40 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/12 14:06:29 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 	pid_t	pid;
 
 	if (shell->cmd.i_pids > 0 
-		&& shell->cmd.pids[shell->cmd.i_pids].is_heredoc == 1
-		&& shell->cmd.pids[shell->cmd.i_pids - 1].is_heredoc == 1)
-		waitpid(shell->cmd.pids[shell->cmd.i_pids - 1].pid, NULL, 0);
+		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
+		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
+		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
 	pid = fork();
 	if (pid == -1)
 		print_error(errno);
@@ -56,7 +56,7 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 		}
 		exit(1);
 	}
-	shell->cmd.pids[shell->cmd.i_pids].pid = pid;
+	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
 	return (pid);
 }
@@ -66,9 +66,9 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 	pid_t	pid;
 	
 	if (shell->cmd.i_pids > 0 
-		&& shell->cmd.pids[shell->cmd.i_pids].is_heredoc == 1
-		&& shell->cmd.pids[shell->cmd.i_pids - 1].is_heredoc == 1)
-		waitpid(shell->cmd.pids[shell->cmd.i_pids - 1].pid, NULL, 0);
+		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
+		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
+		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
 	pid = fork();
 	if (pid == -1)
 		print_error(errno);
@@ -83,7 +83,7 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		exec_child(shell, parsed);
 		exit(1);
 	}
-	shell->cmd.pids[shell->cmd.i_pids].pid = pid;
+	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
 	return (pid);
 }
@@ -117,25 +117,26 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 			close(pipefd[0]);
 		next_cmd(parsed);
 	}
+	signal(SIGQUIT, &p_sigquit);
+	signal(SIGINT, &p_sigkill);
 }
 
 int pipe_count(t_pars *parsed)
 {
 	t_pars	*check;
-	int		count;
 
 	check = parsed;
-	count = 0;
+	g_pids.count = 0;
 	while (check)
 	{
 		if (check->type == 3)
-			count++;
+			g_pids.count++;
 		check = check->next;
 	}
-	return (count);
+	return (g_pids.count);
 }
 
-void set_heredoc_check(t_pars *parsed, t_shell *shell, int count)
+void set_heredoc_check(t_pars *parsed, int count)
 {
 	t_pars	*check;
 	int		i;
@@ -147,7 +148,7 @@ void set_heredoc_check(t_pars *parsed, t_shell *shell, int count)
 		if (check->type == 3)
 			i++;
 		else if (check->type == 4 && ft_strcmp(check->value, "<<") == 0)
-			shell->cmd.pids[i].is_heredoc = 1;
+			g_pids.pid[i].is_heredoc = 1;
 		if (i > count)
 			break;
 		check = check->next;
@@ -161,8 +162,9 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	count = pipe_count((*parsed));
 	if (count > 0)
 	{
-		shell->cmd.pids = malloc(sizeof(pid_t) * (count + 2));
-		set_heredoc_check((*parsed), shell, count);
+		g_pids.pid = malloc(sizeof(pid_t) * (count + 2));
+		g_pids.mode = 2;
+		set_heredoc_check((*parsed), count);
 		exec_pipe(shell, parsed, count);
 		return (1);
 	}

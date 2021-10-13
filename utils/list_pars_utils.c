@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/06/29 14:03:19 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 09:01:20 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,34 @@ void	lstput_pars(t_pars *lst)
 		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
 		i++;
 		lst = lst->next;
+	}
+}
+
+void	lstdeltwo_pars(t_pars *lst, int d)
+{
+	t_pars	*prev;
+	t_pars	*temp;
+	int		i;
+
+	if (!lst)
+		return ;
+	i = 0;
+	while (lst)
+	{
+		if (i == d - 1)
+			prev = lst;
+		if (i == d)
+		{
+			temp = lst->next->next;
+			free(lst->next->value);
+			free(lst->value);
+			free(lst->next);
+			free(lst);
+			prev->next = temp;
+			return ;
+		}
+		lst = lst->next;
+		i++;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/08 07:54:55 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/12 15:36:40 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ void	deep_parser(t_shell *shell)
 	history_save(&shell->cmd, shell->line);
 	tokenizer(&shell->cmd, shell->line);
 	search_and_sub(&shell->cmd, shell->env);
-	if (search_and_escape(&shell->cmd))
+	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd))
 		check_cmd(shell);
-	else
-		printf("Missing quotes\n");
 }
 
 int	prompt(t_shell *shell)
