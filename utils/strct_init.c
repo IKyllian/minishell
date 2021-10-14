@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 13:46:25 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/13 15:27:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_cmd	cmd_init(void)
 	cmd.i_pids = 0;
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;
+	cmd.redir = NULL;
 	return (cmd);
 }
 

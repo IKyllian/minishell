@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/13 13:16:47 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/14 11:02:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,7 @@ int check_heredoc(t_shell *shell, t_pars **parsed)
 		parsed_check = parsed_check->next;
 	}
 	if (heredoc)
-	{
-		if (ft_heredoc(shell, parsed, exit_words, heredoc) == 0)
-			return (-1);
-		return (0);
-	}
+		return(ft_heredoc(shell, parsed, exit_words, heredoc));
 	return (1);
 }
 
@@ -73,7 +69,8 @@ int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd)
 	int		first_index;
 
 	first_index = 0;
-	while (shell->cmd.redir[shell->cmd.i_redir].value != NULL && shell->cmd.redir[shell->cmd.i_redir].pipe_index <= index_cmd)
+	while (shell->cmd.redir[shell->cmd.i_redir].value != NULL
+		&& shell->cmd.redir[shell->cmd.i_redir].pipe_index <= index_cmd)
 	{
 		if (shell->cmd.redir[shell->cmd.i_redir].pipe_index == index_cmd)
 		{
