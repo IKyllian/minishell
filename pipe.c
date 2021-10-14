@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/12 14:06:29 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 10:46:17 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
-void next_cmd(t_pars **parsed)
+void	next_cmd(t_pars **parsed)
 {
 	while ((*parsed) && (*parsed)->type != 3)
 		(*parsed) = (*parsed)->next;
@@ -26,16 +26,16 @@ void	exec_child(t_shell *shell, t_pars **parsed)
 		(*parsed) = (*parsed)->next;
 	if ((*parsed))
 	{
-		if (check_redirect(shell, parsed) > 0)
+		if (check_redirect(shell, parsed, shell->cmd.index_pipe) > 0)
 			cmd_to_exec(shell, parsed);
 	}
 }
 
-pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
+pid_t	exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], int indx)
 {
 	pid_t	pid;
 
-	if (shell->cmd.i_pids > 0 
+	if (shell->cmd.i_pids > 0
 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
@@ -51,21 +51,20 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 		next_cmd(parsed);
 		if ((*parsed))
 		{
-			if (check_redirect(shell, parsed) > 0)
+			if (check_redirect(shell, parsed, indx) > 0)
 				cmd_to_exec(shell, parsed);
 		}
 		exit(1);
 	}
-	g_pids.pid[shell->cmd.i_pids].pid = pid;
-	shell->cmd.i_pids++;
+	g_pids.pid[shell->cmd.i_pids++].pid = pid;
 	return (pid);
 }
 
-pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
+pid_t	first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 {
 	pid_t	pid;
-	
-	if (shell->cmd.i_pids > 0 
+
+	if (shell->cmd.i_pids > 0
 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
@@ -83,35 +82,37 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		exec_child(shell, parsed);
 		exit(1);
 	}
-	g_pids.pid[shell->cmd.i_pids].pid = pid;
-	shell->cmd.i_pids++;
+	g_pids.pid[shell->cmd.i_pids++].pid = pid;
 	return (pid);
+}
+
+void	wait_for_pid(int *pid, int *pid2, t_shell *shell, int nb_pipe)
+{
+	waitpid(*pid, NULL, 0);
+	if (shell->cmd.index_pipe++ == nb_pipe - 1)
+		waitpid(*pid2, NULL, 0);
 }
 
 void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 {
 	pid_t	pid;
-    pid_t	pid2;
-    int		pipefd[2];
-	int		count;
+	pid_t	pid2;
+	int		pipefd[2];
 	int		fdd;
 
-	count = 0;
 	fdd = shell->cmd.fd_in;
-	while (count < nb_pipe)
+	while (shell->cmd.index_pipe < nb_pipe)
 	{
 		errno = 0;
 		if (pipe(pipefd) == -1)
 			print_error(errno);
 		pid = first_fork(shell, parsed, pipefd, &fdd); // Execute la commande a gauche du pipe
-		if (count == nb_pipe - 1)
-			pid2 = exec_last_pipe(shell, parsed, pipefd); // Execute la commande a droite du pipe
+		if (shell->cmd.index_pipe == nb_pipe - 1)
+			pid2 = exec_last_pipe(shell, parsed, pipefd, \
+				shell->cmd.index_pipe + 1); // Execute la commande a droite du pipe
 		close(pipefd[1]);
-		waitpid(pid, NULL, 0);
-		if (count == nb_pipe - 1)
-			waitpid(pid2, NULL, 0);
-		count++;
-		if (count < nb_pipe)
+		wait_for_pid(&pid, &pid2, shell, nb_pipe);
+		if (shell->cmd.index_pipe < nb_pipe)
 			fdd = pipefd[0];
 		else
 			close(pipefd[0]);
@@ -121,7 +122,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 	signal(SIGINT, &p_sigkill);
 }
 
-int pipe_count(t_pars *parsed)
+int	pipe_count(t_pars *parsed)
 {
 	t_pars	*check;
 
@@ -136,7 +137,7 @@ int pipe_count(t_pars *parsed)
 	return (g_pids.count);
 }
 
-void set_heredoc_check(t_pars *parsed, int count)
+void	set_heredoc_check(t_pars *parsed, int count)
 {
 	t_pars	*check;
 	int		i;
@@ -157,7 +158,7 @@ void set_heredoc_check(t_pars *parsed, int count)
 
 int	check_pipe(t_pars **parsed, t_shell *shell)
 {
-	int count;
+	int	count;
 
 	count = pipe_count((*parsed));
 	if (count > 0)

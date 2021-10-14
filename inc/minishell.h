@@ -63,7 +63,9 @@ typedef struct s_cmd
 	int		is_heredoc;
 	int 	i_pids;
 	t_redir	*redir;
+	int		i_redir;
 	int		recount;
+	int		index_pipe;
 	// t_pid	*pids;
 }	t_cmd;
 
@@ -181,19 +183,19 @@ t_pars	*lstlast_pars(t_pars *lst);
 void	lstaddback_pars(t_pars **alst, t_pars *new);
 
 			/* Exec / Pipe */
-void	ft_exec(t_shell *shell, t_pars **cmd_parsed);
+void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable);
 int		cmd_to_exec(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe);
 int		check_pipe(t_pars **parsed, t_shell *shell);
 
 			/* Redirect */
-int		ft_redirect(t_cmd *cmd, char *redirect, t_pars **cmd_parsed);
-int		ft_redirect_in(t_cmd *cmd, t_pars **cmd_parsed);
+int		ft_redirect(t_cmd *cmd, t_redir redir);
+int    ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_fd(t_shell *shell);
 // int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
 int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
 
-int		check_redirect(t_shell *shell, t_pars **parsed);
+int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
 // void	init_pars(t_cmd *cmd, char **arg);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/12 11:47:49 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 09:55:23 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**fill_envp(t_env *env)
 	char	**envp;
 	int		i;
 	char	*temp;
-	
+
 	envp = malloc(sizeof(char *) * (ft_lstsize_env(env) + 1));
 	i = 0;
 	temp = NULL;
@@ -86,7 +86,7 @@ char	**fill_envp(t_env *env)
 		env = env->next;
 	}
 	envp[i] = NULL;
-	return(envp);
+	return (envp);
 }
 
 char	**fill_arg(t_pars **cmd_parsed)
@@ -99,7 +99,7 @@ char	**fill_arg(t_pars **cmd_parsed)
 	temp = (*cmd_parsed);
 	size = 0;
 	i = 0;
-	while (temp && (temp->type == 1 || temp->type == 2)) // Si le type est la commande ou des arguments
+	while (temp && (temp->type == 1 || temp->type == 2 || temp->type == 5))
 	{
 		size++;
 		temp = temp->next;
@@ -107,7 +107,8 @@ char	**fill_arg(t_pars **cmd_parsed)
 	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
 		exit(0);// Appeler une fonction d'erreur
-	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2))
+	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1
+			|| (*cmd_parsed)->type == 2 || (*cmd_parsed)->type == 5))
 	{
 		args[i++] = ft_strdup((*cmd_parsed)->value);
 		(*cmd_parsed) = (*cmd_parsed)->next;
@@ -116,21 +117,19 @@ char	**fill_arg(t_pars **cmd_parsed)
 	return (args);
 }
 
-void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
+void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl)
 {
-	char	*path;
-	char	**args;
-	char	**envp;
+	if (*path && !is_executbl)
+		free(*path);
+	if (*args)
+		free_tab(*args);
+	if (*envp)
+		free_tab(*envp);
+}
 
-	path = search_path(srch_and_return_env_var(shell->env, "PATH"), (*cmd_parsed)->value);
-	if (path == NULL)
-	{
-		(*cmd_parsed) = (*cmd_parsed)->next;
-		return ;
-	}
+void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
+{
 	errno = 0;
-	args = fill_arg(cmd_parsed);
-	envp = fill_envp(shell->env);
 	unset_term(shell);
 	signal(SIGQUIT, &f_sigquit);
 	signal(SIGINT, &f_sigkill);
@@ -139,7 +138,6 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		print_error(errno);
 	if (g_pids.spid == 0)
 	{
-		// dbl_array_print(args);
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
 		exit(0);
@@ -149,10 +147,26 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 		if (wait(NULL) == -1)
 			printf("Error with Wait\n");
 	}
-	if (path)
-		free(path);
-	if (args)
-		free_tab(args);
-	if (envp)
-		free_tab(envp);
+}
+
+void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
+{
+	char	*path;
+	char	**args;
+	char	**envp;
+
+	if (is_executable)
+		path = (*cmd_parsed)->value;
+	else
+		path = search_path(srch_and_return_env_var(shell->env, "PATH"), \
+			(*cmd_parsed)->value);
+	if (path == NULL)
+	{
+		(*cmd_parsed) = (*cmd_parsed)->next;
+		return ;
+	}
+	args = fill_arg(cmd_parsed);
+	envp = fill_envp(shell->env);
+	fork_exec(shell, path, args, envp);
+	free_exec_arg(&path, &args, &envp, is_executable);
 }
