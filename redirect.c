@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/14 09:35:13 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/15 10:59:32 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 {
 	t_pars	*args;
 	int		fd;
+	int command_exist;
 
+	command_exist = 0;
 	if (!exit_words[size - 1])
 	{
 		ft_putstr_fd("Error : No exit word\n", shell->cmd.fd_out);
@@ -106,8 +108,12 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	}
 	shell->cmd.is_heredoc = 1;
 	fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	args = lstnew_pars((*cmd_parsed)->value);
-	(*cmd_parsed) = (*cmd_parsed)->next;
+	if ((*cmd_parsed)->type == 1)
+	{
+		command_exist = 1;
+		args = lstnew_pars((*cmd_parsed)->value);
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
 	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 	{
 		lstaddback_pars(&args, lstnew_pars((*cmd_parsed)->value));
@@ -117,6 +123,7 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	close(fd);
 	fd = open("heredoc.txt", O_RDWR, 0777);
 	dup2(fd, STDIN_FILENO);
-	cmd_to_exec(shell, &args);
+	if (command_exist)
+		cmd_to_exec(shell, &args);
 	return (0);
 }
