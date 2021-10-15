@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/12 14:08:33 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:39:30 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,59 @@
 
 void	p_sigkill(int sig)
 {
-	int	i;
+	// int	i;
 
-	i = g_pids.count - 1;
-	if (g_pids.mode != 2)
-		return ;
-	while (i >= 0)
-	{
-		printf("pid:%i\n", g_pids.pid[i].pid);
-		// if (g_pids.pid[i].pid)
-			// kill(g_pids.pid[i].pid, SIGINT);
-		i--;
-	}
+	// i = g_pids.count - 1;
+	// if (g_pids.mode != 2)
+	// 	return ;
+	// while (i >= 0)
+	// {
+	// 	// printf("pid:%i\n", g_pids.pid[i].pid);
+	// 	if (g_pids.pid[i].pid)
+	// 		kill(g_pids.pid[i].pid, SIGINT);
+	// 	i--;
+	// }
 	(void)sig;
 	printf("\n");
 }
 
 void	p_sigquit(int sig)
 {
-	int	i;
+	// int	i;
 
-	i = g_pids.count - 1;
-	if (g_pids.mode != 2)
-		return ;
-	while (i >= 0)
-	{
-		// if (g_pids.pid[i].pid)
-			kill(g_pids.pid[i].pid, SIGQUIT);
-		i--;
-	}
+	// i = g_pids.count - 1;
+	// if (g_pids.mode != 2)
+	// 	return ;
+	// while (i >= 0)
+	// {
+	// 	// if (g_pids.pid[i].pid)
+	// 		kill(g_pids.pid[i].pid, SIGQUIT);
+	// 	i--;
+	// }
+	(void)sig;
 	printf("Quit: %i\n", sig);
 }
 
 void	f_sigkill(int sig)
 {
 	(void)sig;
-	if (g_pids.mode != 1)
-		return ;
-	printf("\n");
-	kill(g_pids.spid, SIGINT);
+	// signal(SIGQUIT, &f_sigkill);
+	// if (g_pids.mode != 1)
+	// 	return ;
+	// printf("\n");
+	// kill(g_pids.spid, SIGINT);
+	exit(0);
 }
 
 void	f_sigquit(int sig)
 {
-	if (g_pids.mode != 1)
-		return ;
-	printf("Quit: %i\n", sig);
-	kill(g_pids.spid, SIGQUIT);
+	(void)sig;
+	// signal(SIGQUIT, &f_sigquit);
+	// if (g_pids.mode != 1)
+	// 	return ;
+	// printf("Quit: %i\n", sig);
+	// kill(g_pids.spid, SIGQUIT);
+	exit(0);
 }
 
 void	m_sigkill(int sig)

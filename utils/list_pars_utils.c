@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 09:01:20 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 12:35:50 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	lstput_pars(t_pars *lst)
 	int	i;
 
 	i = 0;
+	if (!lst)
+		return ;
 	while (lst)
 	{
 		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
@@ -25,30 +27,46 @@ void	lstput_pars(t_pars *lst)
 	}
 }
 
-void	lstdeltwo_pars(t_pars *lst, int d)
+void	lstdel_beg_pars(t_pars **lst)
 {
-	t_pars	*prev;
 	t_pars	*temp;
+
+	if (lstsize_pars(*lst) == 2)
+		lstclear_pars(lst);
+	else
+	{
+		temp = (*lst)->next->next;
+		free((*lst)->next->value);
+		free((*lst)->value);
+		free((*lst)->next);
+		free((*lst));
+		*lst = temp;
+	}
+}
+
+void	lstdel_other_pars(t_pars **lst, int d)
+{
+	t_pars	*temp;
+	t_pars	*pars;
 	int		i;
 
-	if (!lst)
-		return ;
+	pars = *lst;
 	i = 0;
-	while (lst)
+	temp = NULL;
+	while (pars)
 	{
 		if (i == d - 1)
-			prev = lst;
-		if (i == d)
 		{
-			temp = lst->next->next;
-			free(lst->next->value);
-			free(lst->value);
-			free(lst->next);
-			free(lst);
-			prev->next = temp;
+			if ((pars)->next->next->next)
+				temp = (pars)->next->next->next;
+			free((pars)->next->next->value);
+			free((pars)->next->value);
+			free((pars)->next->next);
+			free((pars)->next);
+			pars->next = temp;
 			return ;
 		}
-		lst = lst->next;
+		pars = pars->next;
 		i++;
 	}
 }

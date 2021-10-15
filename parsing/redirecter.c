@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:22 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 09:34:46 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 12:30:02 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,16 @@ int	clean_pars(t_cmd *cmd)
 
 	lst = cmd->parsed;
 	i = 0;
+	if (!lst)
+		return (0);
 	while (lst)
 	{
 		if (lst->type == 4 && ft_strncmp(lst->value, "<<", 2))
 		{
-			lstdeltwo_pars(cmd->parsed, i);
+			if (!i)
+				lstdel_beg_pars(&cmd->parsed);
+			else
+				lstdel_other_pars(&cmd->parsed, i);
 			return (1);
 		}
 		lst = lst->next;

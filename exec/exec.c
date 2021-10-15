@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/12 11:47:49 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:58:29 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,19 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	args = fill_arg(cmd_parsed);
 	envp = fill_envp(shell->env);
 	unset_term(shell);
-	signal(SIGQUIT, &f_sigquit);
-	signal(SIGINT, &f_sigkill);
+	signal(SIGQUIT, &p_sigquit);
+	signal(SIGINT, &p_sigkill);
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	g_pids.spid = fork();
+	// signal(SIGQUIT, &f_sigquit);
+	// signal(SIGINT, &f_sigkill);
 	if (g_pids.spid == -1)
 		print_error(errno);
 	if (g_pids.spid == 0)
 	{
+		signal(SIGQUIT, &f_sigquit);
+		signal(SIGINT, &f_sigkill);
 		// dbl_array_print(args);
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
@@ -146,6 +152,10 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed)
 	}
 	else
 	{
+		// kill(g_pids.spid, SIGINT);
+		
+		signal(SIGQUIT, &p_sigquit);
+		signal(SIGINT, &p_sigkill);
 		if (wait(NULL) == -1)
 			printf("Error with Wait\n");
 	}

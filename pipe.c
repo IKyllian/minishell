@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/12 14:06:29 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:58:50 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
+	unset_term(shell);
 	pid = fork();
 	if (pid == -1)
 		print_error(errno);
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, &f_sigquit);
+		signal(SIGINT, &f_sigkill);
 		if (dup2(pipefd[0], shell->cmd.fd_in) == -1)
 			print_error(errno);
 		close(pipefd[1]);
@@ -55,6 +58,11 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 				cmd_to_exec(shell, parsed);
 		}
 		exit(1);
+	}
+	else
+	{
+		signal(SIGQUIT, &p_sigquit);
+		signal(SIGINT, &p_sigkill);
 	}
 	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
@@ -69,11 +77,16 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
+	unset_term(shell);
+	signal(SIGQUIT, &p_sigquit);
+	signal(SIGINT, &p_sigkill);
 	pid = fork();
 	if (pid == -1)
 		print_error(errno);
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, &f_sigquit);
+		signal(SIGINT, &f_sigkill);
 		if (dup2(*fdd, shell->cmd.fd_in) == -1)
 			print_error(errno);
 		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
@@ -82,6 +95,11 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		close(pipefd[1]);
 		exec_child(shell, parsed);
 		exit(1);
+	}
+	else
+	{
+		signal(SIGQUIT, &p_sigquit);
+		signal(SIGINT, &p_sigkill);
 	}
 	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
@@ -104,6 +122,8 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 		if (pipe(pipefd) == -1)
 			print_error(errno);
 		pid = first_fork(shell, parsed, pipefd, &fdd); // Execute la commande a gauche du pipe
+		// signal(SIGQUIT, &p_sigquit);
+		// signal(SIGINT, &p_sigkill);
 		if (count == nb_pipe - 1)
 			pid2 = exec_last_pipe(shell, parsed, pipefd); // Execute la commande a droite du pipe
 		close(pipefd[1]);
@@ -117,8 +137,6 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 			close(pipefd[0]);
 		next_cmd(parsed);
 	}
-	signal(SIGQUIT, &p_sigquit);
-	signal(SIGINT, &p_sigkill);
 }
 
 int pipe_count(t_pars *parsed)

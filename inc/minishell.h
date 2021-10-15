@@ -173,7 +173,8 @@ void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
 			/* List utils (t_pars) */
 void	lstput_pars(t_pars *lst);
-void	lstdeltwo_pars(t_pars *lst, int d);
+void	lstdel_beg_pars(t_pars **lst);
+void	lstdel_other_pars(t_pars **lst, int d);
 void	lstclear_pars(t_pars **lst);
 int		lstsize_pars(t_pars *lst);
 t_pars	*lstnew_pars(char *value);
