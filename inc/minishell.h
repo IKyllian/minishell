@@ -191,7 +191,7 @@ int		check_pipe(t_pars **parsed, t_shell *shell);
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, t_redir redir);
 int    ft_redirect_in(t_cmd *cmd, t_redir redir);
-void	restore_fd(t_shell *shell);
+void	restore_cmd(t_shell *shell);
 // int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
 int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
 

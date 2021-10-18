@@ -6,13 +6,13 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/15 10:59:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:08:38 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
 
-void	restore_fd(t_shell *shell)
+void	restore_cmd(t_shell *shell)
 {
 	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
 		print_error(errno);
@@ -26,6 +26,15 @@ void	restore_fd(t_shell *shell)
 		free(shell->cmd.redir);
 		shell->cmd.redir = NULL;
 	}
+	if (g_pids.pid)
+	{
+		free(g_pids.pid);
+		g_pids.pid = NULL;
+	}
+	shell->cmd.i_pids = 0;
+	if (shell->line)
+		free(shell->line);
+	lstclear_pars(&shell->cmd.parsed);
 }
 
 int	ft_redirect_in(t_cmd *cmd, t_redir redir)
@@ -33,11 +42,11 @@ int	ft_redirect_in(t_cmd *cmd, t_redir redir)
 	int	fd;
 
 	fd = -1;
-	close(cmd->fd_in);
 	fd = open(redir.value, O_RDONLY, S_IRWXU);
 	errno = 0;
 	if (fd == -1)
 		return (0);
+	close(cmd->fd_in);
 	if (dup2(fd, cmd->fd_in) == -1)
 		print_error(errno);
 	return (1);
@@ -48,7 +57,6 @@ int	ft_redirect(t_cmd *cmd, t_redir redir)
 	int	fd;
 
 	fd = -1;
-	close(cmd->fd_out);
 	if (redir.type == 3)
 		fd = open(redir.value, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	else if (redir.type == 2)
@@ -59,6 +67,7 @@ int	ft_redirect(t_cmd *cmd, t_redir redir)
 		print_error(errno);
 		return (0);
 	}
+	close(cmd->fd_out);
 	if (dup2(fd, cmd->fd_out) == -1)
 		print_error(errno);
 	return (1);
@@ -98,7 +107,7 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 {
 	t_pars	*args;
 	int		fd;
-	int command_exist;
+	int		command_exist;
 
 	command_exist = 0;
 	if (!exit_words[size - 1])
@@ -122,6 +131,7 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	execute_heredoc(shell, exit_words, size, fd);
 	close(fd);
 	fd = open("heredoc.txt", O_RDWR, 0777);
+	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
 	if (command_exist)
 		cmd_to_exec(shell, &args);
