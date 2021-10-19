@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:35:39 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ char	*choose_path(const char *path, t_env *env)
 			return (home_env->value);
 	}
 	else
-		return ((char *)path);
+	{
+		if (ft_strcmp(path, "-") == 0)
+			return (srch_and_return_env_var(env, "OLDPWD")->value);
+		else
+			return ((char *)path);
+	}
 }
 
 char	*set_oldpwd(t_shell *shell)
@@ -86,7 +91,8 @@ int	ft_cd(t_shell *shell, t_pars **cmd_parsed)
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		path = (*cmd_parsed)->value;
 	}
-	if ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2) // si le type et une commande ou un argument
+	if ((*cmd_parsed)->type == 1 || (*cmd_parsed)->type == 2
+		|| (*cmd_parsed)->type == 5) // si le type et une commande ou un argument
 		return (cd_exec(path, shell, cmd_parsed));
 	return (0);
 }

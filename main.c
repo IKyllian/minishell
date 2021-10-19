@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/14 11:02:10 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/15 10:48:41 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,12 @@ void	check_cmd(t_shell *shell)
 	parsed = shell->cmd.parsed;
 	while (parsed)
 	{
-		if (parsed && (parsed->type == 1 | parsed->type == 5)
-			&& check_pipe(&parsed, shell) == 0
-			&& (parsed->type == 1 | parsed->type == 5))
+		if (parsed && (parsed->type == 1 | parsed->type == 5 | parsed->type == 4))
+		{
+			if (check_pipe(&parsed, shell) == 1)
+				break;
+		}
+		if ((parsed->type == 1 | parsed->type == 5 | parsed->type == 4))
 		{
 			if (check_redirect(shell, &parsed, 0) <= 0)
 				break ;

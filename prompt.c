@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/14 10:38:23 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:09:04 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,7 @@ int	prompt(t_shell *shell)
 		if (!quoting(&shell->cmd, shell->line))
 			continue ;
 		deep_parser(shell);
-		restore_fd(shell);
-		// if (shell->cmd.pids)
-		// 	free(shell->cmd.pids);
-		shell->cmd.i_pids = 0;
-		if (shell->line)
-			free(shell->line);
-		lstclear_pars(&shell->cmd.parsed);
+		restore_cmd(shell);
 	}
 	// if (shell->line)
 	// 	free(&shell->cmd.prompt);
