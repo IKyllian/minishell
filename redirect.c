@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/19 11:00:56 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/19 11:41:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,40 +80,28 @@ void	execute_heredoc(t_shell *shell, char **exit_words, int size, int fd)
 	char	*line;
 	int		ret;
 	int		i;
-	pid_t	pid;
 
 	i = 0;
 	ret = 1;
 	line = NULL;
-	pid = fork();
-	if (pid == 0)
+	while (ret)
 	{
-		signal(SIGINT, f_sigkill);
-		signal(SIGQUIT, f_sigquit);
-		while (ret)
+		ft_putstr_fd("> ", shell->cmd.fd_stdout);
+		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
+		if (i == size - 1 && ft_strcmp(line, exit_words[i]) != 0)
 		{
-			
-			ft_putstr_fd("> ", shell->cmd.fd_stdout);
-			ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
-			if (i == size - 1 && ft_strcmp(line, exit_words[i]) != 0)
-			{
-				ft_putstr_fd(line, fd);
-				ft_putstr_fd("\n", fd);
-			}
-			if (ft_strcmp(line, exit_words[i]) == 0)
-			{
-				if (i++ == size - 1)
-					break ;
-			}
-			free(line);
+			ft_putstr_fd(line, fd);
+			ft_putstr_fd("\n", fd);
 		}
-		if (line)
-			free(line);
-		exit(1);
+		if (ft_strcmp(line, exit_words[i]) == 0)
+		{
+			if (i++ == size - 1)
+				break ;
+		}
+		free(line);
 	}
-	signal(SIGINT, p_sigkill);
-	signal(SIGQUIT, p_sigquit);
-	waitpid(pid, NULL, 0);
+	if (line)
+		free(line);
 }
 
 int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
@@ -150,7 +138,5 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	close(STDIN_FILENO);
 	close(fd);
 	unlink("heredoc.txt");
-	signal(SIGQUIT, &p_sigquit);
-	signal(SIGINT, &p_sigkill);
 	return (0);
 }
