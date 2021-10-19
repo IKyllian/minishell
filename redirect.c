@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/18 14:08:38 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:37:41 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	restore_cmd(t_shell *shell)
 {
+	close(shell->cmd.fd_in);
+	close(shell->cmd.fd_out);
 	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
 		print_error(errno);
 	if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
@@ -21,6 +23,7 @@ void	restore_cmd(t_shell *shell)
 	shell->cmd.is_heredoc = 0;
 	shell->cmd.i_redir = 0;
 	shell->cmd.index_pipe = 0;
+	shell->cmd.i_pids = 0;
 	if (shell->cmd.redir)
 	{
 		free(shell->cmd.redir);
@@ -31,7 +34,6 @@ void	restore_cmd(t_shell *shell)
 		free(g_pids.pid);
 		g_pids.pid = NULL;
 	}
-	shell->cmd.i_pids = 0;
 	if (shell->line)
 		free(shell->line);
 	lstclear_pars(&shell->cmd.parsed);
