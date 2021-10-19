@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/18 15:40:59 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/19 10:06:41 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ pid_t	exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], int indx)
 		print_error(errno);
 	else if (pid == 0)
 	{
+		signal(SIGINT, f_sigkill);
+		signal(SIGQUIT, f_sigquit);
 		if (dup2(pipefd[0], shell->cmd.fd_in) == -1)
 			print_error(errno);
 		close(pipefd[1]);
@@ -56,6 +58,8 @@ pid_t	exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], int indx)
 		}
 		exit(1);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
 	return (pid);
 }
@@ -73,6 +77,8 @@ pid_t	first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		print_error(errno);
 	else if (pid == 0)
 	{
+		signal(SIGINT, f_sigkill);
+		signal(SIGQUIT, f_sigquit);
 		if (dup2(*fdd, shell->cmd.fd_in) == -1)
 			print_error(errno);
 		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
@@ -82,6 +88,8 @@ pid_t	first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		exec_child(shell, parsed);
 		exit(1);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
 	return (pid);
 }
@@ -113,9 +121,17 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 		close(pipefd[1]);
 		wait_for_pid(&pid, &pid2, shell, nb_pipe);
 		if (shell->cmd.index_pipe < nb_pipe)
-			fdd = pipefd[0];
-		else
+		{
+			close(fdd);
+			if (dup2(pipefd[0], fdd) == -1)
+				print_error(errno);
 			close(pipefd[0]);
+		}	
+		else
+		{
+			close(fdd);
+			close(pipefd[0]);
+		}
 		next_cmd(parsed);
 	}
 	signal(SIGQUIT, &p_sigquit);
