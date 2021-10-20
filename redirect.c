@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:41:39 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 14:40:58 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	execute_heredoc(t_shell *shell, char **exit_words, int size, int fd)
 				break ;
 		}
 		free(line);
+		line = NULL;
 	}
 	if (line)
 		free(line);
