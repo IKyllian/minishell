@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/18 13:38:05 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 09:41:39 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,8 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	dup2(fd, STDIN_FILENO);
 	if (command_exist)
 		cmd_to_exec(shell, &args);
+	close(STDIN_FILENO);
+	close(fd);
+	unlink("heredoc.txt");
 	return (0);
 }

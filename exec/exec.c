@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/19 10:05:23 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 09:42:30 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,19 +142,16 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		print_error(errno);
 	if (g_pids.spid == 0)
 	{
-		signal(SIGQUIT, &f_sigquit);
-		signal(SIGINT, &f_sigkill);
-		// dbl_array_print(args);
+		signal(SIGINT, f_sigkill);
+		signal(SIGQUIT, f_sigquit);
 		if (execve(path, args, envp) == -1)
 			print_error(errno);
 		exit(0);
 	}
 	else
 	{
-		// kill(g_pids.spid, SIGINT);
-		
-		signal(SIGQUIT, &p_sigquit);
-		signal(SIGINT, &p_sigkill);
+		signal(SIGINT, p_sigkill);
+		signal(SIGQUIT, p_sigquit);
 		if (wait(NULL) == -1)
 			printf("Error with Wait\n");
 	}
