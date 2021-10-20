@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:46:13 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 09:52:44 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed, int nb_pipe)
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	if (out == 1 || g_pids.pid[shell->cmd.index_pipe].is_heredoc)
+	if (g_pids.pid[shell->cmd.index_pipe].is_heredoc)
 		waitpid(pid, &pid, 0);
 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
 }
