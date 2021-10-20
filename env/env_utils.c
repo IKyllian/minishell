@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:58:56 by kdelport          #+#    #+#             */
-/*   Updated: 2021/05/13 13:33:48 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 14:28:54 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	srch_and_dlt_env_var(t_env *env, char *to_search)
 		i = 0;
 		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
 		{
-			if (to_search[i + 1] == '\0')
+			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
 			{
 				if (prev && !env->next)
 					prev->next = NULL;
@@ -39,7 +39,7 @@ void	srch_and_dlt_env_var(t_env *env, char *to_search)
 	}
 }
 
-int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
+int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mode)
 {
 	int i;
 
@@ -48,11 +48,16 @@ int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value)
 		i = 0;
 		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
 		{
-			if (to_search[i + 1] == '\0')
+			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
 			{
-				if (env->value)
-					free(env->value);
-				env->value = new_value;
+				if (mode == 0)
+				{
+					if (env->value)
+						free(env->value);
+					env->value = new_value;
+				}
+				else
+					env->value = ft_strjoin(env->value, new_value); // Besoin de free l'ancienne value
 				return (1);
 			}
 			i++;
@@ -71,7 +76,7 @@ void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd)
 		i = 0;
 		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
 		{
-			if (to_search[i + 1] == '\0')
+			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
 			{
 				ft_putstr_fd(env->value, fd);
 				return ;
@@ -91,7 +96,7 @@ t_env	*srch_and_return_env_var(t_env *env, char *to_search)
 		i = 0;
 		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
 		{
-			if (to_search[i + 1] == '\0')
+			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
 				return (env);
 			i++;
 		}

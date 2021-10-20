@@ -112,7 +112,7 @@ t_shell	shell_init(char **env);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
-int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
+int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mode);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
