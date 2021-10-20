@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:41:39 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 13:13:12 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	execute_heredoc(t_shell *shell, char **exit_words, int size, int fd)
 	i = 0;
 	ret = 1;
 	line = NULL;
-	while (ret)
+	g_heredoc = 1;
+	while (ret && g_heredoc)
 	{
 		ft_putstr_fd("> ", shell->cmd.fd_stdout);
 		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
@@ -112,8 +113,9 @@ void	execute_heredoc(t_shell *shell, char **exit_words, int size, int fd)
 				break ;
 		}
 		free(line);
+		line = NULL;
 	}
-	if (line)
+	if (line && g_heredoc)
 		free(line);
 }
 
@@ -145,6 +147,12 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 	}
 	execute_heredoc(shell, exit_words, size, fd);
 	close(fd);
+	if (!g_heredoc)
+	{
+		unlink("heredoc.txt");
+		// g_heredoc = 1;
+		return (0);
+	}
 	fd = open("heredoc.txt", O_RDWR, 0777);
 	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 09:42:08 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:16:03 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	m_sigkill(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_heredoc = 0;
 }
 
 void	set_term(t_shell *shell)
