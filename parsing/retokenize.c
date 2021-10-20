@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 08:45:13 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 08:15:54 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 09:22:47 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t)
 	while (lst)
 	{
 		if (i == *t - 1)
-		{
-			printf("here\n");
 			return (lst_replace(lst, new_tokens, t));
-		}
 		lst = lst->next;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/19 13:55:55 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 09:21:41 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,4 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 		// lst = lst->next;
 		lst = retokenize(cmd, &lst, &t);
 	}
-	lstput_pars(cmd->parsed);
 }
