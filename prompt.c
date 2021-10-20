@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
 /*   Updated: 2021/10/19 10:04:59 by ctaleb           ###   ########lyon.fr   */
@@ -54,7 +54,7 @@ void	set_prompt(t_shell *shell, char **prompt)
 		prefix = "\33[1;32m=>\33[1;36m minishell-0.1(\33[1;37m";
 	else
 		prefix = "\33[1;31m=>\33[1;36m minishell-0.1(\33[1;37m";
-	suffix = "\33[0;36m)$ \33[0;37m";
+	suffix = "\33[1;36m)$ \33[0;37m";
 	*prompt = ft_strjoin("", prefix);
 	temp = ft_strjoin(*prompt, path);
 	free(*prompt);
@@ -92,13 +92,7 @@ int	prompt(t_shell *shell)
 		if (!quoting(&shell->cmd, shell->line))
 			continue ;
 		deep_parser(shell);
-		restore_fd(shell);
-		// if (shell->cmd.pids)
-		// 	free(shell->cmd.pids);
-		shell->cmd.i_pids = 0;
-		if (shell->line)
-			free(shell->line);
-		lstclear_pars(&shell->cmd.parsed);
+		restore_cmd(shell);
 	}
 	// if (shell->line)
 	// 	free(&shell->cmd.prompt);

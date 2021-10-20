@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirecter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:22 by ctaleb            #+#    #+#             */
 /*   Updated: 2021/10/19 14:11:06 by ctaleb           ###   ########lyon.fr   */

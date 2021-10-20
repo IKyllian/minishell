@@ -39,6 +39,8 @@ t_cmd	cmd_init(void)
 	cmd.dquote = 0;
 	cmd.is_heredoc = 0;
 	cmd.i_pids = 0;
+	cmd.i_redir = 0;
+	cmd.index_pipe = 0;
 	cmd.redir = NULL;
 	return (cmd);
 }

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
 /*   Updated: 2021/10/20 08:10:48 by ctaleb           ###   ########lyon.fr   */
