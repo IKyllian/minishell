@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:43:11 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/15 15:49:20 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:36:05 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ char	**dbl_array_add(char **dbl_array, char *line)
 		i++;
 	}
 	new[i] = ft_strdup(line);
+	// printf("dbl_array_add\n");
 	free (dbl_array);
+	// printf("dbl done\n");
 	return (new);
 }
 

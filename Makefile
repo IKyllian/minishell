@@ -20,6 +20,7 @@ SRCS =  main.c \
 		./parsing/quoting.c \
 		./parsing/history.c \
 		./parsing/subber.c \
+		./parsing/retokenize.c \
 		./parsing/redirecter.c \
 		./sig/signals.c \
 		./utils/array_utils.c \

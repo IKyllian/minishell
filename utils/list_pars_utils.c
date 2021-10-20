@@ -6,11 +6,47 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/14 12:35:50 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 08:10:48 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+t_pars	*lst_replace_start(t_cmd *cmd, t_pars *new_tokens, int	*t)
+{
+	t_pars	*temp;
+	t_pars	*browse;
+
+	temp = cmd->parsed->next;
+	browse = new_tokens;
+	free(cmd->parsed->value);
+	free(cmd->parsed);
+	cmd->parsed = new_tokens;
+	while (browse->next)
+		browse = browse->next;
+	browse->next = temp;
+	*t += lstsize_pars(new_tokens);
+	return (temp);
+}
+
+t_pars	*lst_replace(t_pars *lst, t_pars *new_tokens, int *t)
+{
+	t_pars	*temp;
+	t_pars	*browse;
+
+	temp = NULL;
+	if (lst->next->next)
+		temp = lst->next->next;
+	browse = new_tokens;
+	free(lst->next->value);
+	free(lst->next);
+	lst->next = new_tokens;
+	while(browse->next)
+		browse = browse->next;
+	browse->next = temp;
+	*t += lstsize_pars(new_tokens);
+	return (temp);
+}
 
 void	lstput_pars(t_pars *lst)
 {
@@ -21,7 +57,7 @@ void	lstput_pars(t_pars *lst)
 		return ;
 	while (lst)
 	{
-		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
+		printf("*%i\t|%s|\t%i*\n", i, lst->value, lst->type);
 		i++;
 		lst = lst->next;
 	}

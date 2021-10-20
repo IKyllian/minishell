@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/13 15:26:46 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:38:05 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void    restore_fd(t_shell *shell)
     shell->cmd.is_heredoc = 0;
 	if (shell->cmd.redir)
 	{
+		// printf("redirecting\n");
 		free(shell->cmd.redir);
+		// printf("redir done\n");
 		shell->cmd.redir = NULL;
 	}
 }

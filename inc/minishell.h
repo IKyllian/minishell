@@ -159,6 +159,9 @@ void	search_dquote(char *src, int i, int *j);
 int		presubber(char **src, int *i, int j, t_env *env);
 char	*substitute(char *src, int i, int j, t_env *env);
 
+			/* Retokenize utils */
+t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t);
+
 			/* Prompt */
 char	*pather(void);
 void	check_cmd(t_shell *shell);
@@ -172,6 +175,8 @@ t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
 			/* List utils (t_pars) */
+t_pars	*lst_replace_start(t_cmd *cmd, t_pars *new_tokens, int *t);
+t_pars	*lst_replace(t_pars *lst, t_pars *new_tokens, int *t);
 void	lstput_pars(t_pars *lst);
 void	lstdel_beg_pars(t_pars **lst);
 void	lstdel_other_pars(t_pars **lst, int d);

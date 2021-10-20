@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/15 11:58:50 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 10:12:28 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,8 @@ pid_t exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2])
 		}
 		exit(1);
 	}
-	else
-	{
-		signal(SIGQUIT, &p_sigquit);
-		signal(SIGINT, &p_sigkill);
-	}
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
 	return (pid);
@@ -96,11 +93,8 @@ pid_t first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
 		exec_child(shell, parsed);
 		exit(1);
 	}
-	else
-	{
-		signal(SIGQUIT, &p_sigquit);
-		signal(SIGINT, &p_sigkill);
-	}
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	g_pids.pid[shell->cmd.i_pids].pid = pid;
 	shell->cmd.i_pids++;
 	return (pid);

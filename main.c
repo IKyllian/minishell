@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/14 08:35:10 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 10:05:10 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,6 @@ int	main(int argc, char **argv, char **env)
 	exit = 0;
 	shell = shell_init(env);
 	prompt(&shell);
-	// unset_term(&shell);
+	unset_term(&shell);
 	return (exit);
 }
