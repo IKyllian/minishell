@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/18 15:37:41 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/18 13:38:05 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 void	restore_cmd(t_shell *shell)
 {
+// probably old branch
+//     if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
+//         print_error(errno);
+//     if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
+//         print_error(errno);
+//     shell->cmd.is_heredoc = 0;
+// 	if (shell->cmd.redir)
+// 	{
+// 		// printf("redirecting\n");
+// 		free(shell->cmd.redir);
+// 		// printf("redir done\n");
+// 		shell->cmd.redir = NULL;
+// 	}
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);
 	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)

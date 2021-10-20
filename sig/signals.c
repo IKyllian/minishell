@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/12 14:08:33 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 09:18:19 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,26 @@
 
 void	p_sigkill(int sig)
 {
-	int	i;
-
-	i = g_pids.count - 1;
-	if (g_pids.mode != 2)
-		return ;
-	while (i >= 0)
-	{
-		printf("pid:%i\n", g_pids.pid[i].pid);
-		// if (g_pids.pid[i].pid)
-			// kill(g_pids.pid[i].pid, SIGINT);
-		i--;
-	}
 	(void)sig;
 	printf("\n");
 }
 
 void	p_sigquit(int sig)
 {
-	int	i;
-
-	i = g_pids.count - 1;
-	if (g_pids.mode != 2)
-		return ;
-	while (i >= 0)
-	{
-		// if (g_pids.pid[i].pid)
-			kill(g_pids.pid[i].pid, SIGQUIT);
-		i--;
-	}
+	(void)sig;
 	printf("Quit: %i\n", sig);
 }
 
 void	f_sigkill(int sig)
 {
 	(void)sig;
-	if (g_pids.mode != 1)
-		return ;
-	printf("\n");
-	kill(g_pids.spid, SIGINT);
+	exit(0);
 }
 
 void	f_sigquit(int sig)
 {
-	if (g_pids.mode != 1)
-		return ;
-	printf("Quit: %i\n", sig);
-	kill(g_pids.spid, SIGQUIT);
+	(void)sig;
+	exit(0);
 }
 
 void	m_sigkill(int sig)
@@ -75,7 +48,9 @@ void	m_sigkill(int sig)
 void	set_term(t_shell *shell)
 {
 	tcgetattr(0, &shell->new_term);
-	shell->new_term.c_cc[VQUIT] = 0;//ctrl-backslash
+	// shell->new_term.c_lflag |= ~ECHOCTL;
+	// shell->new_term.c_lflag |= ECHONL;
+	shell->new_term.c_cc[VQUIT] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
 }
 

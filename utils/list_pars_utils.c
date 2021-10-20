@@ -6,49 +6,103 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/14 08:30:28 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 08:10:48 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+t_pars	*lst_replace_start(t_cmd *cmd, t_pars *new_tokens, int	*t)
+{
+	t_pars	*temp;
+	t_pars	*browse;
+
+	temp = cmd->parsed->next;
+	browse = new_tokens;
+	free(cmd->parsed->value);
+	free(cmd->parsed);
+	cmd->parsed = new_tokens;
+	while (browse->next)
+		browse = browse->next;
+	browse->next = temp;
+	*t += lstsize_pars(new_tokens);
+	return (temp);
+}
+
+t_pars	*lst_replace(t_pars *lst, t_pars *new_tokens, int *t)
+{
+	t_pars	*temp;
+	t_pars	*browse;
+
+	temp = NULL;
+	if (lst->next->next)
+		temp = lst->next->next;
+	browse = new_tokens;
+	free(lst->next->value);
+	free(lst->next);
+	lst->next = new_tokens;
+	while(browse->next)
+		browse = browse->next;
+	browse->next = temp;
+	*t += lstsize_pars(new_tokens);
+	return (temp);
+}
 
 void	lstput_pars(t_pars *lst)
 {
 	int	i;
 
 	i = 0;
+	if (!lst)
+		return ;
 	while (lst)
 	{
-		printf("*%i\t%s\t%i*\n", i, lst->value, lst->type);
+		printf("*%i\t|%s|\t%i*\n", i, lst->value, lst->type);
 		i++;
 		lst = lst->next;
 	}
 }
 
-void	lstdeltwo_pars(t_pars *lst, int d)
+void	lstdel_beg_pars(t_pars **lst)
 {
-	t_pars	*prev;
 	t_pars	*temp;
+
+	if (lstsize_pars(*lst) == 2)
+		lstclear_pars(lst);
+	else
+	{
+		temp = (*lst)->next->next;
+		free((*lst)->next->value);
+		free((*lst)->value);
+		free((*lst)->next);
+		free((*lst));
+		*lst = temp;
+	}
+}
+
+void	lstdel_other_pars(t_pars **lst, int d)
+{
+	t_pars	*temp;
+	t_pars	*pars;
 	int		i;
 
-	if (!lst)
-		return ;
+	pars = *lst;
 	i = 0;
-	while (lst)
+	temp = NULL;
+	while (pars)
 	{
 		if (i == d - 1)
-			prev = lst;
-		if (i == d)
 		{
-			temp = lst->next->next;
-			free(lst->next->value);
-			free(lst->value);
-			free(lst->next);
-			free(lst);
-			prev->next = temp;
+			if ((pars)->next->next->next)
+				temp = (pars)->next->next->next;
+			free((pars)->next->next->value);
+			free((pars)->next->value);
+			free((pars)->next->next);
+			free((pars)->next);
+			pars->next = temp;
 			return ;
 		}
-		lst = lst->next;
+		pars = pars->next;
 		i++;
 	}
 }
