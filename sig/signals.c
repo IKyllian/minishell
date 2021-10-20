@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/19 12:45:59 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 09:42:08 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	m_sigkill(int sig)
 void	set_term(t_shell *shell)
 {
 	tcgetattr(0, &shell->new_term);
+	// shell->new_term.c_lflag |= ~ECHOCTL;
+	// shell->new_term.c_lflag |= ECHONL;
 	shell->new_term.c_cc[VQUIT] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
 }

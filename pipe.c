@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:29:22 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 09:46:13 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed, int nb_pipe)
 {
 	pid_t	pid;
 
+	unset_term(shell);
 	pid = fork();
 	if (pid == -1)
 		print_error(errno);
@@ -196,11 +197,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 		close(in);
 		while (wait(NULL) != -1) ;
 	}
-	signal(SIGQUIT, &p_sigquit);
-	signal(SIGINT, &p_sigkill);
 }
-
-
 
 int	pipe_count(t_pars *parsed)
 {

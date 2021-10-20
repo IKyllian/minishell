@@ -4,3 +4,4 @@ text.txt
 *.a
 minishell
 .vscode
+printargs.c

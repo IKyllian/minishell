@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/12 13:06:12 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 11:33:10 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	*sub_empty(char *src, int i, int j)
 	char	*temp;
 
 	if (!i)
+	{
 		temp = ft_strdup(&src[j]);
+	}
 	else
 	{
 		dup = ft_strndup(src, i);
@@ -36,6 +38,7 @@ char	*sub_found(char *src, char *env_rslt, int i, int j)
 	if (!i)
 	{
 		temp = ft_strjoin(env_rslt, &src[j]);
+		// printf("%s\n", temp);
 	}
 	else
 	{
@@ -45,6 +48,7 @@ char	*sub_found(char *src, char *env_rslt, int i, int j)
 		dup = temp;
 		temp = ft_strjoin(dup, &src[j]);
 		free(dup);
+		// printf("%s\n", temp);
 	}
 	return (temp);
 }
