@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 14:15:38 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 15:58:33 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,13 @@ int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd)
 
 int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 {
+	
 	if ((*parsed)->type == 5)
 	{
 		ft_exec(shell, parsed, 1);
 		return (0);
 	}
+	ft_strtolower(&(*parsed)->value);
 	if (ft_strcmp((*parsed)->value, "pwd") == 0)
 		shell->cmd.exit_status = ft_pwd(&shell->cmd, parsed);
 	else if (ft_strcmp((*parsed)->value, "cd") == 0)
