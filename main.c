@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 15:58:33 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:39:09 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
 	else
 		temp[i++] = NULL;
 	temp[i] = NULL;
-	if (*exit_words != NULL)
-		free(*exit_words);
+	// if (*exit_words != NULL)
+	// 	free(*exit_words);
 	*exit_words = temp;
 }
 
@@ -50,17 +50,11 @@ int check_heredoc(t_shell *shell, t_pars **parsed)
 	while (parsed_check && parsed_check->type != 3)
 	{
 		if (parsed_check->type == 4)
-		{
-			if (ft_strcmp(parsed_check->value, "<<") == 0)
-			{
 				heredoc++;
-				fill_exit_words(heredoc, &exit_words, parsed_check->next);
-			}
-		}
 		parsed_check = parsed_check->next;
 	}
 	if (heredoc)
-		return(ft_heredoc(shell, parsed, exit_words, heredoc));
+		return(ft_heredoc(shell, parsed));
 	return (1);
 }
 
@@ -112,11 +106,70 @@ int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 	return (1);
 }
 
+void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
+{
+	char	*line;
+	int		ret;
+	int		i;
+
+	i = 0;
+	ret = 1;
+	line = NULL;
+	while (ret)
+	{
+		ft_putstr_fd("> ", shell->cmd.fd_stdout);
+		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
+		if (ft_strcmp(line, parse->next->value) != 0)
+		{
+			ft_putstr_fd(line, fd);
+			ft_putstr_fd("\n", fd);
+		}
+		else
+			break ;
+		free(line);
+		line = NULL;
+	}
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+}
+
+void	init_heredoc(t_shell *shell, t_pars *parsed)
+{
+	t_pars *parse;
+	int		fd;
+
+	parse = parsed;
+	while (parse)
+	{
+		if (parse->type == 3 && shell->cmd.hd_has_error == 1)
+			break ;
+		if (parse->type == 4)
+		{
+			if (!parse->next)
+			{
+				ft_putstr_fd("Syntax error near unexpected token\n", shell->cmd.fd_out);
+				shell->cmd.hd_has_error = 1;
+			}
+			else
+			{
+				fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+				exec_heredoc(shell, parse, fd);
+				close(fd);
+			}
+		}
+		parse = parse->next;
+	}
+}
+
 void	check_cmd(t_shell *shell)
 {
 	t_pars	*parsed;
 
 	parsed = shell->cmd.parsed;
+	init_heredoc(shell, shell->cmd.parsed);
 	while (parsed)
 	{
 		if (parsed && (parsed->type == 1 | parsed->type == 5 | parsed->type == 4))

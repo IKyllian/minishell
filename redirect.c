@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 14:40:58 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:31:54 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	restore_cmd(t_shell *shell)
 	shell->cmd.i_redir = 0;
 	shell->cmd.index_pipe = 0;
 	shell->cmd.i_pids = 0;
+	shell->cmd.hd_has_error = 0;
 	if (shell->cmd.redir)
 	{
 		free(shell->cmd.redir);
@@ -88,51 +89,35 @@ int	ft_redirect(t_cmd *cmd, t_redir redir)
 	return (1);
 }
 
-void	execute_heredoc(t_shell *shell, char **exit_words, int size, int fd)
+int is_last_heredoc(t_shell *shell)
 {
-	char	*line;
-	int		ret;
-	int		i;
+	int i;
 
 	i = 0;
-	ret = 1;
-	line = NULL;
-	while (ret)
+	while (i <= g_pids.count)
 	{
-		ft_putstr_fd("> ", shell->cmd.fd_stdout);
-		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
-		if (i == size - 1 && ft_strcmp(line, exit_words[i]) != 0)
+		if (i > shell->cmd.index_pipe)
 		{
-			ft_putstr_fd(line, fd);
-			ft_putstr_fd("\n", fd);
+			if (g_pids.pid[i].is_heredoc == 1)
+				return (0);
 		}
-		if (ft_strcmp(line, exit_words[i]) == 0)
-		{
-			if (i++ == size - 1)
-				break ;
-		}
-		free(line);
-		line = NULL;
+		i++;
 	}
-	if (line)
-		free(line);
+	return (1);
 }
 
-int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
-	char **exit_words, int size)
+int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed)
 {
 	t_pars	*args;
 	int		fd;
 	int		command_exist;
 
 	command_exist = 0;
-	if (!exit_words[size - 1])
-	{
-		ft_putstr_fd("Error : No exit word\n", shell->cmd.fd_out);
+	if (shell->cmd.hd_has_error)
 		return (-1);
-	}
+	else if (!is_last_heredoc(shell))
+		return (0);
 	shell->cmd.is_heredoc = 1;
-	fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if ((*cmd_parsed)->type == 1)
 	{
 		command_exist = 1;
@@ -144,8 +129,6 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed,
 		lstaddback_pars(&args, lstnew_pars((*cmd_parsed)->value));
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
-	execute_heredoc(shell, exit_words, size, fd);
-	close(fd);
 	fd = open("heredoc.txt", O_RDWR, 0777);
 	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
