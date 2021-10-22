@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/21 16:31:54 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 08:55:05 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,6 @@
 
 void	restore_cmd(t_shell *shell)
 {
-// probably old branch
-//     if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
-//         print_error(errno);
-//     if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
-//         print_error(errno);
-//     shell->cmd.is_heredoc = 0;
-// 	if (shell->cmd.redir)
-// 	{
-// 		// printf("redirecting\n");
-// 		free(shell->cmd.redir);
-// 		// printf("redir done\n");
-// 		shell->cmd.redir = NULL;
-// 	}
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);
 	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
@@ -106,6 +93,35 @@ int is_last_heredoc(t_shell *shell)
 	return (1);
 }
 
+void	fill_arg_hd(t_pars **cmd_parsed, t_pars	**args, int *cmd_exit)
+{
+	t_pars	*cmd;
+
+	cmd = NULL;
+	if ((*cmd_parsed)->type == 1)
+	{
+		*cmd_exit = 1;
+		*args = lstnew_pars((*cmd_parsed)->value);
+		cmd = (*cmd_parsed);
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
+	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+	{
+		lstaddback_pars(args, lstnew_pars((*cmd_parsed)->value));
+		(*cmd_parsed) = (*cmd_parsed)->next;
+	}
+	if (ft_strcmp(cmd->value, "echo") == 0)
+	{
+		(*cmd_parsed) = (*cmd_parsed)->next;
+		(*cmd_parsed) = (*cmd_parsed)->next;
+		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+		{
+			lstaddback_pars(args, lstnew_pars((*cmd_parsed)->value));
+			(*cmd_parsed) = (*cmd_parsed)->next;
+		}
+	}
+}
+
 int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed)
 {
 	t_pars	*args;
@@ -118,17 +134,7 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed)
 	else if (!is_last_heredoc(shell))
 		return (0);
 	shell->cmd.is_heredoc = 1;
-	if ((*cmd_parsed)->type == 1)
-	{
-		command_exist = 1;
-		args = lstnew_pars((*cmd_parsed)->value);
-		(*cmd_parsed) = (*cmd_parsed)->next;
-	}
-	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
-	{
-		lstaddback_pars(&args, lstnew_pars((*cmd_parsed)->value));
-		(*cmd_parsed) = (*cmd_parsed)->next;
-	}
+	fill_arg_hd(cmd_parsed, &args, &command_exist);
 	fd = open("heredoc.txt", O_RDWR, 0777);
 	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
