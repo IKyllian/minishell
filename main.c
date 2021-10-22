@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/21 16:39:09 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:52:15 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
 	i = 0;
 	ret = 1;
 	line = NULL;
-  g_heredoc = 1;
+	// g_heredoc = 1;
 	while (ret && g_heredoc)
 	{
 		ft_putstr_fd("> ", shell->cmd.fd_stdout);
 		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
-		if (ft_strcmp(line, parse->next->value) != 0)
+		if (g_heredoc && ft_strcmp(line, parse->next->value) != 0)
 		{
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);
@@ -139,11 +139,17 @@ void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
 
 void	init_heredoc(t_shell *shell, t_pars *parsed)
 {
+	struct sigaction	siga;
 	t_pars *parse;
 	int		fd;
 
 	parse = parsed;
-	while (parse)
+	sigemptyset(&siga.sa_mask);
+	siga.sa_handler = sighandler;
+	siga.sa_flags = 0;
+	sigaction(SIGINT, &siga, NULL);
+	g_heredoc = 1;
+	while (parse && g_heredoc)
 	{
 		if (parse->type == 3 && shell->cmd.hd_has_error == 1)
 			break ;
@@ -171,6 +177,8 @@ void	check_cmd(t_shell *shell)
 
 	parsed = shell->cmd.parsed;
 	init_heredoc(shell, shell->cmd.parsed);
+	if (!g_heredoc)
+		return ;
 	while (parsed)
 	{
 		if (parsed && (parsed->type == 1 | parsed->type == 5 | parsed->type == 4))
