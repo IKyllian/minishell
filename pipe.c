@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/21 16:33:02 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 08:15:56 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	count = pipe_count((*parsed));
 	if (count > 0)
 	{
-		g_pids.pid = malloc(sizeof(pid_t) * (count + 2));
+		g_pids.pid = ft_calloc((count + 2), sizeof(t_pid));
 		g_pids.mode = 2;
 		set_heredoc_check((*parsed), count);
 		exec_pipe(shell, parsed, count);
