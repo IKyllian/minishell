@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/19 11:33:10 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 14:11:04 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*sub_empty(char *src, int i, int j)
 	else
 	{
 		dup = ft_strndup(src, i);
-		temp = ft_strjoin(dup, &src[j - 1]);
+		temp = ft_strjoin(dup, &src[j]);
 		free (dup);
 	}
 	return (temp);

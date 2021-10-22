@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 09:21:41 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 14:11:58 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*substitute(char *src, int i, int j, t_env *env)
 {
-	char 	*temp;
-	char 	*dup;
+	char	*temp;
+	char	*dup;
 	t_env	*env_rslt;
 
 	dup = ft_strndup(&src[i + 1], j - i - 1);
@@ -29,6 +29,16 @@ char	*substitute(char *src, int i, int j, t_env *env)
 	return (temp);
 }
 
+int	searcher(char *str, int i, int *j)
+{
+	*j = i + 1;
+	search_dquote(str, i, j);
+	if (*j == i + 1)
+		return (1);
+	return (0);
+	
+}
+
 void	search_and_sub(t_cmd *cmd, t_env *env)
 {
 	int		i;
@@ -38,7 +48,7 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 
 	lst = cmd->parsed;
 	t = 0;
-	while(lst)
+	while (lst)
 	{
 		j = 0;
 		i = -1;
@@ -46,17 +56,14 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 		{
 			search_squote(lst->value, &i);
 			if (lst->value[i] == '$' && lst->value[i + 1]
-					&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
+				&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
 			{
-				j = i + 1;
-				search_dquote(lst->value, i, &j);
-				if (j == i + 1)
+				if (searcher(lst->value, i, &j))
 					break ;
 				else if (presubber(&lst->value, &i, j, env))
 					continue ;
 			}
 		}
-		// lst = lst->next;
 		lst = retokenize(cmd, &lst, &t);
 	}
 }
