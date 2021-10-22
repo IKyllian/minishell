@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirecter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:22 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/19 14:11:06 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/21 14:53:25 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ int	check_redir(t_cmd *cmd)
 	{
 		if (lst->type == 4)
 		{
-			if (!lst->next || lst->next->type != 2)
-			{
-				printf("Syntax error near unexpected token\n");
-				return (0);
-			}
+			// if (!lst->next || lst->next->type != 2)
+			// {
+			// 	printf("Syntax error near unexpected token\n");
+			// 	return (0);
+			// }
 			if (ft_strncmp(lst->value, "<<", 2))
 				cmd->recount++;
 		}

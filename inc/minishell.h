@@ -61,6 +61,7 @@ typedef struct s_cmd
 	int		squote;
 	int		dquote;
 	int		is_heredoc;
+	int		hd_has_error;
 	int 	i_pids;
 	t_redir	*redir;
 	int		i_redir;
@@ -196,10 +197,10 @@ int		check_pipe(t_pars **parsed, t_shell *shell);
 
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, t_redir redir);
-int    ft_redirect_in(t_cmd *cmd, t_redir redir);
+int		ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_cmd(t_shell *shell);
-// int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
-int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
+
+int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
 
 int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
 // void	init_pars(t_cmd *cmd, char **arg);

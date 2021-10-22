@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 09:42:08 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/21 10:50:51 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,24 @@ void	f_sigquit(int sig)
 void	m_sigkill(int sig)
 {
 	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	// printf("\n");
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_redisplay();
 }
 
 void	set_term(t_shell *shell)
 {
-	tcgetattr(0, &shell->new_term);
+	(void)shell;
+	// tcgetattr(0, &shell->new_term);
 	// shell->new_term.c_lflag |= ~ECHOCTL;
 	// shell->new_term.c_lflag |= ECHONL;
-	shell->new_term.c_cc[VQUIT] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
+	// shell->new_term.c_cc[VQUIT] = 0;
+	// tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
 }
 
 void	unset_term(t_shell *shell)
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
+	(void)shell;
+	// tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
 }

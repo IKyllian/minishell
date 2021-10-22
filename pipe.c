@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:52:44 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:33:02 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,113 +30,6 @@ void	exec_child(t_shell *shell, t_pars **parsed)
 			cmd_to_exec(shell, parsed);
 	}
 }
-
-// pid_t	exec_last_pipe(t_shell *shell, t_pars **parsed, int pipefd[2], int indx)
-// {
-// 	pid_t	pid;
-
-// 	if (shell->cmd.i_pids > 0
-// 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
-// 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
-// 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		print_error(errno);
-// 	else if (pid == 0)
-// 	{
-// 		signal(SIGINT, f_sigkill);
-// 		signal(SIGQUIT, f_sigquit);
-// 		if (dup2(pipefd[0], shell->cmd.fd_in) == -1)
-// 			print_error(errno);
-// 		close(pipefd[1]);
-// 		close(pipefd[0]);
-// 		next_cmd(parsed);
-// 		if ((*parsed))
-// 		{
-// 			if (check_redirect(shell, parsed, indx) > 0)
-// 				cmd_to_exec(shell, parsed);
-// 		}
-// 		exit(1);
-// 	}
-// 	signal(SIGINT, SIG_IGN);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
-// 	return (pid);
-// }
-
-// pid_t	first_fork(t_shell *shell, t_pars **parsed, int pipefd[2], int *fdd)
-// {
-// 	pid_t	pid;
-
-// 	if (shell->cmd.i_pids > 0
-// 		&& g_pids.pid[shell->cmd.i_pids].is_heredoc == 1
-// 		&& g_pids.pid[shell->cmd.i_pids - 1].is_heredoc == 1)
-// 		waitpid(g_pids.pid[shell->cmd.i_pids - 1].pid, NULL, 0);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		print_error(errno);
-// 	else if (pid == 0)
-// 	{
-// 		signal(SIGINT, f_sigkill);
-// 		signal(SIGQUIT, f_sigquit);
-// 		if (dup2(*fdd, shell->cmd.fd_in) == -1)
-// 			print_error(errno);
-// 		if (dup2(pipefd[1], shell->cmd.fd_out) == -1)
-// 			print_error(errno);
-// 		close(pipefd[0]);
-// 		close(pipefd[1]);
-// 		exec_child(shell, parsed);
-// 		exit(1);
-// 	}
-// 	signal(SIGINT, SIG_IGN);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
-// 	return (pid);
-// }
-
-// void	wait_for_pid(int *pid, int *pid2, t_shell *shell, int nb_pipe)
-// {
-// 	waitpid(*pid, NULL, 0);
-// 	if (shell->cmd.index_pipe++ == nb_pipe - 1)
-// 		waitpid(*pid2, NULL, 0);
-// }
-
-// void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
-// {
-// 	pid_t	pid;
-// 	pid_t	pid2;
-// 	int		pipefd[2];
-// 	int		fdd;
-
-// 	fdd = shell->cmd.fd_in;
-// 	while (shell->cmd.index_pipe < nb_pipe)
-// 	{
-// 		errno = 0;
-// 		if (pipe(pipefd) == -1)
-// 			print_error(errno);
-// 		pid = first_fork(shell, parsed, pipefd, &fdd); // Execute la commande a gauche du pipe
-// 		if (shell->cmd.index_pipe == nb_pipe - 1)
-// 			pid2 = exec_last_pipe(shell, parsed, pipefd, \
-// 				shell->cmd.index_pipe + 1); // Execute la commande a droite du pipe
-// 		close(pipefd[1]);
-// 		wait_for_pid(&pid, &pid2, shell, nb_pipe);
-// 		if (shell->cmd.index_pipe < nb_pipe)
-// 		{
-// 			close(fdd);
-// 			if (dup2(pipefd[0], fdd) == -1)
-// 				print_error(errno);
-// 			close(pipefd[0]);
-// 		}	
-// 		else
-// 		{
-// 			close(fdd);
-// 			close(pipefd[0]);
-// 		}
-// 		next_cmd(parsed);
-// 	}
-// 	signal(SIGQUIT, &p_sigquit);
-// 	signal(SIGINT, &p_sigkill);
-// }
 
 void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed, int nb_pipe)
 {
