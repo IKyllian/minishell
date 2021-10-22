@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/21 10:50:51 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:54:23 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,16 @@ void	f_sigquit(int sig)
 void	m_sigkill(int sig)
 {
 	(void)sig;
+	g_heredoc = 0;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	sighandler(int sig)
+{
+	(void)sig;
 	g_heredoc = 0;
 }
 
@@ -57,6 +63,6 @@ void	set_term(t_shell *shell)
 
 void	unset_term(t_shell *shell)
 {
-	(void)shell;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
+	// (void)shell;
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
 }

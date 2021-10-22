@@ -130,6 +130,7 @@ int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
 			/* Signals */
+void	sighandler(int sig);
 void	set_term(t_shell *shell);
 void	unset_term(t_shell *shell);
 void	p_sigkill(int sig);
