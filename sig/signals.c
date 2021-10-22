@@ -39,20 +39,20 @@ void	f_sigquit(int sig)
 void	m_sigkill(int sig)
 {
 	(void)sig;
-	// printf("\n");
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_redisplay();
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_heredoc = 0;
 }
 
 void	set_term(t_shell *shell)
 {
-	(void)shell;
-	// tcgetattr(0, &shell->new_term);
-	// shell->new_term.c_lflag |= ~ECHOCTL;
-	// shell->new_term.c_lflag |= ECHONL;
-	// shell->new_term.c_cc[VQUIT] = 0;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
+	tcgetattr(0, &shell->new_term);
+	shell->new_term.c_lflag &= ~ECHOCTL;
+	// shell->new_term.c_lflag &= ECHONL;
+	shell->new_term.c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->new_term);
 }
 
 void	unset_term(t_shell *shell)

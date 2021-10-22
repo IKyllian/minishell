@@ -115,7 +115,8 @@ void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
 	i = 0;
 	ret = 1;
 	line = NULL;
-	while (ret)
+  g_heredoc = 1;
+	while (ret && g_heredoc)
 	{
 		ft_putstr_fd("> ", shell->cmd.fd_stdout);
 		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
@@ -129,7 +130,7 @@ void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
 		free(line);
 		line = NULL;
 	}
-	if (line)
+	if (line && g_heredoc)
 	{
 		free(line);
 		line = NULL;

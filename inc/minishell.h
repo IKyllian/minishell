@@ -16,6 +16,7 @@
 
 # include <term.h>
 
+int				g_heredoc;
 struct s_pids	g_pids;
 // pid_t	g_pid;
 
