@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/21 16:39:09 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 13:50:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
 	*exit_words = temp;
 }
 
-
-int check_heredoc(t_shell *shell, t_pars **parsed)
+int check_heredoc(t_shell *shell, t_pars **parsed, int ret)
 {
 	t_pars	*parsed_check;
 	int		heredoc;
@@ -53,34 +52,35 @@ int check_heredoc(t_shell *shell, t_pars **parsed)
 				heredoc++;
 		parsed_check = parsed_check->next;
 	}
-	if (heredoc)
+	if (heredoc && ret > 0)
 		return(ft_heredoc(shell, parsed));
-	return (1);
+	return (ret);
 }
 
 int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd)
 {
-	int		first_index;
+	int	first_index;
+	int	ret;
 
 	first_index = 0;
+	ret = 1;
 	while (shell->cmd.redir[shell->cmd.i_redir].value != NULL
 		&& shell->cmd.redir[shell->cmd.i_redir].pipe_index <= index_cmd)
 	{
 		if (shell->cmd.redir[shell->cmd.i_redir].pipe_index == index_cmd)
 		{
 			if (shell->cmd.redir[shell->cmd.i_redir].type == 1)
-				ft_redirect_in(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
+				ret = ft_redirect_in(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
 			else
-				ft_redirect(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
+				ret = ft_redirect(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
 		}
 		shell->cmd.i_redir++;
 	}
-	return (check_heredoc(shell, parsed));
+	return (check_heredoc(shell, parsed, ret));
 }
 
 int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 {
-	
 	if ((*parsed)->type == 5)
 	{
 		ft_exec(shell, parsed, 1);
@@ -115,7 +115,7 @@ void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
 	i = 0;
 	ret = 1;
 	line = NULL;
-  g_heredoc = 1;
+	g_heredoc = 1;
 	while (ret && g_heredoc)
 	{
 		ft_putstr_fd("> ", shell->cmd.fd_stdout);

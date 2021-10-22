@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 14:39:49 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 11:11:37 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,9 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 			name = get_export_name((*cmd_parsed)->value, &index, &mode);
 			if (name == NULL)
 			{
-				ft_putstr_fd("minishell: export: \'", 0);
-				ft_putstr_fd((*cmd_parsed)->value, 0);
-				ft_putstr_fd("\': not a valid identifier\n", 0);
+				ft_putstr_fd("minishell: export: \'", shell->cmd.fd_out);
+				ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
+				ft_putstr_fd("\': not a valid identifier\n", shell->cmd.fd_out);
 				has_error = 1;
 			}
 			else
