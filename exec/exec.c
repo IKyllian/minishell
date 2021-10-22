@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 09:42:30 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:26:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		if (wait(NULL) == -1)
 			printf("Error with Wait\n");
 	}
+	// shell->cmd.exit_status = WEXITSTATUS(g_pids.spid);
 }
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)

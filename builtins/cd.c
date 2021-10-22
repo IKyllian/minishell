@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/15 11:35:39 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/20 12:44:37 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	cd_exec(char *path, t_shell *shell, t_pars **cmd_parsed)
 	if (chdir(choose_path(path, shell->env)) == 0)
 	{
 		dup_old_path = set_oldpwd(shell);
-		srch_and_rplce_env_var(shell->env, "OLDPWD", dup_old_path);
+		srch_and_rplce_env_var(shell->env, "OLDPWD", dup_old_path, 0);
 		getcwd(new_path, PATH_MAX);
 		dup_path = ft_strdup(new_path); // Obligé de Dup pour pouvoir free plus tard dans la prochaine fonction
-		srch_and_rplce_env_var(shell->env, "PWD", dup_path);
+		srch_and_rplce_env_var(shell->env, "PWD", dup_path, 0);
 		shell->cmd.exit_status = 0;
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		return (0);

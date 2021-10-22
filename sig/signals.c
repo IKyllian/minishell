@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/22 08:19:22 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/21 10:50:51 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	set_term(t_shell *shell)
 
 void	unset_term(t_shell *shell)
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
+	(void)shell;
+	// tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
 }

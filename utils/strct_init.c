@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strct_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 15:26:08 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/21 15:11:15 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_cmd	cmd_init(void)
 	cmd.squote = 0;
 	cmd.dquote = 0;
 	cmd.is_heredoc = 0;
+	cmd.hd_has_error = 0;
 	cmd.i_pids = 0;
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;

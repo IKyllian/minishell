@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 14:39:49 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,22 @@ void	sort_and_print_env(t_shell *shell)
 	free_env_linked_list(env_cpy);
 }
 
-char	*get_export_name(char *cmd_value, int *index)
+int	is_valide_character(char c, char *cmd_value, int indx, int *mode)
+{
+	if (((c >= 48 && c <= 57) || c == '=') && indx == 0)
+		return (0);
+	if (c == '+' && cmd_value[indx + 1] && cmd_value[indx + 1] == '=')
+	{
+		*mode = 1;
+		return (1);
+	}
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90)
+		|| (c >= 97 && c <= 122) || (c == '_'))
+		return (1);
+	return (0);
+}
+
+char	*get_export_name(char *cmd_value, int *index, int *mode)
 {
 	int		i;
 	char	*name;
@@ -93,8 +108,15 @@ char	*get_export_name(char *cmd_value, int *index)
 		(*index)++;
 	name = malloc(sizeof(char) * (*index + 1));
 	mem_check(name);
-	while (cmd_value[i] && cmd_value[i] != '=')
+	while (cmd_value[i] )//&& cmd_value[i] != '=')
 	{
+		if ((cmd_value[i] == '=' && i != 0))
+			break ;
+		if (!is_valide_character(cmd_value[i], cmd_value, i, mode))
+			return (NULL);
+		if ((cmd_value[i] == '+'
+			&& cmd_value[i + 1] && cmd_value[i + 1] == '='))
+			break ;
 		name[i] = cmd_value[i];
 		i++;
 	}
@@ -136,30 +158,41 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 	char	*name;
 	char	*value;
 	int		index;
+	int		mode; // 0 = export qwe=123 | 1 = export+=123
+	int		has_error;
 
 	name = NULL;
 	value = NULL;
 	index = 0;
-	if ((*cmd_parsed)->next == NULL || (*cmd_parsed)->next->type != 2) // Si aucun argument ou que le type n'est pas un argument print juste les variables env
+	has_error = 0;
+	if ((*cmd_parsed)->next == NULL || (*cmd_parsed)->next->type != 2)
 	{
 		sort_and_print_env(shell);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
-	else // Sinon add une variable dans la liste
+	else
 	{
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 		{
+			mode = 0;
 			index = 0;
-			// Check si la variable existe deja
-			// Si oui modifie la valeur de la variable / Check si la prochaine liste est aussi un argument
-			name = get_export_name((*cmd_parsed)->value, &index);
-			value = get_export_value((*cmd_parsed)->value, &index);
-			if (!srch_and_rplce_env_var(shell->env, name, value))
-				ft_lstadd_back_env(&shell->env, ft_lstnew_env(name, value)); // Sinon ajoute la variable dans la liste env
+			name = get_export_name((*cmd_parsed)->value, &index, &mode);
+			if (name == NULL)
+			{
+				ft_putstr_fd("minishell: export: \'", 0);
+				ft_putstr_fd((*cmd_parsed)->value, 0);
+				ft_putstr_fd("\': not a valid identifier\n", 0);
+				has_error = 1;
+			}
+			else
+			{
+				value = get_export_value((*cmd_parsed)->value, &index);
+				if (!srch_and_rplce_env_var(shell->env, name, value, mode))
+					ft_lstadd_back_env(&shell->env, ft_lstnew_env(name, value));
+			}
 			(*cmd_parsed) = (*cmd_parsed)->next;
 		}
-		shell->cmd.exit_status = 0;
 	}
-	return (0);	
+	return (has_error);	
 }

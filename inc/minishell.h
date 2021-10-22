@@ -62,6 +62,7 @@ typedef struct s_cmd
 	int		squote;
 	int		dquote;
 	int		is_heredoc;
+	int		hd_has_error;
 	int 	i_pids;
 	t_redir	*redir;
 	int		i_redir;
@@ -113,7 +114,7 @@ t_shell	shell_init(char **env);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
-int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value);
+int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mode);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
@@ -197,10 +198,10 @@ int		check_pipe(t_pars **parsed, t_shell *shell);
 
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, t_redir redir);
-int    ft_redirect_in(t_cmd *cmd, t_redir redir);
+int		ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_cmd(t_shell *shell);
-// int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed, t_pars *exit_word);
-int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed, char **exit_words, int size);
+
+int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
 
 int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
 // void	init_pars(t_cmd *cmd, char **arg);
