@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/20 11:26:40 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 13:25:20 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 	pdir = opendir(path_split[i]);
 	path = NULL;
 	if (pdir == NULL)
-		printf("Error\nCan't open directory : %s\n", path_split[i]);
+	{
+		ft_putstr_fd("Error\nCan't open directory : ", 2);
+		ft_putstr_fd(path_split[i], 2);
+		ft_putstr_fd("\n", 2);
+	}
 	pdirent = readdir(pdir);
 	while (pdirent != NULL)
 	{
@@ -41,7 +45,7 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 	return (path);
 }
 
-char	*search_path(t_env *env_path, char *cmd_path)
+char	*search_path(t_env *env_path, char *cmd_path, int fd)
 {
 	char			**path_split;
 	int				i;
@@ -61,9 +65,9 @@ char	*search_path(t_env *env_path, char *cmd_path)
 	free_tab(path_split);
 	if (path == NULL)
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(cmd_path, 1);
-		ft_putstr_fd(": command not found\n", 1);
+		ft_putstr_fd("minishell: ", fd);
+		ft_putstr_fd(cmd_path, fd);
+		ft_putstr_fd(": command not found\n", fd);
 	}
 	return (path);
 }
@@ -129,15 +133,13 @@ void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl)
 
 void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 {
+	int status;
+	
 	errno = 0;
 	unset_term(shell);
-	signal(SIGQUIT, &p_sigquit);
-	signal(SIGINT, &p_sigkill);
-	// signal(SIGINT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, p_sigquit);
+	signal(SIGINT, p_sigkill);
 	g_pids.spid = fork();
-	// signal(SIGQUIT, &f_sigquit);
-	// signal(SIGINT, &f_sigkill);
 	if (g_pids.spid == -1)
 		print_error(errno);
 	if (g_pids.spid == 0)
@@ -145,17 +147,17 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		signal(SIGINT, f_sigkill);
 		signal(SIGQUIT, f_sigquit);
 		if (execve(path, args, envp) == -1)
+		{
 			print_error(errno);
+			exit(1);
+		}	
 		exit(0);
 	}
-	else
-	{
-		signal(SIGINT, p_sigkill);
-		signal(SIGQUIT, p_sigquit);
-		if (wait(NULL) == -1)
-			printf("Error with Wait\n");
-	}
-	// shell->cmd.exit_status = WEXITSTATUS(g_pids.spid);
+	signal(SIGINT, p_sigkill);
+	signal(SIGQUIT, p_sigquit);
+	if (wait(&status) == -1)
+		printf("Error with Wait\n");
+	shell->cmd.exit_status = WEXITSTATUS(status);
 }
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
@@ -168,14 +170,20 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
 		path = (*cmd_parsed)->value;
 	else
 		path = search_path(srch_and_return_env_var(shell->env, "PATH"), \
-			(*cmd_parsed)->value);
+			(*cmd_parsed)->value, 2);
 	if (path == NULL)
 	{
 		(*cmd_parsed) = (*cmd_parsed)->next;
+		shell->cmd.exit_status = 127;
 		return ;
 	}
-	args = fill_arg(cmd_parsed);
-	envp = fill_envp(shell->env);
-	fork_exec(shell, path, args, envp);
+	else
+	{
+		args = fill_arg(cmd_parsed);
+		envp = fill_envp(shell->env);
+		fork_exec(shell, path, args, envp);
+		if (shell->cmd.exit_status > 0 && is_executable)
+			shell->cmd.exit_status = 127;
+	}
 	free_exec_arg(&path, &args, &envp, is_executable);
 }
