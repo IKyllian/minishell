@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/23 10:15:51 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/23 15:54:37 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	deep_parser(t_shell *shell)
 {
 	history_save(&shell->cmd, shell->line);
 	tokenizer(&shell->cmd, shell->line);
-	search_and_sub(&shell->cmd, shell->env);
-	if (/*search_and_escape(&shell->cmd) &&*/ redirect(&shell->cmd))
+	// search_and_sub(&shell->cmd, shell->env);
+	if (/*search_and_escape(&shell->cmd)*/ search_and_sub(&shell->cmd, shell->env) && redirect(&shell->cmd))
 		check_cmd(shell);
 }
 

@@ -39,7 +39,7 @@ SRCS =  main.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-FLAGS = -Wextra -Werror -Wall -g -fPIC
+FLAGS = -Wextra -Werror -Wall -g -fPIC -fsanitize=address
 RLFLAGS = -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
 RM = rm -f
 

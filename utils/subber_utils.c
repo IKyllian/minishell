@@ -6,13 +6,13 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/23 10:33:54 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/23 15:55:27 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*sub_empty(char *src, int i, int j)
+char	*sub_empty(char *src, int *i, int j)
 {
 	char	*dup;
 	char	*temp;
@@ -23,52 +23,63 @@ char	*sub_empty(char *src, int i, int j)
 	}
 	else
 	{
-		dup = ft_strndup(src, i);
+		dup = ft_strndup(src, *i);
 		temp = ft_strjoin(dup, &src[j]);
 		free (dup);
 	}
 	return (temp);
 }
 
-char	*sub_found(char *src, char *env_rslt, int i, int j)
+char	*sub_found(char *src, char *env_rslt, int *i, int j)
 {
 	char	*dup;
 	char	*temp;
 
-	if (!i)
+	if (!*i)
 	{
 		temp = ft_strjoin(env_rslt, &src[j]);
-		// printf("%s\n", temp);
+		*i = ft_strlen(env_rslt) - 1;
+		// printf("%s\n", &temp[*i]);
 	}
 	else
 	{
-		dup = ft_strndup(src, i);
+		dup = ft_strndup(src, *i);
 		temp = ft_strjoin(dup, env_rslt);
+		*i = ft_strlen(temp) - 1;
+		// printf("%s\n", &temp[*i]);
 		free(dup);
 		dup = temp;
 		temp = ft_strjoin(dup, &src[j]);
 		free(dup);
-		// printf("%s\n", temp);
 	}
 	return (temp);
 }
 
 void	search_squote(t_cmd *cmd, char **src, int *i)
 {
-	if ((*src)[*i] == '\'')
+	if ((*src)[*i] == '\'' && !cmd->dquote)
 	{
 		*src = check_quote(cmd, *src, *i, 1);
-		while ((*src)[*i])
+		// printf("d:%i\ts:%i\n", cmd->dquote, cmd->squote);
+		// printf("bc:%c, %i\n", (*src)[*i], *i);
+		while ((*src)[*i] && cmd->squote)
 		{
-			*i += 1;
+			// printf("bc:%c, %i\n", (*src)[*i], *i);
 			if ((*src)[*i] && (*src)[*i] == '\'')
 			{
-				(*src) = check_quote(cmd, *src, *i, 1);
-				i += 1;
+				*src = check_quote(cmd, *src, *i, 1);
+				// printf("<d:%i\ts:%i\n", cmd->dquote, cmd->squote);
+				// *i += 1;
 				break ;
 			}
+			*i += 1;
 		}
 	}
+	while ((*src)[*i] == '\"' && !cmd->squote)
+		*src = check_quote(cmd, *src, *i, 1);
+	if ((*src)[*i] == '\'' && !cmd->dquote)
+		search_squote(cmd, src, i);
+	// printf(">>d:%i\ts:%i\n", cmd->dquote, cmd->squote);
 }
 
 void	search_dquote(char *src, int i, int *j)
@@ -86,7 +97,7 @@ void	search_dquote(char *src, int i, int *j)
 
 int		presubber(char **src, int *i, int j, t_env *env)
 {
-	*src = substitute(*src, *i, j, env);
+	*src = substitute(*src, i, j, env);
 	// *i = -1;
 	return (1);
 }

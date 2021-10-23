@@ -6,19 +6,19 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/23 10:17:38 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/23 15:54:09 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*substitute(char *src, int i, int j, t_env *env)
+char	*substitute(char *src, int *i, int j, t_env *env)
 {
 	char	*temp;
 	char	*dup;
 	t_env	*env_rslt;
 
-	dup = ft_strndup(&src[i + 1], j - i - 1);
+	dup = ft_strndup(&src[*i + 1], j - *i - 1);
 	env_rslt = srch_and_return_env_var(env, dup);
 	free (dup);
 	if (!env_rslt)
@@ -38,7 +38,7 @@ int	searcher(char *str, int i, int *j)
 	return (0);
 }
 
-void	search_and_sub(t_cmd *cmd, t_env *env)
+int	search_and_sub(t_cmd *cmd, t_env *env)
 {
 	int		i;
 	int		j;
@@ -53,8 +53,9 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 	{
 		j = 0;
 		i = -1;
-		while (lst->value[++i])
+		while (i < (int)ft_strlen(lst->value) && lst->value[++i])
 		{
+			// printf("LLc:%c, %i\n", lst->value[i], i);
 			search_squote(cmd, &lst->value, &i);
 			if (lst->value[i] == '$' && lst->value[i + 1]
 				&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
@@ -65,6 +66,12 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 					continue ;
 			}
 		}
+		if (cmd->squote || cmd->dquote)
+		{
+			printf("Missing quotes\n");
+			return (0);
+		}
 		lst = retokenize(cmd, &lst, &t);
 	}
+	return (1);
 }
