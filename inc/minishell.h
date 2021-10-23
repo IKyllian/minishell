@@ -159,7 +159,7 @@ void	space(t_cmd *cmd, int *i, int *j, int *t);
 			/* Subber utils */
 char	*sub_empty(char *src, int i, int j);
 char	*sub_found(char *src, char *env_rslt, int i, int j);
-void	search_squote(char *src, int *i);
+void	search_squote(t_cmd *cmd, char **src, int *i);
 void	search_dquote(char *src, int i, int *j);
 int		presubber(char **src, int *i, int j, t_env *env);
 char	*substitute(char *src, int i, int j, t_env *env);

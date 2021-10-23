@@ -6,31 +6,33 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 16:00:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 16:20:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// int	search_browse(t_cmd *cmd, int *i, int *j)
+// {
+	
+// }
+
 int	search_and_escape(t_cmd *cmd)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_pars	*lst;
 
 	cmd->squote = 0;
 	cmd->dquote = 0;
 	lst = cmd->parsed;
-	while(lst)
+	while (lst)
 	{
 		j = 0;
 		i = 0;
-		while(lst->value[i])
+		while (lst->value[i])
 		{
 			lst->value = check_quote(cmd, lst->value, i, 1);
-			// if (!lst->value[i + 1] && ((cmd->dquote && lst->value[i] != '\"')
-			// 		|| (cmd->squote && lst->value[i] != '\'')))
-			// 	return (0);
 			if (cmd->dquote || cmd->squote)
 				j++;
 			if (j == 1 && (cmd->squote || cmd->dquote))
@@ -40,20 +42,6 @@ int	search_and_escape(t_cmd *cmd)
 				j = 0;
 				continue ;
 			}
-			// printf("%c\n", lst->value[i]);
-			/*if (lst->value[i] == '\\' && lst->value[i + 1])
-			{
-				// printf("%i\tsq%i\tdq%i\n", i, cmd->squote, cmd->dquote);
-				if (cmd->squote)
-				{
-					i++;
-					continue ;
-				}
-				else if (cmd->dquote && is_escapable(lst->value[i + 1]))
-					lst->value = char_remover(lst->value, i);
-				else
-					lst->value = char_remover(lst->value, i);
-			}*/
 			i++;
 		}
 		if (cmd->squote || cmd->dquote)

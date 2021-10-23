@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/22 14:11:04 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/23 10:33:54 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,17 @@ char	*sub_found(char *src, char *env_rslt, int i, int j)
 	return (temp);
 }
 
-void	search_squote(char *src, int *i)
+void	search_squote(t_cmd *cmd, char **src, int *i)
 {
-	if (src[*i] == '\'')
+	if ((*src)[*i] == '\'')
 	{
-		while (src[*i])
+		*src = check_quote(cmd, *src, *i, 1);
+		while ((*src)[*i])
 		{
 			*i += 1;
-			if (src[*i] && src[*i] == '\'')
+			if ((*src)[*i] && (*src)[*i] == '\'')
 			{
+				(*src) = check_quote(cmd, *src, *i, 1);
 				i += 1;
 				break ;
 			}
@@ -85,6 +87,6 @@ void	search_dquote(char *src, int i, int *j)
 int		presubber(char **src, int *i, int j, t_env *env)
 {
 	*src = substitute(*src, *i, j, env);
-	*i = -1;
+	// *i = -1;
 	return (1);
 }

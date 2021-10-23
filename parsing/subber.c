@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/22 14:11:58 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/23 10:17:38 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	searcher(char *str, int i, int *j)
 	if (*j == i + 1)
 		return (1);
 	return (0);
-	
 }
 
 void	search_and_sub(t_cmd *cmd, t_env *env)
@@ -46,6 +45,8 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 	int		t;
 	t_pars	*lst;
 
+	cmd->squote = 0;
+	cmd->dquote = 0;
 	lst = cmd->parsed;
 	t = 0;
 	while (lst)
@@ -54,7 +55,7 @@ void	search_and_sub(t_cmd *cmd, t_env *env)
 		i = -1;
 		while (lst->value[++i])
 		{
-			search_squote(lst->value, &i);
+			search_squote(cmd, &lst->value, &i);
 			if (lst->value[i] == '$' && lst->value[i + 1]
 				&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
 			{
