@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/19 10:04:59 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 13:46:14 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	deep_parser(t_shell *shell)
 {
 	history_save(&shell->cmd, shell->line);
 	tokenizer(&shell->cmd, shell->line);
-	search_and_sub(&shell->cmd, shell->env);
+	search_and_sub(shell);
 	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd))
 		check_cmd(shell);
 }
