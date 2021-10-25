@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/25 12:36:00 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 13:55:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ char	*get_export_name(char *cmd_value, int *index, int *mode)
 		if ((cmd_value[i] == '=' && i != 0))
 			break ;
 		if (!is_valide_character(cmd_value[i], cmd_value, i, mode))
+		{
+			free(name);
 			return (NULL);
+		}
 		if ((cmd_value[i] == '+'
 			&& cmd_value[i + 1] && cmd_value[i + 1] == '='))
 			break ;

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:58:56 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/25 10:34:43 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 13:50:58 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	srch_and_dlt_env_var(t_env *env, char *to_search)
 int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mode)
 {
 	int i;
+	char *temp;
 
 	while (env)
 	{
@@ -50,14 +51,18 @@ int	srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mod
 		{
 			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
 			{
-				if (mode == 0)
+				if (mode == 1 && env->value)
+				{
+					temp = env->value;
+					env->value = ft_strjoin(env->value, new_value);
+					free(temp);
+				}
+				else
 				{
 					if (env->value)
 						free(env->value);
 					env->value = new_value;
 				}
-				else
-					env->value = ft_strjoin(env->value, new_value); // Besoin de free l'ancienne value
 				return (1);
 			}
 			i++;
