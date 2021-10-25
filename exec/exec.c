@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 13:25:20 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 09:03:01 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 {
 	DIR				*pdir;
 	struct dirent	*pdirent;
-	char			*temp;
 	char			*path;
 
 	pdir = opendir(path_split[i]);
@@ -32,11 +31,7 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 	{
 		if (ft_strcmp(pdirent->d_name, cmd_path) == 0)
 		{
-			path = path_split[i];
-			temp = ft_strjoin(path, "/");
-			path = ft_strjoin(temp, pdirent->d_name);
-			if (temp)
-				free(temp);
+			join_path(path_split, i, pdirent, &path);
 			break ;
 		}
 		pdirent = readdir(pdir);
@@ -110,7 +105,7 @@ char	**fill_arg(t_pars **cmd_parsed)
 	}
 	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
-		exit(0);// Appeler une fonction d'erreur
+		exit(1);// Appeler une fonction d'erreur
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1
 			|| (*cmd_parsed)->type == 2 || (*cmd_parsed)->type == 5))
 	{

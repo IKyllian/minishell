@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strct_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/21 15:11:15 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 11:21:11 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ t_env	*env_init(char **env_tab)
 		get_env_var(env_tab[i], &name, &value);
 		ft_lstadd_back_env(&env, ft_lstnew_env(name, value));
 	}
+	srch_and_rplce_env_var(env, "OLDPWD", NULL, 0);
 	return (env);
 }

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 14:51:15 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 08:19:37 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 {
 	int	nb;
 
+	nb = 0;
 	unset_term(shell);
 	if (shell->line)
 	{
@@ -52,11 +53,9 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 		{
 			nb = num_is_valid((*cmd_parsed)->next->value);
 			if (nb == -1)
-				shell->cmd.exit_status = 252;
+				nb = 252;
 			else if (nb == -2)
-				shell->cmd.exit_status = 255;
-			else
-				shell->cmd.exit_status = nb;
+				nb = 255;
 		}	
 	}
 	close(shell->cmd.fd_in);
@@ -64,8 +63,8 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	free(shell->cmd.prompt);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
-	if (shell->cmd.exit_status > 0)
-		exit(shell->cmd.exit_status);
+	if (nb > 0)
+		exit(nb);
 	else
 		exit (0);
 }
