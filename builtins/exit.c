@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/19 10:05:19 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 14:51:15 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@ int	num_is_valid(char *str)
 	{
 		if (i == 0 && str[i] == '-')
 			is_neg = 1;
-		if (!(str[i] >= 48 && str[i] <= 57))
-			return (-1);
+		else if (!(str[i] >= 48 && str[i] <= 57))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd("str", 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			return (-2);
+		}
 		nb = (nb * 10) + (str[i] - 48);
 	}
 	if (is_neg || nb > 255)
@@ -43,13 +48,15 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	unset_term(shell);
 	if (shell->line)
 	{
-		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 1)// Si le type est un argument
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)// Si le type est un argument
 		{
 			nb = num_is_valid((*cmd_parsed)->next->value);
-			if (nb != -1)
-				shell->cmd.exit_status = nb;
+			if (nb == -1)
+				shell->cmd.exit_status = 252;
+			else if (nb == -2)
+				shell->cmd.exit_status = 255;
 			else
-				shell->cmd.exit_status = 0;
+				shell->cmd.exit_status = nb;
 		}	
 	}
 	close(shell->cmd.fd_in);
@@ -57,5 +64,8 @@ int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	free(shell->cmd.prompt);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
-	exit(1);
+	if (shell->cmd.exit_status > 0)
+		exit(shell->cmd.exit_status);
+	else
+		exit (0);
 }

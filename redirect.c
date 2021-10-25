@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 08:55:05 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:24:05 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ int	ft_redirect_in(t_cmd *cmd, t_redir redir)
 	fd = open(redir.value, O_RDONLY, S_IRWXU);
 	errno = 0;
 	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(redir.value, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
+	}
 	close(cmd->fd_in);
 	if (dup2(fd, cmd->fd_in) == -1)
 		print_error(errno);

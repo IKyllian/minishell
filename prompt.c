@@ -56,7 +56,10 @@ void	set_prompt(t_shell *shell, char **prompt)
 		prefix = "\33[1;31m=>\33[1;36m minishell-0.1(\33[1;37m";
 	suffix = "\33[1;36m)$ \33[0;37m";
 	*prompt = ft_strjoin("", prefix);
-	temp = ft_strjoin(*prompt, path);
+	if (!path)
+		temp = ft_strjoin(*prompt, "null");
+	else
+		temp = ft_strjoin(*prompt, path);
 	free(*prompt);
 	*prompt = ft_strjoin(temp, suffix);
 	free(temp);

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 08:15:56 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 13:31:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,31 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed, int nb_pipe)
 				print_error(errno);
 		}
 		exec_child(shell, parsed);
-		exit(1);
+		if (shell->cmd.exit_status > 0)
+			exit(1);
+		else
+			exit(0);
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	if (g_pids.pid[shell->cmd.index_pipe].is_heredoc)
-		waitpid(pid, &pid, 0);
+		waitpid(pid, NULL, 0);
 	g_pids.pid[shell->cmd.i_pids++].pid = pid;
+}
+
+void wait_childs(t_shell *shell, int nb_pipe)
+{
+	int	status;
+	int	i;
+
+	status = 0;
+	i = 0;
+	while (i <= nb_pipe)
+	{
+		waitpid(g_pids.pid[i].pid, &status, 0);
+		i++;
+	}
+	shell->cmd.exit_status = WEXITSTATUS(status);
 }
 
 void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
@@ -88,7 +106,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe)
 	{
 		fork_pipe(pipefd[0], 1, shell, parsed, nb_pipe);
 		close(in);
-		while (wait(NULL) != -1) ;
+		wait_childs(shell, nb_pipe);
 	}
 }
 
