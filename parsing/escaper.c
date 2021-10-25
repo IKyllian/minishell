@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 16:00:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 14:41:28 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,18 @@ int	search_and_escape(t_cmd *cmd)
 				continue ;
 			}
 			// printf("%c\n", lst->value[i]);
-			/*if (lst->value[i] == '\\' && lst->value[i + 1])
+			if (lst->value[i] == '\\' && lst->value[i + 1])
 			{
 				// printf("%i\tsq%i\tdq%i\n", i, cmd->squote, cmd->dquote);
-				if (cmd->squote)
+				if (lst->value[i + 1] == '\'' || lst->value[i + 1] == '\"')
 				{
-					i++;
-					continue ;
+					lst->value = char_remover(lst->value, i);
 				}
-				else if (cmd->dquote && is_escapable(lst->value[i + 1]))
-					lst->value = char_remover(lst->value, i);
-				else
-					lst->value = char_remover(lst->value, i);
-			}*/
+				// else if (cmd->dquote && is_escapable(lst->value[i + 1]))
+				// 	lst->value = char_remover(lst->value, i);
+				// else
+				// 	lst->value = char_remover(lst->value, i);
+			}
 			i++;
 		}
 		if (cmd->squote || cmd->dquote)

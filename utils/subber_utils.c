@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/19 11:33:10 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 13:48:57 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*sub_empty(char *src, int i, int j)
 	else
 	{
 		dup = ft_strndup(src, i);
-		temp = ft_strjoin(dup, &src[j - 1]);
+		temp = ft_strjoin(dup, &src[j]);
 		free (dup);
 	}
 	return (temp);
@@ -38,7 +38,6 @@ char	*sub_found(char *src, char *env_rslt, int i, int j)
 	if (!i)
 	{
 		temp = ft_strjoin(env_rslt, &src[j]);
-		// printf("%s\n", temp);
 	}
 	else
 	{
@@ -48,7 +47,6 @@ char	*sub_found(char *src, char *env_rslt, int i, int j)
 		dup = temp;
 		temp = ft_strjoin(dup, &src[j]);
 		free(dup);
-		// printf("%s\n", temp);
 	}
 	return (temp);
 }
@@ -82,9 +80,9 @@ void	search_dquote(char *src, int i, int *j)
 	}
 }
 
-int		presubber(char **src, int *i, int j, t_env *env)
+int		presubber(char **src, int *i, int j, t_shell *shell)
 {
-	*src = substitute(*src, *i, j, env);
+	*src = substitute(*src, *i, j, shell);
 	*i = -1;
 	return (1);
 }
