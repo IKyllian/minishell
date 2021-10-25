@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 11:11:37 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/22 17:49:53 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,13 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 			else
 			{
 				value = get_export_value((*cmd_parsed)->value, &index);
-				if (!srch_and_rplce_env_var(shell->env, name, value, mode))
+				if (!value && index > 0 && (*cmd_parsed)->value[index - 1] != '='
+					&& srch_and_return_env_var(shell->env, name))
+				{
+					(*cmd_parsed) = (*cmd_parsed)->next;
+					continue ;
+				}
+				else if (!srch_and_rplce_env_var(shell->env, name, value, mode))
 					ft_lstadd_back_env(&shell->env, ft_lstnew_env(name, value));
 			}
 			(*cmd_parsed) = (*cmd_parsed)->next;
