@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 10:27:24 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 11:13:16 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,27 @@ int	num_is_valid(char *str)
 void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 {
 	int	nb;
+	int ret;
 
 	nb = 0;
+	ret = 0;
 	unset_term(shell);
 	ft_putstr_fd("exit\n", 2);
 	if (shell->line)
 	{
-		if ((*cmd_parsed)->next && (*cmd_parsed)->next->next)
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)// Si le type est un argument
+		{
+			nb = num_is_valid((*cmd_parsed)->next->value);
+			if (nb == -1)
+				ret = 252;
+			else if (nb == -2)
+				ret = 255;
+		}
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->next && nb != -2)
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			shell->cmd.exit_status = 1;
 			return ;
-		}
-		else if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)// Si le type est un argument
-		{
-			nb = num_is_valid((*cmd_parsed)->next->value);
-			if (nb == -1)
-				nb = 252;
-			else if (nb == -2)
-				nb = 255;
 		}
 	}
 	close(shell->cmd.fd_in);
@@ -70,8 +72,8 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	free(shell->cmd.prompt);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
-	if (nb > 0)
-		exit(nb);
+	if (ret > 0)
+		exit(ret);
 	else
 		exit (0);
 }
