@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 10:49:50 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 11:44:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	deep_parser(t_shell *shell)
 	tokenizer(&shell->cmd, shell->line);
 	search_and_sub(shell);
 	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd))
-		check_cmd(shell);
+		if (validator(shell))
+			check_cmd(shell);
 }
 
 int	prompt(t_shell *shell)

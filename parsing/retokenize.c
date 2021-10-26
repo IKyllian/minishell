@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 08:45:13 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 09:22:47 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 10:45:58 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,35 @@ void	retype(t_pars *new_tokens)
 	}
 }
 
+void	recreate_token(char *str, int *i, int *j, t_pars **new_tokens)
+{
+	if (*i == 0 && str[*i] == ' ')
+	{
+		*j = *i + 1;
+		*i += 1;
+		return ;
+	}
+	if (str[*i] == ' ')
+	{
+		if (str[*i - 1] != ' ')
+			lstaddback_pars(new_tokens,
+				lstnew_pars(ft_strndup(&str[*j], *i - *j)));
+		*j = *i + 1;
+	}
+	*i += 1;
+}
+
+int	quote_skip(t_cmd *cmd, char *str, int *i)
+{
+	check_quote(cmd, str, *i, 0);
+	if (cmd->squote || cmd->dquote)
+	{
+		*i += 1;
+		return (1);
+	}
+	return (0);
+}
+
 int	check_sub(t_cmd *cmd, char *str, t_pars **new_tokens)
 {
 	int	i;
@@ -35,26 +64,17 @@ int	check_sub(t_cmd *cmd, char *str, t_pars **new_tokens)
 	j = 0;
 	while (str[i])
 	{
-		check_quote(cmd, str, i, 0);
-		if (cmd->squote || cmd->dquote)
-		{
-			i++;
+		if (quote_skip(cmd, str, &i))
 			continue ;
-		}
-		if (str[i] == ' ')
-		{
-			if (str[i - 1] != ' ')
-				lstaddback_pars(new_tokens, lstnew_pars(ft_strndup(&str[j], i - j)));
-			j = i + 1;
-		}
-		i++;
+		recreate_token(str, &i, &j, new_tokens);
 	}
 	if (j == 0)
 		return (0);
 	else
 	{
 		if (str[i - 1] != ' ')
-			lstaddback_pars(new_tokens, lstnew_pars(ft_strndup(&str[j], i - j)));
+			lstaddback_pars(new_tokens,
+				lstnew_pars(ft_strndup(&str[j], i - j)));
 	}
 	retype(*new_tokens);
 	return (1);

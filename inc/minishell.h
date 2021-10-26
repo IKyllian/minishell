@@ -141,6 +141,7 @@ void	f_sigquit(int sig);
 void	m_sigkill(int sig);
 
 			/* Parsing utils */
+int		validator(t_shell *shell);
 int		is_operator(char c);
 int 	is_long_operator(char c, char b);
 int		is_quote(char c);
