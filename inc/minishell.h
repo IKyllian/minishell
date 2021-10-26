@@ -198,6 +198,9 @@ int		cmd_to_exec(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe);
 int		check_pipe(t_pars **parsed, t_shell *shell);
 void	join_path(char **path_split, int i, struct dirent *pdirent, char **path);
+void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
+char	**fill_envp(t_env *env);
+int		check_access(char **path, int *has_right);
 
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, t_redir redir);
