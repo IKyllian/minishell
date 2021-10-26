@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/25 13:55:10 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:38:26 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*cpy_env_list(t_env *env)
 	cpy_env = NULL;
 	while (env)
 	{
-		ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name),\
+		ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name), \
 			ft_strdup(env->value)));
 		env = env->next;
 	}
@@ -39,11 +39,11 @@ void	print_env_line(t_env *env, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier element de la liste
+void	sort_env(t_env *env_cpy, t_env *first)
 {
-	char *name_temp;
-	char *value_temp;
-	int is_sort;
+	char	*name_temp;
+	char	*value_temp;
+	int		is_sort;
 
 	is_sort = 0;
 	while (!is_sort)
@@ -52,7 +52,8 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 		env_cpy = first;
 		while (env_cpy)
 		{
-			if (env_cpy->next && ft_strcmp(env_cpy->name, env_cpy->next->name) > 0)
+			if (env_cpy->next
+				&& ft_strcmp(env_cpy->name, env_cpy->next->name) > 0)
 			{
 				name_temp = env_cpy->name;
 				value_temp = env_cpy->value;
@@ -69,8 +70,8 @@ void	sort_env(t_env *env_cpy, t_env *first) // First = Pointeur sur le premier e
 
 void	sort_and_print_env(t_shell *shell)
 {
-	t_env *env_cpy;
-	t_env *first;
+	t_env	*env_cpy;
+	t_env	*first;
 
 	env_cpy = cpy_env_list(shell->env);
 	first = env_cpy;
@@ -108,7 +109,7 @@ char	*get_export_name(char *cmd_value, int *index, int *mode)
 		(*index)++;
 	name = malloc(sizeof(char) * (*index + 1));
 	mem_check(name);
-	while (cmd_value[i] )//&& cmd_value[i] != '=')
+	while (cmd_value[i])
 	{
 		if ((cmd_value[i] == '=' && i != 0))
 			break ;
@@ -118,7 +119,7 @@ char	*get_export_name(char *cmd_value, int *index, int *mode)
 			return (NULL);
 		}
 		if ((cmd_value[i] == '+'
-			&& cmd_value[i + 1] && cmd_value[i + 1] == '='))
+				&& cmd_value[i + 1] && cmd_value[i + 1] == '='))
 			break ;
 		name[i] = cmd_value[i];
 		i++;
@@ -156,12 +157,20 @@ char	*get_export_value(char *cmd_value, int *index)
 	}
 }
 
+void	exec_error(t_shell *shell, t_pars **cmd_parsed, int *has_error)
+{
+	ft_putstr_fd("minishell: export: \'", shell->cmd.fd_out);
+	ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
+	ft_putstr_fd("\': not a valid identifier\n", shell->cmd.fd_out);
+	*has_error = 1;
+}
+
 int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 {
 	char	*name;
 	char	*value;
 	int		index;
-	int		mode; // 0 = export qwe=123 | 1 = export+=123
+	int		mode;
 	int		has_error;
 
 	name = NULL;
@@ -182,12 +191,7 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 			index = 0;
 			name = get_export_name((*cmd_parsed)->value, &index, &mode);
 			if (name == NULL)
-			{
-				ft_putstr_fd("minishell: export: \'", shell->cmd.fd_out);
-				ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
-				ft_putstr_fd("\': not a valid identifier\n", shell->cmd.fd_out);
-				has_error = 1;
-			}
+				exec_error(shell, cmd_parsed, &has_error);
 			else
 			{
 				value = get_export_value((*cmd_parsed)->value, &index);

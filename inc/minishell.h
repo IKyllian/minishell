@@ -68,6 +68,7 @@ typedef struct s_cmd
 	int		i_redir;
 	int		recount;
 	int		index_pipe;
+	int		set_old_to_null;
 	// t_pid	*pids;
 }	t_cmd;
 
@@ -115,7 +116,7 @@ t_shell	shell_init(char **env);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
-int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_value, int mode);
+int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_val, int mode);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
@@ -202,6 +203,7 @@ void	join_path(char **path_split, int i, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
 char	**fill_envp(t_env *env);
 int		check_access(char **path, int *has_right);
+void	path_error(char *path, int has_right, int fd, char *cmd_path);
 
 			/* Redirect */
 int		ft_redirect(t_cmd *cmd, t_redir redir);

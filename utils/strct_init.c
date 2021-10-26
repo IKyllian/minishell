@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/25 14:12:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 13:28:56 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_cmd	cmd_init(void)
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;
 	cmd.redir = NULL;
+	cmd.set_old_to_null = 0;
 	return (cmd);
 }
 
@@ -88,13 +89,13 @@ t_env	*env_init(char **env_tab)
 	while (env_tab[++i])
 	{
 		get_env_var(env_tab[i], &name, &value);
-		if (ft_strcmp(name, "OLDPWD") == 0)
-		{
-			// ft_lstadd_back_env(&env, ft_lstnew_env(name, NULL));
-			// if (value)
-			// 	free(value);
-		}
-		else
+		// if (ft_strcmp(name, "OLDPWD") == 0)
+		// {
+		// 	// ft_lstadd_back_env(&env, ft_lstnew_env(name, NULL));
+		// 	// if (value)
+		// 	// 	free(value);
+		// }
+		// else
 			ft_lstadd_back_env(&env, ft_lstnew_env(name, value));
 	}
 	return (env);

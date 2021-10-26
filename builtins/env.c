@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:07 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/05 10:08:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 15:01:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //Exit status = 0 if no error
 int	ft_env(t_shell *shell, t_pars **cmd_parsed)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = shell->env;
 	while (env)

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 09:53:34 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 12:47:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**fill_envp(t_env *env)
 	return (envp);
 }
 
-int check_access(char **path, int *has_right)
+int	check_access(char **path, int *has_right)
 {
 	if (access(*path, X_OK) == 0)
 	{
@@ -70,5 +70,20 @@ int check_access(char **path, int *has_right)
 			*has_right = 0;
 		}
 		return (0);
+	}
+}
+
+void	path_error(char *path, int has_right, int fd, char *cmd_path)
+{
+	if (path == NULL)
+	{
+		if (has_right)
+		{
+			ft_putstr_fd("minishell: ", fd);
+			ft_putstr_fd(cmd_path, fd);
+			ft_putstr_fd(": command not found\n", fd);
+		}
+		else
+			ft_putstr_fd("Permission denied\n", fd);
 	}
 }
