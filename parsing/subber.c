@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/24 16:26:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 09:21:00 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	searcher(char *str, int i, int *j)
 	if (*j == i + 1)
 		return (1);
 	return (0);
-	
 }
 
 void	search_and_sub(t_shell *shell)

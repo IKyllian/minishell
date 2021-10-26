@@ -22,6 +22,7 @@ SRCS =  main.c \
 		./parsing/subber.c \
 		./parsing/retokenize.c \
 		./parsing/redirecter.c \
+		./parsing/validator.c \
 		./sig/signals.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \

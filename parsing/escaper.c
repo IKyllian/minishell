@@ -6,54 +6,57 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/24 14:41:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 09:41:14 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+void	escape_and_increment(char **src, int *i)
+{
+	if ((*src)[*i] == '\\' && (*src)[*i + 1])
+	{
+		if ((*src)[*i + 1] == '\'' || (*src)[*i + 1] == '\"')
+		{
+			*src = char_remover(*src, *i);
+		}
+	}
+	*i += 1;
+}
+
+int	escape_and_continue(t_cmd *cmd, char **src, int *i, int *j)
+{
+	*src = check_quote(cmd, *src, *i, 1);
+	if (cmd->dquote || cmd->squote)
+		*j += 1;
+	if (*j == 1 && (cmd->squote || cmd->dquote))
+		return (1);
+	else if (*j > 0 && !cmd->squote && !cmd->dquote)
+	{
+		*j = 0;
+		return (1);
+	}
+	return (0);
+}
+
 int	search_and_escape(t_cmd *cmd)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_pars	*lst;
 
 	cmd->squote = 0;
 	cmd->dquote = 0;
 	lst = cmd->parsed;
-	while(lst)
+	while (lst)
 	{
 		j = 0;
 		i = 0;
-		while(lst->value[i])
+		while (lst->value[i])
 		{
-			lst->value = check_quote(cmd, lst->value, i, 1);
-			// if (!lst->value[i + 1] && ((cmd->dquote && lst->value[i] != '\"')
-			// 		|| (cmd->squote && lst->value[i] != '\'')))
-			// 	return (0);
-			if (cmd->dquote || cmd->squote)
-				j++;
-			if (j == 1 && (cmd->squote || cmd->dquote))
+			if (escape_and_continue(cmd, &lst->value, &i, &j))
 				continue ;
-			else if (j > 0 && !cmd->squote && !cmd->dquote)
-			{
-				j = 0;
-				continue ;
-			}
-			// printf("%c\n", lst->value[i]);
-			if (lst->value[i] == '\\' && lst->value[i + 1])
-			{
-				// printf("%i\tsq%i\tdq%i\n", i, cmd->squote, cmd->dquote);
-				if (lst->value[i + 1] == '\'' || lst->value[i + 1] == '\"')
-				{
-					lst->value = char_remover(lst->value, i);
-				}
-				// else if (cmd->dquote && is_escapable(lst->value[i + 1]))
-				// 	lst->value = char_remover(lst->value, i);
-				// else
-				// 	lst->value = char_remover(lst->value, i);
-			}
-			i++;
+			escape_and_increment(&lst->value, &i);
 		}
 		if (cmd->squote || cmd->dquote)
 		{
