@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 07:58:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 11:44:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	prompt(t_shell *shell)
 		shell->line = readline(shell->cmd.prompt);
 		if (!shell->line)
 		{
-			printf("exit\n");
 			ft_exit(shell, &shell->cmd.parsed);
 			break ;
 		}
