@@ -6,36 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 10:09:34 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 12:05:15 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
-
-void	fill_exit_words(int size, char ***exit_words, t_pars *new_exit_word)
-{
-	char	**temp;
-	int		i;
-
-	i = 0;
-	temp = malloc(sizeof(char *) * (size + 1));
-	if (size > 1)
-	{
-		while (i < size - 1)
-		{
-			temp[i] = (*exit_words)[i];
-			i++;
-		}
-	}
-	if (new_exit_word)
-		temp[i++] = new_exit_word->value;
-	else
-		temp[i++] = NULL;
-	temp[i] = NULL;
-	// if (*exit_words != NULL)
-	// 	free(*exit_words);
-	*exit_words = temp;
-}
 
 int check_heredoc(t_shell *shell, t_pars **parsed, int ret)
 {
