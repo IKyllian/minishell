@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/25 08:19:37 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 10:27:24 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	num_is_valid(char *str)
 	{
 		if (i == 0 && str[i] == '-')
 			is_neg = 1;
-		else if (!(str[i] >= 48 && str[i] <= 57))
+		else if (!(str[i] >= 48 && str[i] <= 57) && str[i] != ' ')
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd("str", 2);
@@ -41,22 +41,29 @@ int	num_is_valid(char *str)
 // exit [n] exit status = if n specified exit status is n except if n is not an unsigned decimal integer
 // or greater than 255, else the value of exit status is the value of the last command 
 
-int	ft_exit(t_shell *shell, t_pars **cmd_parsed)
+void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 {
 	int	nb;
 
 	nb = 0;
 	unset_term(shell);
+	ft_putstr_fd("exit\n", 2);
 	if (shell->line)
 	{
-		if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)// Si le type est un argument
+		if ((*cmd_parsed)->next && (*cmd_parsed)->next->next)
+		{
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			shell->cmd.exit_status = 1;
+			return ;
+		}
+		else if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)// Si le type est un argument
 		{
 			nb = num_is_valid((*cmd_parsed)->next->value);
 			if (nb == -1)
 				nb = 252;
 			else if (nb == -2)
 				nb = 255;
-		}	
+		}
 	}
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);

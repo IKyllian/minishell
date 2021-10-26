@@ -128,7 +128,7 @@ int		ft_cd(t_shell *shell, t_pars **cmd_parsed);
 int		ft_export(t_shell *shell, t_pars **cmd_parded);
 int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
-int		ft_exit(t_shell *shell, t_pars **cmd_parsed);
+void	ft_exit(t_shell *shell, t_pars **cmd_parsed);
 
 			/* Signals */
 void	sighandler(int sig);
