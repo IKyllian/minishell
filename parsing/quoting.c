@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quoting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:47:53 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/05/27 15:18:48 by kdelport         ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 08:28:38 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,5 @@ int	quoting(t_cmd *cmd, char *line)
 		return (1);
 	if (!cmd->line)
 		cmd->line = ft_strdup(line);
-
-	/* quoting considerations that can cause newlines */
-	// else
-	// 	array_joiner(cmd->line, line);
-	// if (check_quotes(cmd, line))
-	// {
-	// 	array_joiner(cmd->line, "\n");
-	// 	ft_putstr_fd("> ", 1);
-	// 	return (0);		
-	// }
-	// else if (!ft_strncmp(&cmd->line[ft_strlen(cmd->line) - 1], "\\", 1))
-	// {
-	// 	cmd->line[ft_strlen(cmd->line) - 1] = 0;
-	// 	ft_putstr_fd("> ", 1);
-	// 	return (0);
-	// }
 	return (1);
 }
