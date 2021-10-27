@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 11:52:40 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:54:38 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:09:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	sort_and_print_env(t_shell *shell)
 		print_env_line(first, shell->cmd.fd_out);
 		first = first->next;
 	}
-	free_env_linked_list(env_cpy);
+	lstclear_env(&env_cpy);
 }
 
 int	is_valide_character(char c, char *cmd_value, int indx, t_shell *shell)
