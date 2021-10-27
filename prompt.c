@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 07:58:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 10:57:00 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	prompt(t_shell *shell)
 	{
 		set_term(shell);
 		set_prompt(shell, &shell->cmd.prompt);
-		signal(SIGINT, &m_sigkill);
+		signal(SIGINT, m_sigkill);
 		shell->line = readline(shell->cmd.prompt);
 		if (!shell->line)
 		{

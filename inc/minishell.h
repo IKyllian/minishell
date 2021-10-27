@@ -17,8 +17,6 @@
 # include <term.h>
 
 int				g_heredoc;
-struct s_pids	g_pids;
-// pid_t	g_pid;
 
 typedef struct	s_pars
 {
@@ -68,7 +66,7 @@ typedef struct s_cmd
 	int		i_redir;
 	int		recount;
 	int		index_pipe;
-	// t_pid	*pids;
+	t_pids	*pids;
 }	t_cmd;
 
 typedef struct	s_env
@@ -84,7 +82,7 @@ typedef struct s_shell
 	t_env	*env;
 	struct termios	saved_term;
 	struct termios	new_term;
-	pid_t	pid;
+	// pid_t	pid;
 	char	*line;
 	int		token;
 }	t_shell;

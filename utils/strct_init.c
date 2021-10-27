@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strct_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/21 15:11:15 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 12:43:44 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_shell	shell_init(char **env)
 t_cmd	cmd_init(void)
 {
 	t_cmd	cmd;
-	
+
 	cmd.history = NULL;
 	cmd.parsed = NULL;
 	cmd.exit_status = 0;
@@ -43,6 +43,7 @@ t_cmd	cmd_init(void)
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;
 	cmd.redir = NULL;
+	cmd.pids = ft_calloc(1, sizeof(t_pids));
 	return (cmd);
 }
 
