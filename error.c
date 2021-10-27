@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/25 11:10:12 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 10:58:49 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	free_env_list_item(t_env *env)
 {
-	if (env->name)
-		free(env->name);
 	if (env->value)
 		free(env->value);
+	if (env->name)
+		free(env->name);
 	if (env)
 		free(env);
 }

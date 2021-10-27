@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 12:41:56 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 12:59:19 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,11 @@ char	*search_path(t_env *env_path, char *cmd_path, int fd)
 			break ;
 	}
 	free_tab(path_split);
-	if (path == NULL)
-	{
-		if (has_right)
-		{
-			ft_putstr_fd("minishell: ", fd);
-			ft_putstr_fd(cmd_path, fd);
-			ft_putstr_fd(": command not found\n", fd);
-		}
-		else
-			ft_putstr_fd("Permission denied\n", fd);
-	}
+	path_error(path, has_right, fd, cmd_path);
 	return (path);
 }
 
-char	**fill_arg(t_pars **cmd_parsed)
+char	**fill_arg(t_pars **cmd_parsed, t_shell *shell)
 {
 	t_pars	*temp;
 	int		size;
@@ -92,7 +82,7 @@ char	**fill_arg(t_pars **cmd_parsed)
 	}
 	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
-		exit(1);// Appeler une fonction d'erreur
+		ft_exit(shell, cmd_parsed);
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1
 			|| (*cmd_parsed)->type == 2 || (*cmd_parsed)->type == 5))
 	{
@@ -105,8 +95,8 @@ char	**fill_arg(t_pars **cmd_parsed)
 
 void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 {
-	int status;
-	
+	int	status;
+
 	errno = 0;
 	unset_term(shell);
 	signal(SIGQUIT, p_sigquit);
@@ -151,7 +141,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
 	}
 	else
 	{
-		args = fill_arg(cmd_parsed);
+		args = fill_arg(cmd_parsed, shell);
 		envp = fill_envp(shell->env);
 		fork_exec(shell, path, args, envp);
 		if (shell->cmd.exit_status > 0 && is_executable)

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/26 12:51:29 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:06:15 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,31 @@ t_cmd	cmd_init(void)
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;
 	cmd.redir = NULL;
+	cmd.set_old_to_null = 0;
+	cmd.nbr_pipe = 0;
+	cmd.mode_export = 0;
 	cmd.pids = ft_calloc(1, sizeof(t_pids));
 	return (cmd);
 }
 
+void	get_env_value(char **value, int len, int i, char *line)
+{
+	int	j;
+
+	j = 0;
+	while (line[len - i] && i >= 0)
+		(*value)[j++] = line[len - i--];
+	(*value)[j] = '\0';
+}
+
 void	get_env_var(char *line, char **lst_name, char **lst_value)
 {
-	int		i; // Sert a connaitre la len de la value (valeur de la variable)
-	int		j; // Sert d'index pour remplir name et value
-	int		len; // Sert, en premier à connaitre la taille de name (nom de la varaible), puis à connaitre la len totale de line
+	int		i;
+	int		j;
+	int		len;
 	char	*name;
 	char	*value;
-	
+
 	i = 0;
 	j = -1;
 	len = 0;
@@ -65,38 +78,28 @@ void	get_env_var(char *line, char **lst_name, char **lst_value)
 	while (line[++j] && line[j] != '=')
 		name[j] = line[j];
 	name[j] = '\0';
-	j = 0;
 	while (line[++len])
 		i++;
 	value = malloc(sizeof(char) * (i + 1));
 	mem_check(value);
-	while (line[len - i] && i >= 0)
-		value[j++] = line[len - i--];
-	value[j] = '\0';
+	get_env_value(&value, len, i, line);
 	*lst_name = name;
 	*lst_value = value;
 }
 
 t_env	*env_init(char **env_tab)
 {
-	int	i;
-	t_env *env;
-	char *name;
-	char *value;
+	int		i;
+	t_env	*env;
+	char	*name;
+	char	*value;
 
 	i = -1;
 	env = NULL;
 	while (env_tab[++i])
 	{
 		get_env_var(env_tab[i], &name, &value);
-		// if (ft_strcmp(name, "OLDPWD") == 0)
-		// {
-			// ft_lstadd_back_env(&env, ft_lstnew_env(name, NULL));
-			// if (value)
-			// 	free(value);
-		// }
-		// else
-			ft_lstadd_back_env(&env, ft_lstnew_env(name, value));
+		ft_lstadd_back_env(&env, ft_lstnew_env(name, value));
 	}
 	return (env);
 }

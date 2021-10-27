@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:02:18 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 10:16:30 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 08:53:07 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -22,11 +23,11 @@
 # include <fcntl.h>
 # include <math.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 void				*ft_memset(void *ptr, int c, size_t size);
 void				ft_bzero(void *ptr, size_t size);
