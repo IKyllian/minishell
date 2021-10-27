@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:58:58 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:04:22 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,19 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 		ret = shell->cmd.exit_status;
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);
+	free_redir(shell);
+	if (shell->cmd.pids->pid)
+	{
+		free(shell->cmd.pids->pid);
+		shell->cmd.pids->pid = NULL;
+		free(shell->cmd.pids);
+	}
+	if (shell->line)
+		free(shell->line);
 	free(shell->cmd.prompt);
-	free(shell->cmd.pids);
-	free_parse_linked_list(shell->cmd.parsed);
-	free_env_linked_list(shell->env);
+	lstclear_pars(&shell->cmd.parsed);
+	lstclear_env(&shell->env);
+	//free history
 	if (ret > 0)
 		exit(ret);
 	else

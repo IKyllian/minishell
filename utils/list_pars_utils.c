@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/20 08:10:48 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 16:05:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	lstclear_pars(t_pars **lst)
 		free((*lst)->value);
 		free(*lst);
 		*lst = temp;
-		
 	}
 	*lst = NULL;
 }

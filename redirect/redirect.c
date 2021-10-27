@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 13:05:37 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:05:35 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,7 @@ void	restore_cmd(t_shell *shell)
 	if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
 		print_error(errno);
 	reset_var(shell);
-	if (shell->cmd.redir)
-	{
-		free(shell->cmd.redir);
-		shell->cmd.redir = NULL;
-	}
+	free_redir(shell);
 	if (shell->cmd.pids->pid)
 	{
 		free(shell->cmd.pids->pid);
