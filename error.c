@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 08:24:40 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 11:10:12 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	free_tab(char **tabl)
 
 void	print_error(int errnum)
 {
-	ft_putstr_fd(strerror(errnum), 1);
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(strerror(errnum), 2);
+	ft_putchar_fd('\n', 2);
 	errno = 0;
 }

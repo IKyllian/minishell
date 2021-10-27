@@ -12,11 +12,10 @@
 
 #include "../inc/minishell.h"
 
-char	*search_in_dir(char *cmd_path, char **path_split, int i)
+char	*search_in_dir(char *cmd_path, char **path_split, int i, int *has_right)
 {
 	DIR				*pdir;
 	struct dirent	*pdirent;
-	char			*temp;
 	char			*path;
 
 	pdir = opendir(path_split[i]);
@@ -32,12 +31,9 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 	{
 		if (ft_strcmp(pdirent->d_name, cmd_path) == 0)
 		{
-			path = path_split[i];
-			temp = ft_strjoin(path, "/");
-			path = ft_strjoin(temp, pdirent->d_name);
-			if (temp)
-				free(temp);
-			break ;
+			join_path(path_split, i, pdirent, &path);
+			if (check_access(&path, has_right) == 1)
+				break ;
 		}
 		pdirent = readdir(pdir);
 	}
@@ -47,50 +43,36 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i)
 
 char	*search_path(t_env *env_path, char *cmd_path, int fd)
 {
-	char			**path_split;
-	int				i;
-	char			*path;
+	char	**path_split;
+	int		i;
+	char	*path;
+	int		has_right;		
 
 	if (env_path == NULL)
 		return (NULL);
 	i = -1;
+	has_right = 1;
 	path_split = ft_split(env_path->value, ':');
 	path = NULL;
 	while (path_split[++i])
 	{
-		path = search_in_dir(cmd_path, path_split, i);
+		path = search_in_dir(cmd_path, path_split, i, &has_right);
 		if (path != NULL)
 			break ;
 	}
 	free_tab(path_split);
 	if (path == NULL)
 	{
-		ft_putstr_fd("minishell: ", fd);
-		ft_putstr_fd(cmd_path, fd);
-		ft_putstr_fd(": command not found\n", fd);
+		if (has_right)
+		{
+			ft_putstr_fd("minishell: ", fd);
+			ft_putstr_fd(cmd_path, fd);
+			ft_putstr_fd(": command not found\n", fd);
+		}
+		else
+			ft_putstr_fd("Permission denied\n", fd);
 	}
 	return (path);
-}
-
-char	**fill_envp(t_env *env)
-{
-	char	**envp;
-	int		i;
-	char	*temp;
-
-	envp = malloc(sizeof(char *) * (ft_lstsize_env(env) + 1));
-	i = 0;
-	temp = NULL;
-	while (env)
-	{
-		temp = ft_strjoin(env->name, "=");
-		envp[i++] = ft_strjoin(temp, env->value);
-		if (temp)
-			free(temp);
-		env = env->next;
-	}
-	envp[i] = NULL;
-	return (envp);
 }
 
 char	**fill_arg(t_pars **cmd_parsed)
@@ -110,7 +92,7 @@ char	**fill_arg(t_pars **cmd_parsed)
 	}
 	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
-		exit(0);// Appeler une fonction d'erreur
+		exit(1);// Appeler une fonction d'erreur
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1
 			|| (*cmd_parsed)->type == 2 || (*cmd_parsed)->type == 5))
 	{
@@ -119,16 +101,6 @@ char	**fill_arg(t_pars **cmd_parsed)
 	}
 	args[i] = NULL;
 	return (args);
-}
-
-void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl)
-{
-	if (*path && !is_executbl)
-		free(*path);
-	if (*args)
-		free_tab(*args);
-	if (*envp)
-		free_tab(*envp);
 }
 
 void	fork_exec(t_shell *shell, char *path, char **args, char **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 17:49:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/25 13:55:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ char	*get_export_name(char *cmd_value, int *index, int *mode)
 		if ((cmd_value[i] == '=' && i != 0))
 			break ;
 		if (!is_valide_character(cmd_value[i], cmd_value, i, mode))
+		{
+			free(name);
 			return (NULL);
+		}
 		if ((cmd_value[i] == '+'
 			&& cmd_value[i + 1] && cmd_value[i + 1] == '='))
 			break ;
@@ -191,11 +194,14 @@ int	ft_export(t_shell *shell, t_pars **cmd_parsed)
 				if (!value && index > 0 && (*cmd_parsed)->value[index - 1] != '='
 					&& srch_and_return_env_var(shell->env, name))
 				{
+					free(name);
 					(*cmd_parsed) = (*cmd_parsed)->next;
 					continue ;
 				}
 				else if (!srch_and_rplce_env_var(shell->env, name, value, mode))
 					ft_lstadd_back_env(&shell->env, ft_lstnew_env(name, value));
+				else
+					free(name);
 			}
 			(*cmd_parsed) = (*cmd_parsed)->next;
 		}

@@ -34,6 +34,7 @@ SRCS =  main.c \
 		./utils/prompt_utils.c \
 		./utils/strct_init.c \
 		./exec/exec.c \
+		./exec/exec_utils.c \
 		prompt.c \
 		pipe.c \
 
