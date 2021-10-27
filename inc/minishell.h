@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 13:13:29 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:25:25 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_pids
 	t_pid	*pid;
 	pid_t	spid;
 	int		count;
-	int		mode;
 }	t_pids;
 
 typedef struct s_redir
@@ -224,6 +223,7 @@ int		pipe_count(t_pars *parsed, t_cmd *cmd);
 
 			/* Redirect */
 int		check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
+int		redirect_comparator(t_pars *lst, t_cmd *cmd, int *j, int p_i);
 int		ft_redirect(t_cmd *cmd, t_redir redir);
 int		ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_cmd(t_shell *shell);

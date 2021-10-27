@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operators_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/13 09:40:18 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:12:32 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-//need to prevent lone operators from doing nothing; should give a syntax error
 
 int	is_quote(char c)
 {
@@ -23,16 +21,14 @@ int	is_quote(char c)
 
 int	is_operator(char c)
 {
-	if (c == ';' || c == '<' || c == '>' || c == '|'/* || c == '*'
-		|| c == '&'*/)
+	if (c == '<' || c == '>' || c == '|')
 		return (1);
 	return (0);
 }
 
-int is_long_operator(char c, char b)
+int	is_long_operator(char c, char b)
 {
-	if ((b == '<' && c == b) || (b == '>' && c == b)/* || (b == '&' && c == b)
-		|| (b == '|' && c == b) */|| (b == '$' && c == '?'))
+	if ((b == '<' && c == b) || (b == '>' && c == b) || (b == '$' && c == '?'))
 		return (1);
 	return (0);
 }

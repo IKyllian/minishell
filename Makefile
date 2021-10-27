@@ -10,7 +10,7 @@ SRCS =  main.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
 		./builtins/export.c \
-		./builtins/export2.c \
+		./builtins/export_utils.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
@@ -23,14 +23,16 @@ SRCS =  main.c \
 		./parsing/redirecter.c \
 		./parsing/validator.c \
 		./sig/signals.c \
-		./sig/signals2.c \
+		./sig/signals_utils.c \
 		./utils/array_utils.c \
+		./utils/list_pars_manage.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
 		./utils/operators_utils.c \
 		./utils/parsing_utils.c \
 		./utils/tokenizer_utils.c \
 		./utils/subber_utils.c \
+		./utils/redirecter_utils.c \
 		./utils/prompt_utils.c \
 		./utils/strct_init.c \
 		./utils/list_utils.c \
