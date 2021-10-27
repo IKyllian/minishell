@@ -6,17 +6,17 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 12:47:47 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 08:58:00 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	join_path(char **path_split, int i, struct dirent *pdirent, char **path)
+void	join_path(char **path_splt, int i, struct dirent *pdirent, char **path)
 {
 	char	*temp;
 
-	*path = path_split[i];
+	*path = path_splt[i];
 	temp = ft_strjoin(*path, "/");
 	*path = ft_strjoin(temp, pdirent->d_name);
 	if (temp)

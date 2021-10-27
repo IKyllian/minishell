@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
+/*   Updated: 2021/10/27 11:54:27 by kdelport         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -20,33 +32,33 @@ int				g_heredoc;
 struct s_pids	g_pids;
 // pid_t	g_pid;
 
-typedef struct	s_pars
+typedef struct s_pars
 {
 	int				type;
 	char			*value;
 	struct s_pars	*next;
 }	t_pars;
 
-typedef struct	s_pid
+typedef struct s_pid
 {
 	pid_t	pid;
 	int		is_heredoc;
-}				t_pid;
+}	t_pid;
 
-typedef struct	s_pids
+typedef struct s_pids
 {
 	t_pid	*pid;
 	pid_t	spid;
 	int		count;
 	int		mode;
-}				t_pids;
+}	t_pids;
 
-typedef struct	s_redir
+typedef struct s_redir
 {
 	int		type;
 	char	*value;
 	int		pipe_index;
-}				t_redir;
+}	t_redir;
 
 typedef struct s_cmd
 {
@@ -63,31 +75,33 @@ typedef struct s_cmd
 	int		dquote;
 	int		is_heredoc;
 	int		hd_has_error;
-	int 	i_pids;
+	int		i_pids;
 	t_redir	*redir;
 	int		i_redir;
 	int		recount;
 	int		index_pipe;
 	int		set_old_to_null;
+	int		nbr_pipe;
+	int		mode_export;
 	// t_pid	*pids;
 }	t_cmd;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char			*name;
 	char			*value;
 	struct s_env	*next;
-}				t_env;
+}	t_env;
 
 typedef struct s_shell
 {
-	t_cmd	cmd;
-	t_env	*env;
+	t_cmd			cmd;
+	t_env			*env;
 	struct termios	saved_term;
 	struct termios	new_term;
-	pid_t	pid;
-	char	*line;
-	int		token;
+	pid_t			pid;
+	char			*line;
+	int				token;
 }	t_shell;
 
 void	mem_check(void *ptr);
@@ -116,7 +130,7 @@ t_shell	shell_init(char **env);
 
 			/* Env */
 t_env	*env_init(char **env_tab);
-int		srch_and_rplce_env_var(t_env *env, char *to_search, char *new_val, int mode);
+int		srch_and_rplce_env_var(t_env *env, char *to_srch, char *new, int mode);
 void	srch_and_dlt_env_var(t_env *env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
@@ -130,6 +144,8 @@ int		ft_export(t_shell *shell, t_pars **cmd_parded);
 int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 void	ft_exit(t_shell *shell, t_pars **cmd_parsed);
+int		is_valide_character(char c, char *cmd_value, int indx, t_shell *shell);
+void	sort_and_print_env(t_shell *shell);
 
 			/* Signals */
 void	sighandler(int sig);
@@ -144,7 +160,7 @@ void	m_sigkill(int sig);
 			/* Parsing utils */
 int		validator(t_shell *shell);
 int		is_operator(char c);
-int 	is_long_operator(char c, char b);
+int		is_long_operator(char c, char b);
 int		is_quote(char c);
 int		type_set(char *value);
 char	*check_quote(t_cmd *cmd, char *src, int i, int mode);
@@ -197,22 +213,27 @@ void	lstaddback_pars(t_pars **alst, t_pars *new);
 			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable);
 int		cmd_to_exec(t_shell *shell, t_pars **parsed);
-void	exec_pipe(t_shell *shell, t_pars **parsed, int nb_pipe);
+void	exec_pipe(t_shell *shell, t_pars **parsed);
 int		check_pipe(t_pars **parsed, t_shell *shell);
-void	join_path(char **path_split, int i, struct dirent *pdirent, char **path);
+void	join_path(char **path_splt, int i, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
 char	**fill_envp(t_env *env);
 int		check_access(char **path, int *has_right);
 void	path_error(char *path, int has_right, int fd, char *cmd_path);
+void	dup_pipe(t_shell *shell, int in, int out);
+void	next_cmd(t_pars **parsed);
+void	exec_child(t_shell *shell, t_pars **parsed);
+int		pipe_count(t_pars *parsed);
 
 			/* Redirect */
+int		check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
 int		ft_redirect(t_cmd *cmd, t_redir redir);
 int		ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_cmd(t_shell *shell);
+int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
+int		check_heredoc(t_shell *shell, t_pars **parsed, int ret);
+void	init_heredoc(t_shell *shell, t_pars *parsed);
 
-int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
-
-int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
 // void	init_pars(t_cmd *cmd, char **arg);
 
 #endif

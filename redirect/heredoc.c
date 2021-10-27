@@ -1,89 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 12:24:05 by kdelport         ###   ########.fr       */
+/*   Created: 2021/10/27 08:28:27 by kdelport          #+#    #+#             */
+/*   Updated: 2021/10/27 12:23:11 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
+#include "../inc/minishell.h"
 
-void	restore_cmd(t_shell *shell)
+int	check_heredoc(t_shell *shell, t_pars **parsed, int ret)
 {
-	close(shell->cmd.fd_in);
-	close(shell->cmd.fd_out);
-	if (dup2(shell->cmd.fd_stdin, shell->cmd.fd_in) == -1)
-		print_error(errno);
-	if (dup2(shell->cmd.fd_stdout, shell->cmd.fd_out) == -1)
-		print_error(errno);
-	shell->cmd.is_heredoc = 0;
-	shell->cmd.i_redir = 0;
-	shell->cmd.index_pipe = 0;
-	shell->cmd.i_pids = 0;
-	shell->cmd.hd_has_error = 0;
-	if (shell->cmd.redir)
+	t_pars	*parsed_check;
+	int		heredoc;
+	char	**exit_words;
+
+	parsed_check = (*parsed);
+	heredoc = 0;
+	exit_words = NULL;
+	while (parsed_check && parsed_check->type != 3)
 	{
-		free(shell->cmd.redir);
-		shell->cmd.redir = NULL;
+		if (parsed_check->type == 4)
+			heredoc++;
+		parsed_check = parsed_check->next;
 	}
-	if (g_pids.pid)
-	{
-		free(g_pids.pid);
-		g_pids.pid = NULL;
-	}
-	if (shell->line)
-		free(shell->line);
-	lstclear_pars(&shell->cmd.parsed);
+	if (heredoc && ret > 0)
+		return (ft_heredoc(shell, parsed));
+	return (ret);
 }
 
-int	ft_redirect_in(t_cmd *cmd, t_redir redir)
+int	is_last_heredoc(t_shell *shell)
 {
-	int	fd;
-
-	fd = -1;
-	fd = open(redir.value, O_RDONLY, S_IRWXU);
-	errno = 0;
-	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir.value, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (0);
-	}
-	close(cmd->fd_in);
-	if (dup2(fd, cmd->fd_in) == -1)
-		print_error(errno);
-	return (1);
-}
-
-int	ft_redirect(t_cmd *cmd, t_redir redir)
-{
-	int	fd;
-
-	fd = -1;
-	if (redir.type == 3)
-		fd = open(redir.value, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-	else if (redir.type == 2)
-		fd = open(redir.value, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-	errno = 0;
-	if (fd == -1)
-	{
-		print_error(errno);
-		return (0);
-	}
-	close(cmd->fd_out);
-	if (dup2(fd, cmd->fd_out) == -1)
-		print_error(errno);
-	return (1);
-}
-
-int is_last_heredoc(t_shell *shell)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (i <= g_pids.count)

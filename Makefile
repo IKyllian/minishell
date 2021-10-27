@@ -5,13 +5,12 @@ HEADER = ./inc/minishell.h
 LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
-		redirect.c \
 		./env/env_utils.c \
-		list_utils.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
 		./builtins/export.c \
+		./builtins/export2.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
@@ -24,6 +23,7 @@ SRCS =  main.c \
 		./parsing/redirecter.c \
 		./parsing/validator.c \
 		./sig/signals.c \
+		./sig/signals2.c \
 		./utils/array_utils.c \
 		./utils/list_pars_utils.c \
 		./utils/mem_utils.c \
@@ -33,10 +33,15 @@ SRCS =  main.c \
 		./utils/subber_utils.c \
 		./utils/prompt_utils.c \
 		./utils/strct_init.c \
+		./utils/list_utils.c \
 		./exec/exec.c \
 		./exec/exec_utils.c \
+		./redirect/heredoc.c \
+		./redirect/redirect.c \
+		./redirect/init_heredoc.c \
+		./pipe/pipe.c \
+		./pipe/pipe_utils.c \
 		prompt.c \
-		pipe.c \
 		
 OBJS = $(SRCS:.c=.o)
 

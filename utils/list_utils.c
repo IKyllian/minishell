@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:57:05 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/06 08:24:16 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 10:47:14 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
+#include "../inc/minishell.h"
 
 int	ft_lstsize_env(t_env *lst)
 {
@@ -29,7 +29,7 @@ t_env	*ft_lstnew_env(char *name, char *value)
 {
 	t_env	*env;
 
-	env = ft_calloc(1, sizeof(t_env));
+	env = malloc(sizeof(t_env) * 1);
 	if (!env)
 		return (NULL);
 	env->name = name;

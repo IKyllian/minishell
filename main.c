@@ -6,53 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 12:05:15 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 09:13:00 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
-
-int check_heredoc(t_shell *shell, t_pars **parsed, int ret)
-{
-	t_pars	*parsed_check;
-	int		heredoc;
-	char	**exit_words;
-
-	parsed_check = (*parsed);
-	heredoc = 0;
-	exit_words = NULL;
-	while (parsed_check && parsed_check->type != 3)
-	{
-		if (parsed_check->type == 4)
-				heredoc++;
-		parsed_check = parsed_check->next;
-	}
-	if (heredoc && ret > 0)
-		return(ft_heredoc(shell, parsed));
-	return (ret);
-}
-
-int	check_redirect(t_shell *shell, t_pars **parsed, int index_cmd)
-{
-	int	first_index;
-	int	ret;
-
-	first_index = 0;
-	ret = 1;
-	while (shell->cmd.redir[shell->cmd.i_redir].value != NULL
-		&& shell->cmd.redir[shell->cmd.i_redir].pipe_index <= index_cmd)
-	{
-		if (shell->cmd.redir[shell->cmd.i_redir].pipe_index == index_cmd)
-		{
-			if (shell->cmd.redir[shell->cmd.i_redir].type == 1)
-				ret = ft_redirect_in(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
-			else
-				ret = ft_redirect(&shell->cmd, shell->cmd.redir[shell->cmd.i_redir]);
-		}
-		shell->cmd.i_redir++;
-	}
-	return (check_heredoc(shell, parsed, ret));
-}
 
 int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 {
@@ -81,71 +39,6 @@ int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 	return (1);
 }
 
-void	exec_heredoc(t_shell *shell,  t_pars *parse, int fd)
-{
-	char	*line;
-	int		ret;
-	int		i;
-
-	i = 0;
-	ret = 1;
-	line = NULL;
-	// g_heredoc = 1;
-	while (ret && g_heredoc)
-	{
-		ft_putstr_fd("> ", shell->cmd.fd_stdout);
-		ret = ft_get_next_line(shell->cmd.fd_stdin, 2, &line);
-		if (g_heredoc && ft_strcmp(line, parse->next->value) != 0)
-		{
-			ft_putstr_fd(line, fd);
-			ft_putstr_fd("\n", fd);
-		}
-		else
-			break ;
-		free(line);
-		line = NULL;
-	}
-	if (line && g_heredoc)
-	{
-		free(line);
-		line = NULL;
-	}
-}
-
-void	init_heredoc(t_shell *shell, t_pars *parsed)
-{
-	struct sigaction	siga;
-	t_pars *parse;
-	int		fd;
-
-	parse = parsed;
-	sigemptyset(&siga.sa_mask);
-	siga.sa_handler = sighandler;
-	siga.sa_flags = 0;
-	sigaction(SIGINT, &siga, NULL);
-	g_heredoc = 1;
-	while (parse && g_heredoc)
-	{
-		if (parse->type == 3 && shell->cmd.hd_has_error == 1)
-			break ;
-		if (parse->type == 4)
-		{
-			if (!parse->next)
-			{
-				ft_putstr_fd("Syntax error near unexpected token\n", shell->cmd.fd_out);
-				shell->cmd.hd_has_error = 1;
-			}
-			else
-			{
-				fd = open("heredoc.txt", O_CREAT | O_WRONLY | O_TRUNC, 0777);
-				exec_heredoc(shell, parse, fd);
-				close(fd);
-			}
-		}
-		parse = parse->next;
-	}
-}
-
 void	check_cmd(t_shell *shell)
 {
 	t_pars	*parsed;
@@ -156,12 +49,13 @@ void	check_cmd(t_shell *shell)
 		return ;
 	while (parsed)
 	{
-		if (parsed && (parsed->type == 1 | parsed->type == 5 | parsed->type == 4))
+		if (parsed
+			&& (parsed->type == 1 || parsed->type == 5 || parsed->type == 4))
 		{
 			if (check_pipe(&parsed, shell) == 1)
-				break;
+				break ;
 		}
-		if ((parsed->type == 1 | parsed->type == 5 | parsed->type == 4))
+		if ((parsed->type == 1 || parsed->type == 5 || parsed->type == 4))
 		{
 			if (check_redirect(shell, &parsed, 0) <= 0)
 				break ;

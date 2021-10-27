@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 11:44:47 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 08:36:42 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,5 @@ int	prompt(t_shell *shell)
 		deep_parser(shell);
 		restore_cmd(shell);
 	}
-	// if (shell->line)
-	// 	free(&shell->cmd.prompt);
 	return (0);
 }
