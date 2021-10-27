@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 09:31:20 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:12:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed)
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	if (g_pids.pid[shell->cmd.index_pipe].is_heredoc)
+	if (shell->cmd.pids->pid[shell->cmd.index_pipe].is_heredoc)
 		waitpid(pid, NULL, 0);
-	g_pids.pid[shell->cmd.i_pids++].pid = pid;
+	shell->cmd.pids->pid[shell->cmd.i_pids++].pid = pid;
 }
 
 void	wait_childs(t_shell *shell)
@@ -47,7 +47,7 @@ void	wait_childs(t_shell *shell)
 	i = 0;
 	while (i <= shell->cmd.nbr_pipe)
 	{
-		waitpid(g_pids.pid[i].pid, &status, 0);
+		waitpid(shell->cmd.pids->pid[i].pid, &status, 0);
 		i++;
 	}
 	shell->cmd.exit_status = WEXITSTATUS(status);
@@ -80,7 +80,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 	}
 }
 
-void	set_heredoc_check(t_pars *parsed, t_shell *shell)
+void	set_heredoc_check(t_pars *parsed, t_shell *shell, t_cmd *cmd)
 {
 	t_pars	*check;
 	int		i;
@@ -92,7 +92,7 @@ void	set_heredoc_check(t_pars *parsed, t_shell *shell)
 		if (check->type == 3)
 			i++;
 		else if (check->type == 4 && ft_strcmp(check->value, "<<") == 0)
-			g_pids.pid[i].is_heredoc = 1;
+			cmd->pids->pid[i].is_heredoc = 1;
 		if (i > shell->cmd.nbr_pipe)
 			break ;
 		check = check->next;
@@ -101,12 +101,12 @@ void	set_heredoc_check(t_pars *parsed, t_shell *shell)
 
 int	check_pipe(t_pars **parsed, t_shell *shell)
 {
-	shell->cmd.nbr_pipe = pipe_count((*parsed));
+	shell->cmd.nbr_pipe = pipe_count((*parsed), &shell->cmd);
 	if (shell->cmd.nbr_pipe > 0)
 	{
-		g_pids.pid = ft_calloc((shell->cmd.nbr_pipe + 2), sizeof(t_pid));
-		g_pids.mode = 2;
-		set_heredoc_check((*parsed), shell);
+		shell->cmd.pids->pid = ft_calloc((shell->cmd.nbr_pipe + 2), \
+			sizeof(t_pid));
+		set_heredoc_check((*parsed), shell, &shell->cmd);
 		exec_pipe(shell, parsed);
 		return (1);
 	}

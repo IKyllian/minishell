@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 15:11:30 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:58:58 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);
 	free(shell->cmd.prompt);
+	free(shell->cmd.pids);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
 	if (ret > 0)

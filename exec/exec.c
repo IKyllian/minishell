@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 12:56:19 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:59:19 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 	unset_term(shell);
 	signal(SIGQUIT, p_sigquit);
 	signal(SIGINT, p_sigkill);
-	g_pids.spid = fork();
-	if (g_pids.spid == -1)
+	shell->cmd.pids->spid = fork();
+	if (shell->cmd.pids->spid == -1)
 		print_error(errno);
-	if (g_pids.spid == 0)
+	if (shell->cmd.pids->spid == 0)
 	{
 		signal(SIGINT, f_sigkill);
 		signal(SIGQUIT, f_sigquit);

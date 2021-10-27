@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 11:54:27 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:13:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # include <term.h>
 
 int				g_heredoc;
-struct s_pids	g_pids;
-// pid_t	g_pid;
 
 typedef struct s_pars
 {
@@ -83,7 +81,7 @@ typedef struct s_cmd
 	int		set_old_to_null;
 	int		nbr_pipe;
 	int		mode_export;
-	// t_pid	*pids;
+	t_pids	*pids;
 }	t_cmd;
 
 typedef struct s_env
@@ -99,7 +97,6 @@ typedef struct s_shell
 	t_env			*env;
 	struct termios	saved_term;
 	struct termios	new_term;
-	pid_t			pid;
 	char			*line;
 	int				token;
 }	t_shell;
@@ -223,7 +220,7 @@ void	path_error(char *path, int has_right, int fd, char *cmd_path);
 void	dup_pipe(t_shell *shell, int in, int out);
 void	next_cmd(t_pars **parsed);
 void	exec_child(t_shell *shell, t_pars **parsed);
-int		pipe_count(t_pars *parsed);
+int		pipe_count(t_pars *parsed, t_cmd *cmd);
 
 			/* Redirect */
 int		check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);

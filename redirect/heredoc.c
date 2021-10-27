@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:28:27 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:23:11 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:08:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	is_last_heredoc(t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (i <= g_pids.count)
+	while (i <= shell->cmd.pids->count)
 	{
 		if (i > shell->cmd.index_pipe)
 		{
-			if (g_pids.pid[i].is_heredoc == 1)
+			if (shell->cmd.pids->pid[i].is_heredoc == 1)
 				return (0);
 		}
 		i++;

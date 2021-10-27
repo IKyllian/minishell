@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:57:48 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/26 08:00:29 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 10:13:21 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int	validator(t_shell *shell)
 			else if (lst->next && lst->next->type == 3)
 			{
 				printf("minishell: syntax error near unexpected token '|'\n");
+				shell->cmd.exit_status = 258;
 				return (0);
 			}
 			else if (!lst->next)
 			{
 				printf("minishell: syntax error near unexpected token '|'\n");
+				shell->cmd.exit_status = 258;
 				return (0);
 			}
 		}

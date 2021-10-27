@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
 /*   Updated: 2021/10/27 09:13:00 by kdelport         ###   ########.fr       */
@@ -59,7 +59,6 @@ void	check_cmd(t_shell *shell)
 		{
 			if (check_redirect(shell, &parsed, 0) <= 0)
 				break ;
-			g_pids.mode = 1;
 			cmd_to_exec(shell, &parsed);
 		}
 		if (!parsed)

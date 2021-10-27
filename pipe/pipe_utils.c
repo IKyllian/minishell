@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 09:23:49 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 09:28:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:10:53 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ void	exec_child(t_shell *shell, t_pars **parsed)
 	}
 }
 
-int	pipe_count(t_pars *parsed)
+int	pipe_count(t_pars *parsed, t_cmd *cmd)
 {
 	t_pars	*check;
 
 	check = parsed;
-	g_pids.count = 0;
+	cmd->pids->count = 0;
 	while (check)
 	{
 		if (check->type == 3)
-			g_pids.count++;
+			cmd->pids->count++;
 		check = check->next;
 	}
-	return (g_pids.count);
+	return (cmd->pids->count);
 }
 
 void	dup_pipe(t_shell *shell, int in, int out)
