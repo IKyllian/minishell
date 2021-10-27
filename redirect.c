@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/22 12:24:05 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/26 12:40:53 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	restore_cmd(t_shell *shell)
 		free(shell->cmd.redir);
 		shell->cmd.redir = NULL;
 	}
-	if (g_pids.pid)
+	if (shell->cmd.pids->pid)
 	{
-		free(g_pids.pid);
-		g_pids.pid = NULL;
+		free(shell->cmd.pids->pid);
+		shell->cmd.pids->pid = NULL;
 	}
 	if (shell->line)
 		free(shell->line);
@@ -86,11 +86,11 @@ int is_last_heredoc(t_shell *shell)
 	int i;
 
 	i = 0;
-	while (i <= g_pids.count)
+	while (i <= shell->cmd.pids->count)
 	{
 		if (i > shell->cmd.index_pipe)
 		{
-			if (g_pids.pid[i].is_heredoc == 1)
+			if (shell->cmd.pids->pid[i].is_heredoc == 1)
 				return (0);
 		}
 		i++;

@@ -25,7 +25,7 @@ t_shell	shell_init(char **env)
 t_cmd	cmd_init(void)
 {
 	t_cmd	cmd;
-	
+
 	cmd.history = NULL;
 	cmd.parsed = NULL;
 	cmd.exit_status = 0;
@@ -43,6 +43,7 @@ t_cmd	cmd_init(void)
 	cmd.i_redir = 0;
 	cmd.index_pipe = 0;
 	cmd.redir = NULL;
+	cmd.pids = ft_calloc(1, sizeof(t_pids));
 	return (cmd);
 }
 

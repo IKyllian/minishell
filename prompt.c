@@ -85,7 +85,7 @@ int	prompt(t_shell *shell)
 	{
 		set_term(shell);
 		set_prompt(shell, &shell->cmd.prompt);
-		signal(SIGINT, &m_sigkill);
+		signal(SIGINT, m_sigkill);
 		shell->line = readline(shell->cmd.prompt);
 		if (!shell->line)
 		{

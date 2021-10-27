@@ -37,7 +37,7 @@ SRCS =  main.c \
 		./exec/exec_utils.c \
 		prompt.c \
 		pipe.c \
-		
+
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
