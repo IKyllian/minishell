@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:43:11 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 15:34:58 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 15:44:38 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	dbl_array_print(char **dbl_array)
 		i++;
 	}
 	printf("###############\n");
+}
+
+void	dbl_array_clear(char **dbl_array)
+{
+	int	i;
+
+	i = 0;
+	while (dbl_array[i])
+	{
+		free(dbl_array[i]);
+		i++;
+	}
+	free(dbl_array);
 }
 
 int	dbl_array_len(char **dbl_array)

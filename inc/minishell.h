@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/28 08:40:28 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 15:44:51 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	mem_check(void *ptr);
 int		dbl_array_len(char **dbl_array);
 char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
+void	dbl_array_clear(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
 			/* Parsing */
