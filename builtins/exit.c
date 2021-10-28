@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:58:58 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/28 14:25:19 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	exit_nbr_caster(int nb)
+{
+	if (nb >= 0)
+		return (nb % 256);
+	else
+		return (256 + (nb % 256));
+}
 
 int	num_is_valid(char *str)
 {
@@ -20,23 +28,24 @@ int	num_is_valid(char *str)
 
 	i = -1;
 	nb = 0;
-	is_neg = 0;
+	is_neg = 1;
 	while (str[++i])
 	{
 		if (i == 0 && str[i] == '-')
-			is_neg = 1;
+		{
+			is_neg = -1;
+			continue ;
+		}
 		else if (!(str[i] >= 48 && str[i] <= 57) && str[i] != ' ')
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd("str", 2);
+			ft_putstr_fd(&str[i], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			return (-2);
+			return (300);
 		}
 		nb = (nb * 10) + (str[i] - 48);
 	}
-	if (is_neg || nb > 255)
-		return (-1);
-	return (nb);
+	return (exit_nbr_caster(nb * is_neg));
 }
 
 int	get_exit_nb(t_shell *shell, t_pars **cmd_parsed)
@@ -47,16 +56,17 @@ int	get_exit_nb(t_shell *shell, t_pars **cmd_parsed)
 	if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)
 	{
 		nb = num_is_valid((*cmd_parsed)->next->value);
-		if (nb == -1)
-			nb = 252;
-		else if (nb == -2)
+		if (nb == 300)
+		{
 			nb = 255;
+			return (nb);
+		}
 	}
-	if ((*cmd_parsed)->next && (*cmd_parsed)->next->next && nb != -2)
+	if ((*cmd_parsed)->next && (*cmd_parsed)->next->next)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		shell->cmd.exit_status = 1;
-		return (-3);
+		return (301);
 	}
 	return (nb);
 }
@@ -71,7 +81,7 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	if (shell->line)
 	{
 		ret = get_exit_nb(shell, cmd_parsed);
-		if (ret == -3)
+		if (ret == 301)
 			return ;
 	}
 	else
@@ -82,8 +92,5 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 	free(shell->cmd.pids);
 	free_parse_linked_list(shell->cmd.parsed);
 	free_env_linked_list(shell->env);
-	if (ret > 0)
-		exit(ret);
-	else
-		exit (0);
+	exit(ret);
 }

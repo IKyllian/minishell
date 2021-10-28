@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals2.c                                         :+:      :+:    :+:   */
+/*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:36:50 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:38:43 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:13:29 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	set_term(t_shell *shell)
 void	unset_term(t_shell *shell)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
+	g_heredoc = 0;
 }

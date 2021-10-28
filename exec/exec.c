@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:59:19 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:22:39 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,19 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		{
 			print_error(errno);
 			exit(1);
-		}	
+		}
 		exit(0);
 	}
 	signal(SIGINT, p_sigkill);
 	signal(SIGQUIT, p_sigquit);
 	if (wait(&status) == -1)
 		printf("Error with Wait\n");
-	shell->cmd.exit_status = WEXITSTATUS(status);
+	if (!g_heredoc)
+		shell->cmd.exit_status = WEXITSTATUS(status);
+	else if (g_heredoc == 1)
+		shell->cmd.exit_status = 130;
+	else if (g_heredoc == 2)
+		shell->cmd.exit_status = 131;
 }
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)

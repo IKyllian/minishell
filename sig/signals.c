@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 12:38:58 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:38:52 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,27 @@
 void	p_sigkill(int sig)
 {
 	(void)sig;
+	g_heredoc = 1;
 	printf("\n");
 }
 
 void	p_sigquit(int sig)
 {
 	(void)sig;
+	g_heredoc = 2;
 	printf("Quit: %i\n", sig);
 }
 
 void	f_sigkill(int sig)
 {
 	(void)sig;
-	exit(0);
+	exit(130);
 }
 
 void	f_sigquit(int sig)
 {
 	(void)sig;
-	exit(0);
+	exit(131);
 }
 
 void	m_sigkill(int sig)

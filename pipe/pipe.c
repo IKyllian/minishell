@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 13:12:52 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:41:32 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ void	wait_childs(t_shell *shell)
 		i++;
 	}
 	shell->cmd.exit_status = WEXITSTATUS(status);
+	// printf("gvar:%i\n", g_heredoc);
+	// if (!g_heredoc)
+	// 	shell->cmd.exit_status = WEXITSTATUS(status);
+	// else if (g_heredoc == 1)
+	// 	shell->cmd.exit_status = 130;
+	// else if (g_heredoc == 2)
+	// 	shell->cmd.exit_status = 131;
 }
 
 void	exec_pipe(t_shell *shell, t_pars **parsed)
