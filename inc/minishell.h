@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:51:21 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 09:43:49 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_shell
 	int				token;
 }	t_shell;
 
+			/* Memory */
+void	free_all(t_shell *shell);
 void	mem_check(void *ptr);
 
 			/* Arrays */
