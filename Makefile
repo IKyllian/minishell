@@ -52,7 +52,7 @@ FLAGS = -Wextra -Werror -Wall -g -fPIC
 RLFLAGS = -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include
 RM = rm -f
 
-all : $(NAME)
+all : libft $(NAME)
  
 %.o : %.c $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@
@@ -60,7 +60,7 @@ all : $(NAME)
 $(NAME) : $(LIB_PATH)$(LIB_NAME) $(OBJS) $(HEADER)
 		$(CC) $(FLAGS) $(RLFLAGS) -o $@ $(OBJS) $(LIB_PATH)$(LIB_NAME)
 
-$(LIB_PATH)$(LIB_NAME) :
+libft :
 		@make -C $(LIB_PATH)
 
 run : $(NAME)
@@ -76,4 +76,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : clean fclean re all run
+.PHONY : clean fclean re all run libft
