@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_manage.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:37:06 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 15:39:03 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:23:30 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,10 @@ void	lstclear_pars(t_pars **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		free((*lst)->value);
-		free(*lst);
+		if ((*lst)->value)
+			free((*lst)->value);
+		if (*lst)
+			free(*lst);
 		*lst = temp;
 	}
 	*lst = NULL;

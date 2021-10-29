@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 08:58:00 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 13:55:53 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl)
 	if (*path && !is_executbl)
 		free(*path);
 	if (*args)
-		free_tab(*args);
+		dbl_array_clear(*args);
 	if (*envp)
-		free_tab(*envp);
+		dbl_array_clear(*envp);
 }
 
 char	**fill_envp(t_env *env)

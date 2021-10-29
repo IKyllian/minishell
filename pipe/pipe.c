@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:30:48 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:28:17 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 		errno = 0;
 		if (pipe(pipefd) == -1)
 			print_error(errno);
+		shell->cmd.pipe_fd = pipefd[0];
 		fork_pipe(in, pipefd[1], shell, parsed);
 		if (in)
 			close(in);
@@ -81,6 +82,7 @@ void	exec_pipe(t_shell *shell, t_pars **parsed)
 	{
 		fork_pipe(pipefd[0], 1, shell, parsed);
 		close(in);
+		close(pipefd[1]);
 		wait_childs(shell);
 	}
 }

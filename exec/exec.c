@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:39:16 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 13:55:48 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*search_path(t_env *env_path, char *cmd_path, int fd)
 		if (path != NULL)
 			break ;
 	}
-	free_tab(path_split);
+	dbl_array_clear(path_split);
 	path_error(path, has_right, fd, cmd_path);
 	return (path);
 }

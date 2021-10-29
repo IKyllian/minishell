@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 09:23:49 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 13:10:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 13:39:02 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void	dup_pipe(t_shell *shell, int in, int out)
 			print_error(errno);
 		if (dup2(out, shell->cmd.fd_out) == -1)
 			print_error(errno);
+		close(shell->cmd.pipe_fd);
 	}
 }
