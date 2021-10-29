@@ -63,6 +63,8 @@ $(NAME) : $(LIB_PATH)$(LIB_NAME) $(OBJS) $(HEADER)
 libft :
 		@make -C $(LIB_PATH)
 
+$(LIB_PATH)$(LIB_NAME) : libft
+
 run : $(NAME)
 	./minishell
 
