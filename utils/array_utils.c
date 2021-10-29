@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:43:11 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/29 08:46:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:18:26 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	dbl_array_clear(char **dbl_array)
 	int	i;
 
 	i = 0;
+	if (!dbl_array)
+		return ;
 	while (dbl_array[i])
 	{
 		free(dbl_array[i]);
