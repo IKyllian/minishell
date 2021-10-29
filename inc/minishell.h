@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:41:22 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 08:51:21 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ int		redirect(t_cmd *cmd);
 void	print_error(int errnum);
 void	free_tab(char **tabl);
 void	free_env_list_item(t_env *env);
-void	free_env_linked_list(t_env *env);
+// void	free_env_linked_list(t_env *env);
 void	free_parse_linked_list(t_pars *parse);
+void	free_redir(t_shell *shell);
 
 			/* Inits */
 t_cmd	cmd_init(void);
@@ -209,6 +210,7 @@ int		lstsize_pars(t_pars *lst);
 t_pars	*lstnew_pars(char *value);
 t_pars	*lstlast_pars(t_pars *lst);
 void	lstaddback_pars(t_pars **alst, t_pars *new);
+void	lstclear_env(t_env **lst);
 
 			/* Exec / Pipe */
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable);

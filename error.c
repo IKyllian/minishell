@@ -6,11 +6,27 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 10:58:49 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:08:37 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/minishell.h"
+
+void	free_redir(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->cmd.recount)
+	{
+		if (shell->cmd.redir[i].value)
+			free(shell->cmd.redir[i].value);
+		i++;
+	}
+	free(shell->cmd.redir);
+	shell->cmd.redir = NULL;
+	shell->cmd.recount = 0;
+}
 
 void	free_env_list_item(t_env *env)
 {
@@ -22,39 +38,23 @@ void	free_env_list_item(t_env *env)
 		free(env);
 }
 
-void	free_env_linked_list(t_env *env)
+void	lstclear_env(t_env **lst)
 {
-	t_env	*next;
+	t_env	*temp;
 
-	next = NULL;
-	while (env)
+	if (!lst)
+		return ;
+	while (*lst)
 	{
-		if (env->next)
-			next = env->next;
-		else
-			next = NULL;
-		free_env_list_item(env);
-		env = next;
+		temp = (*lst)->next;
+		if ((*lst)->name)
+			free((*lst)->name);
+		if ((*lst)->value)
+			free((*lst)->value);
+		free(*lst);
+		*lst = temp;
 	}
-}
-
-void	free_parse_linked_list(t_pars *parse)
-{
-	t_pars	*next;
-
-	next = NULL;
-	while (parse)
-	{
-		if (parse->next)
-			next = parse->next;
-		else
-			next = NULL;
-		if (parse->value)
-			free(parse->value);
-		if (parse)
-			free(parse);
-		parse = next;
-	}
+	*lst = NULL;
 }
 
 void	free_tab(char **tabl)

@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:40:19 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 08:52:08 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,19 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed)
 		ret = shell->cmd.exit_status;
 	close(shell->cmd.fd_in);
 	close(shell->cmd.fd_out);
+	free_redir(shell);
+	if (shell->cmd.pids->pid)
+	{
+		free(shell->cmd.pids->pid);
+		shell->cmd.pids->pid = NULL;
+		free(shell->cmd.pids);
+	}
+	if (shell->line)
+		free(shell->line);
 	free(shell->cmd.prompt);
 	free(shell->cmd.pids);
-	free_parse_linked_list(shell->cmd.parsed);
-	free_env_linked_list(shell->env);
+	lstclear_pars(&shell->cmd.parsed);
+	lstclear_env(&shell->env);
 	dbl_array_clear(shell->cmd.history);
 	exit(ret);
 }
