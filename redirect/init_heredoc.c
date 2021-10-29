@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:42:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 10:36:22 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:42:43 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	launch_heredoc(t_pars *parse, t_shell *shell)
 		ft_putstr_fd("minishell: syntax error ne", shell->cmd.fd_out);
 		ft_putstr_fd("ar unexpected token\n", shell->cmd.fd_out);
 		shell->cmd.hd_has_error = 1;
+		g_heredoc = 0;
 	}
 	else
 	{
