@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 10:17:42 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 16:05:35 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 10:15:28 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	ft_redirect_in(t_cmd *cmd, t_redir redir)
 	close(cmd->fd_in);
 	if (dup2(fd, cmd->fd_in) == -1)
 		print_error(errno);
+	close(fd);
 	return (1);
 }
 
@@ -105,5 +106,6 @@ int	ft_redirect(t_cmd *cmd, t_redir redir)
 	close(cmd->fd_out);
 	if (dup2(fd, cmd->fd_out) == -1)
 		print_error(errno);
+	close(fd);
 	return (1);
 }
