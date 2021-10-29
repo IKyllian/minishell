@@ -6,37 +6,56 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:58:56 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 09:48:27 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 18:19:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	srch_and_dlt_env_var(t_env *env, char *to_search)
+void	srch_and_dlt_env_var(t_env **env, char *to_search)
 {
 	int		i;
 	t_env	*prev;
+	t_env	*first;
 
 	prev = NULL;
-	while (env)
+	first = *env;
+	while (*env)
 	{
 		i = 0;
-		while (env->name[i] && to_search[i] && env->name[i] == to_search[i])
+		while ((*env)->name[i] && to_search[i] && (*env)->name[i] == to_search[i])
 		{
-			if (to_search[i + 1] == '\0' && env->name[i + 1] == '\0')
+			if (to_search[i + 1] == '\0' && (*env)->name[i + 1] == '\0')
 			{
-				if (prev && !env->next)
+				if (ft_strcmp(first->name, (*env)->name) == 0)
+				{
+					*env = (*env)->next;
+					free(first->name);
+					if (first->value)
+						free(first->value);
+					free(first);
+					first = NULL;
+					return ;
+				}
+				if (prev && !(*env)->next)
 					prev->next = NULL;
-				else if (prev && env->next)
-					prev->next = env->next;
-				free_env_list_item(env);
+				else if (prev && (*env)->next)
+					prev->next = (*env)->next;
+				// free_env_list_item(env);
+				free((*env)->name);
+				if ((*env)->value)
+					free((*env)->value);
+				free(*env);
+				*env = NULL;
+				*env = first;
 				return ;
 			}
 			i++;
 		}
-		prev = env;
-		env = env->next;
+		prev = *env;
+		*env = (*env)->next;
 	}
+	*env = first;
 }
 
 void	replace_env_var(t_env *env, char *new_val, int mode)

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 13:55:48 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 18:27:38 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ char	*search_path(t_env *env_path, char *cmd_path, int fd)
 	int		has_right;		
 
 	if (env_path == NULL)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_path, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (NULL);
+	}
 	i = -1;
 	has_right = 1;
 	path_split = ft_split(env_path->value, ':');

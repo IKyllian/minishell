@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 13:25:48 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 18:06:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ t_shell	shell_init(char **env);
 			/* Env */
 t_env	*env_init(char **env_tab);
 int		srch_and_rplce_env_var(t_env *env, char *to_srch, char *new, int mode);
-void	srch_and_dlt_env_var(t_env *env, char *to_search);
+void	srch_and_dlt_env_var(t_env **env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
 int		quoting(t_cmd *cmd, char *line);
