@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:42:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:29:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 10:36:22 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	launch_heredoc(t_pars *parse, t_shell *shell)
 {
 	int	fd;
 
-	if (!parse->next)
+	if (!parse->next || parse->next->type != 2)
 	{
-		ft_putstr_fd("Syntax error near unexpected token\n", shell->cmd.fd_out);
+		ft_putstr_fd("minishell: syntax error ne", shell->cmd.fd_out);
+		ft_putstr_fd("ar unexpected token\n", shell->cmd.fd_out);
 		shell->cmd.hd_has_error = 1;
 	}
 	else
