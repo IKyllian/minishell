@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:28:27 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 13:08:52 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 10:13:25 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ void	fill_arg_hd(t_pars **cmd_parsed, t_pars	**args, int *cmd_exit)
 		*args = lstnew_pars((*cmd_parsed)->value);
 		cmd = (*cmd_parsed);
 		(*cmd_parsed) = (*cmd_parsed)->next;
-	}
-	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
-	{
-		lstaddback_pars(args, lstnew_pars((*cmd_parsed)->value));
-		(*cmd_parsed) = (*cmd_parsed)->next;
-	}
-	if (ft_strcmp(cmd->value, "echo") == 0)
-	{
-		(*cmd_parsed) = (*cmd_parsed)->next;
-		(*cmd_parsed) = (*cmd_parsed)->next;
 		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 		{
 			lstaddback_pars(args, lstnew_pars((*cmd_parsed)->value));
 			(*cmd_parsed) = (*cmd_parsed)->next;
+		}
+		if (ft_strcmp(cmd->value, "echo") == 0)
+		{
+			(*cmd_parsed) = (*cmd_parsed)->next;
+			(*cmd_parsed) = (*cmd_parsed)->next;
+			while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+			{
+				lstaddback_pars(args, lstnew_pars((*cmd_parsed)->value));
+				(*cmd_parsed) = (*cmd_parsed)->next;
+			}
 		}
 	}
 }
