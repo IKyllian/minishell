@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:59:19 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 08:39:16 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 
 	errno = 0;
 	unset_term(shell);
-	signal(SIGQUIT, p_sigquit);
-	signal(SIGINT, p_sigkill);
 	shell->cmd.pids->spid = fork();
 	if (shell->cmd.pids->spid == -1)
 		print_error(errno);
@@ -112,14 +110,14 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		{
 			print_error(errno);
 			exit(1);
-		}	
+		}
 		exit(0);
 	}
 	signal(SIGINT, p_sigkill);
 	signal(SIGQUIT, p_sigquit);
 	if (wait(&status) == -1)
 		printf("Error with Wait\n");
-	shell->cmd.exit_status = WEXITSTATUS(status);
+	shell->cmd.exit_status = set_exit_status(status);
 }
 
 void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)

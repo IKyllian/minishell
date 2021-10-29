@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 11:00:49 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/24 13:48:57 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 16:14:07 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	search_dquote(char *src, int i, int *j)
 	}
 }
 
-int		presubber(char **src, int *i, int j, t_shell *shell)
+int	presubber(char **src, int *i, int j, t_shell *shell)
 {
 	*src = substitute(*src, *i, j, shell);
 	*i = -1;

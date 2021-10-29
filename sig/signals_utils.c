@@ -1,16 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals2.c                                         :+:      :+:    :+:   */
+/*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:36:50 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 12:38:43 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 08:39:33 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	ign_sigkill(int sig)
+{
+	(void)sig;
+	g_heredoc = 1;
+}
+
+void	ign_sigquit(int sig)
+{
+	(void)sig;
+	g_heredoc = 2;
+}
 
 void	sighandler(int sig)
 {
@@ -30,4 +42,5 @@ void	set_term(t_shell *shell)
 void	unset_term(t_shell *shell)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->saved_term);
+	g_heredoc = 0;
 }

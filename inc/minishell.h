@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 15:53:07 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 08:51:21 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_pids
 	t_pid	*pid;
 	pid_t	spid;
 	int		count;
-	int		mode;
 }	t_pids;
 
 typedef struct s_redir
@@ -107,6 +106,7 @@ void	mem_check(void *ptr);
 int		dbl_array_len(char **dbl_array);
 char	**dbl_array_add(char **dbl_array, char *line);
 void	dbl_array_print(char **dbl_array);
+void	dbl_array_clear(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
 			/* Parsing */
@@ -149,11 +149,14 @@ void	sort_and_print_env(t_shell *shell);
 void	sighandler(int sig);
 void	set_term(t_shell *shell);
 void	unset_term(t_shell *shell);
+void	ign_sigkill(int sig);
+void	ign_sigquit(int sig);
 void	p_sigkill(int sig);
 void	p_sigquit(int sig);
 void	f_sigkill(int sig);
 void	f_sigquit(int sig);
 void	m_sigkill(int sig);
+int		set_exit_status(int status);
 
 			/* Parsing utils */
 int		validator(t_shell *shell);
@@ -226,6 +229,7 @@ int		pipe_count(t_pars *parsed, t_cmd *cmd);
 
 			/* Redirect */
 int		check_redirect(t_shell *shell, t_pars **parsed, int index_cmd);
+int		redirect_comparator(t_pars *lst, t_cmd *cmd, int *j, int p_i);
 int		ft_redirect(t_cmd *cmd, t_redir redir);
 int		ft_redirect_in(t_cmd *cmd, t_redir redir);
 void	restore_cmd(t_shell *shell);

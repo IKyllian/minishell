@@ -6,20 +6,13 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:22 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/25 08:28:08 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:21:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	set_redir(t_redir *redir, int p_i, char *value, int type)
-{
-	redir->pipe_index = p_i;
-	redir->value = ft_strdup(value);
-	redir->type = type;
-}
-
-void	extract_redirect(t_cmd *cmd)
+int	extract_redirect(t_cmd *cmd)
 {
 	t_pars	*lst;
 	int		p_i;
@@ -36,16 +29,13 @@ void	extract_redirect(t_cmd *cmd)
 			p_i++;
 		if (lst->type == 4 && ft_strncmp(lst->value, "<<", 2))
 		{
-			if (!ft_strncmp(lst->value, ">>", 2))
-				set_redir(&cmd->redir[j++], p_i, lst->next->value, 3);
-			else if (!ft_strncmp(lst->value, "<", 1))
-				set_redir(&cmd->redir[j++], p_i, lst->next->value, 1);
-			else if (!ft_strncmp(lst->value, ">", 1))
-				set_redir(&cmd->redir[j++], p_i, lst->next->value, 2);
+			if (!redirect_comparator(lst, cmd, &j, p_i))
+				return (0);
 		}
 		lst = lst->next;
 		i++;
 	}
+	return (1);
 }
 
 int	clean_pars(t_cmd *cmd)
@@ -98,7 +88,8 @@ int	redirect(t_cmd *cmd)
 	cmd->redir = ft_calloc(cmd->recount + 1, sizeof(t_redir));
 	if (!cmd->recount)
 		return (1);
-	extract_redirect(cmd);
+	if (!extract_redirect(cmd))
+		return (0);
 	while (clean_pars(cmd))
 		continue ;
 	return (1);

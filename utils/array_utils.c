@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:43:11 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 16:03:15 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 08:46:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ void	dbl_array_print(char **dbl_array)
 	printf("###############\n");
 }
 
+void	dbl_array_clear(char **dbl_array)
+{
+	int	i;
+
+	i = 0;
+	while (dbl_array[i])
+	{
+		free(dbl_array[i]);
+		i++;
+	}
+	free(dbl_array);
+}
+
 int	dbl_array_len(char **dbl_array)
 {
 	int	i;
@@ -38,8 +51,8 @@ int	dbl_array_len(char **dbl_array)
 
 char	**dbl_array_add(char **dbl_array, char *line)
 {
-	char **new;
-	int	i;
+	char	**new;
+	int		i;
 
 	new = ft_calloc(sizeof(char *), dbl_array_len(dbl_array) + 2);
 	mem_check(new);
@@ -50,15 +63,13 @@ char	**dbl_array_add(char **dbl_array, char *line)
 		i++;
 	}
 	new[i] = ft_strdup(line);
-	// printf("dbl_array_add\n");
 	free (dbl_array);
-	// printf("dbl done\n");
 	return (new);
 }
 
 void	array_joiner(char *src, char *elem)
 {
-	char *new;
+	char	*new;
 
 	new = ft_strjoin(src, elem);
 	free(src);
