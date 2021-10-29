@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:28:27 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 14:24:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/29 14:53:13 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,28 @@ int	is_last_heredoc(t_shell *shell)
 	return (1);
 }
 
-void	fill_arg_hd(t_pars **cmd_parsed, t_pars	**args, int *cmd_exit, t_pars **first)
+void	fill_arg_hd(t_pars **cmd_parsed, t_pars	**args, int *cmd_exit, \
+	t_pars **first)
 {
-	t_pars	*cmd;
-
-	cmd = NULL;
 	if ((*cmd_parsed)->type == 1)
 	{
 		*cmd_exit = 1;
 		*args = lstnew_pars(ft_strdup((*cmd_parsed)->value));
 		*first = *args;
-		cmd = (*cmd_parsed);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 		{
 			lstaddback_pars(args, lstnew_pars(ft_strdup((*cmd_parsed)->value)));
 			(*cmd_parsed) = (*cmd_parsed)->next;
 		}
-		if (ft_strcmp(cmd->value, "echo") == 0)
+		if (ft_strcmp((*first)->value, "echo") == 0)
 		{
 			(*cmd_parsed) = (*cmd_parsed)->next;
 			(*cmd_parsed) = (*cmd_parsed)->next;
 			while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 			{
-				lstaddback_pars(args, lstnew_pars(ft_strdup((*cmd_parsed)->value)));
+				lstaddback_pars(args, \
+					lstnew_pars(ft_strdup((*cmd_parsed)->value)));
 				(*cmd_parsed) = (*cmd_parsed)->next;
 			}
 		}
@@ -85,7 +83,6 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed)
 	t_pars	*first;
 
 	command_exist = 0;
-	args = NULL;
 	if (shell->cmd.hd_has_error)
 		return (-1);
 	else if (!is_last_heredoc(shell))
