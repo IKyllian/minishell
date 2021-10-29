@@ -6,11 +6,20 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/28 15:45:21 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 08:40:19 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	set_exit_status(int status)
+{
+	if (g_heredoc == 1)
+		return (130);
+	else if (g_heredoc == 2)
+		return (131);
+	return (WEXITSTATUS(status));
+}
 
 int	exit_nbr_caster(int nb)
 {

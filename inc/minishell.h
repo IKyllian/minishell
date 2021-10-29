@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/28 15:44:51 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 08:41:22 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,14 @@ void	sort_and_print_env(t_shell *shell);
 void	sighandler(int sig);
 void	set_term(t_shell *shell);
 void	unset_term(t_shell *shell);
+void	ign_sigkill(int sig);
+void	ign_sigquit(int sig);
 void	p_sigkill(int sig);
 void	p_sigquit(int sig);
 void	f_sigkill(int sig);
 void	f_sigquit(int sig);
 void	m_sigkill(int sig);
+int		set_exit_status(int status);
 
 			/* Parsing utils */
 int		validator(t_shell *shell);

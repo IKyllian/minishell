@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/28 15:41:32 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 08:30:48 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed)
 		else
 			exit(0);
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ign_sigkill);
+	signal(SIGQUIT, ign_sigquit);
 	if (shell->cmd.pids->pid[shell->cmd.index_pipe].is_heredoc)
 		waitpid(pid, NULL, 0);
 	shell->cmd.pids->pid[shell->cmd.i_pids++].pid = pid;
@@ -50,14 +50,12 @@ void	wait_childs(t_shell *shell)
 		waitpid(shell->cmd.pids->pid[i].pid, &status, 0);
 		i++;
 	}
-	shell->cmd.exit_status = WEXITSTATUS(status);
-	// printf("gvar:%i\n", g_heredoc);
-	// if (!g_heredoc)
-	// 	shell->cmd.exit_status = WEXITSTATUS(status);
-	// else if (g_heredoc == 1)
-	// 	shell->cmd.exit_status = 130;
-	// else if (g_heredoc == 2)
-	// 	shell->cmd.exit_status = 131;
+	if (!g_heredoc)
+		shell->cmd.exit_status = WEXITSTATUS(status);
+	else if (g_heredoc == 1)
+		shell->cmd.exit_status = 130;
+	else if (g_heredoc == 2)
+		shell->cmd.exit_status = 131;
 }
 
 void	exec_pipe(t_shell *shell, t_pars **parsed)
