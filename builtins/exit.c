@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 09:49:57 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 10:40:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	num_is_valid(char *str)
 			is_neg = -1;
 			continue ;
 		}
-		else if (!(str[i] >= 48 && str[i] <= 57) && str[i] != ' ')
+		else if ((!(str[i] >= 48 && str[i] <= 57) && str[i] != ' ') || nb < 0)
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(&str[i], 2);
