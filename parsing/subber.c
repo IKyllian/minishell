@@ -6,20 +6,37 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/30 12:45:26 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 13:21:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+char	*env_resetter(char *env, char *dup, char **str)
+{
+	if (!env)
+	{
+		env = ft_strdup(*str);
+		free(dup);
+	}
+	else
+	{
+		free(*str);
+		*str = dup;
+	}
+	return (env);
+}
+
 char	*avoider(char **str)
 {
 	char	*env;
 	char	*temp;
+	char	*dup;
 	int		i;
 
 	i = 0;
 	env = NULL;
+	dup = ft_strdup(*str);
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '\'' || (*str)[i] == '\"')
@@ -35,9 +52,7 @@ char	*avoider(char **str)
 		}
 		i++;
 	}
-	if (!env)
-		env = ft_strdup(*str);
-	return (env);
+	return (env_resetter(env, dup, str));
 }
 
 char	*substitute(char *src, int i, int j, t_shell *shell)
