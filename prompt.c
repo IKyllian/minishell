@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 11:21:09 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 14:24:36 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	set_prompt(t_shell *shell, char **prompt)
 	if (*prompt)
 		free(*prompt);
 	if (shell->cmd.exit_status == 0)
-		prefix = "\33[1;32m=>\33[1;36m minishell-0.1(\33[1;37m";
+		prefix = "\33[1;32m=>\33[1;36m minishell-1.0(\33[1;37m";
 	else
-		prefix = "\33[1;31m=>\33[1;36m minishell-0.1(\33[1;37m";
+		prefix = "\33[1;31m=>\33[1;36m minishell-1.0(\33[1;37m";
 	suffix = "\33[1;36m)$ \33[0;37m";
 	*prompt = ft_strjoin("", prefix);
 	if (!path)
