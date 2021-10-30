@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 18:27:38 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 08:42:22 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 	signal(SIGINT, p_sigkill);
 	signal(SIGQUIT, p_sigquit);
 	if (wait(&status) == -1)
-		printf("Error with Wait\n");
+		ft_putstr_fd("Error with Wait\n", 2);
 	shell->cmd.exit_status = set_exit_status(status);
 }
 

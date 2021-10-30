@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:43:11 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/29 10:18:26 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 08:42:37 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	dbl_array_print(char **dbl_array)
-{
-	int	i;
-
-	i = 0;
-	printf("##### LOG #####\n");
-	while (dbl_array[i])
-	{
-		printf("%s\n", dbl_array[i]);
-		i++;
-	}
-	printf("###############\n");
-}
 
 void	dbl_array_clear(char **dbl_array)
 {

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 15:40:29 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 08:39:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*choose_path(const char *path, t_env *env, int fd)
 		home_env = srch_and_return_env_var(env, "HOME");
 		if (home_env == NULL)
 		{
-			printf("minishell: cd: Home not set\n");
+			ft_putstr_fd("minishell: cd: Home not set\n", 2);
 			return (NULL);
 		}
 		else
@@ -79,9 +79,9 @@ int	cd_exec(char *path, t_shell *shell, t_pars **cmd_parsed)
 	char	*dup_old_path;
 	char	*dup_path;
 
+	dup_old_path = set_oldpwd(shell);
 	if (chdir(choose_path(path, shell->env, shell->cmd.fd_out)) == 0)
 	{
-		dup_old_path = set_oldpwd(shell);
 		if (srch_and_rplce_env_var(shell->env, "OLDPWD", dup_old_path, 0) == 0)
 			ft_lstadd_back_env(&shell->env, ft_lstnew_env(ft_strdup("OLDPWD"), \
 				dup_old_path));
@@ -93,11 +93,12 @@ int	cd_exec(char *path, t_shell *shell, t_pars **cmd_parsed)
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		return (0);
 	}
-	if (errno != 14)
-		print_error(errno);
-	shell->cmd.exit_status = 1;
-	(*cmd_parsed) = (*cmd_parsed)->next;
-	return (1);
+	else
+	{
+		if (dup_old_path)
+			free(dup_old_path);
+	}
+	return (end_cd(shell, cmd_parsed));
 }
 
 int	ft_cd(t_shell *shell, t_pars **cmd_parsed)
