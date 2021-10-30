@@ -6,13 +6,13 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/26 09:21:00 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 12:45:26 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*avoider(char *str)
+char	*avoider(char **str)
 {
 	char	*env;
 	char	*temp;
@@ -20,20 +20,23 @@ char	*avoider(char *str)
 
 	i = 0;
 	env = NULL;
-	while (str[i])
+	while ((*str)[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if ((*str)[i] == '\'' || (*str)[i] == '\"')
 		{
-			env = ft_strndup(str, i);
+			env = ft_strndup(*str, i);
 			temp = ft_strjoin(env, "\\");
 			free(env);
-			env = ft_strjoin(temp, &str[i]);
+			env = ft_strjoin(temp, &(*str)[i]);
 			free(temp);
+			free(*str);
+			*str = ft_strdup(env);
+			i++;
 		}
 		i++;
 	}
 	if (!env)
-		env = ft_strdup(str);
+		env = ft_strdup(*str);
 	return (env);
 }
 
@@ -51,7 +54,7 @@ char	*substitute(char *src, int i, int j, t_shell *shell)
 		temp = sub_empty(src, i, j);
 	else
 	{
-		env = avoider(env_rslt->value);
+		env = avoider(&env_rslt->value);
 		temp = sub_found(src, env, i, j);
 		free(env);
 	}
