@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:44:20 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 16:13:10 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 13:10:15 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*check_quote(t_cmd *cmd, char *src, int i, int mode)
 {
 	if (is_quote(src[i]))
 	{
-		if (src[i - 1] && src[i - 1] == '\\')
+		if (i >= 1 && src[i - 1] && src[i - 1] == '\\')
 			return (src);
 		if (src[i] == 34 && !cmd->squote)
 		{
