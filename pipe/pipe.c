@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 14:28:17 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 11:03:26 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	shell->cmd.nbr_pipe = pipe_count((*parsed), &shell->cmd);
 	if (shell->cmd.nbr_pipe > 0)
 	{
+		shell->cmd.is_pipe = 1;
 		shell->cmd.pids->pid = ft_calloc((shell->cmd.nbr_pipe + 2), \
 			sizeof(t_pid));
 		set_heredoc_check((*parsed), shell, &shell->cmd);

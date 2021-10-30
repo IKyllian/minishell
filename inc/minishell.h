@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 08:44:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 11:07:12 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_cmd
 	t_redir	*redir;
 	int		i_redir;
 	int		recount;
+	int		is_pipe;
 	int		index_pipe;
 	int		set_old_to_null;
 	int		nbr_pipe;
@@ -145,6 +146,11 @@ int		ft_export(t_shell *shell, t_pars **cmd_parded);
 int		ft_unset(t_shell *shell, t_pars **cmd_parsed);
 int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 void	ft_exit(t_shell *shell, t_pars **cmd_parsed);
+void	ft_exit_pipe(t_shell *shell, t_pars **cmd_parsed);
+int		get_exit_nb(t_shell *shell, t_pars **cmd_parsed);
+int		num_is_valid(char *str);
+int		exit_nbr_caster(int nb);
+int		set_exit_status(int status);
 int		is_valide_character(char c, char *cmd_value, int indx, t_shell *shell);
 void	sort_and_print_env(t_shell *shell);
 int		end_cd(t_shell *shell, t_pars **cmd_parsed);

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 10:28:03 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 12:48:05 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	check_flag(t_pars *cmd_parsed, int *flag_exist, int is_first, int *skip)
 		*flag_exist = 1;
 	if (has_n && has_dash && *flag_exist && *skip)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 void	print_echo(t_shell *shell, t_pars **cmd_parsed)
