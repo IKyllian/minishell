@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 08:36:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 11:21:09 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	prompt(t_shell *shell)
 	shell->line = "";
 	while (shell->line)
 	{
+		g_heredoc = 0;
 		set_term(shell);
 		set_prompt(shell, &shell->cmd.prompt);
 		signal(SIGINT, m_sigkill);
@@ -94,6 +95,8 @@ int	prompt(t_shell *shell)
 		}
 		if (!quoting(&shell->cmd, shell->line))
 			continue ;
+		if (g_heredoc)
+			shell->cmd.exit_status = 1;
 		deep_parser(shell);
 		restore_cmd(shell);
 	}
