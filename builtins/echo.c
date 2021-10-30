@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 13:16:04 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 10:28:03 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	check_flag(t_pars *cmd_parsed, int *flag_exist, int is_first, int *skip)
 	int	i;
 
 	has_dash = 0;
+	has_n = 0;
 	i = 0;
 	while (cmd_parsed->value[i])
 	{
