@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:36:50 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 08:39:33 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 08:39:50 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ign_sigquit(int sig)
 void	sighandler(int sig)
 {
 	(void)sig;
-	printf("\n");
+	ft_putstr_fd("\n", 2);
 	g_heredoc = 0;
 }
 

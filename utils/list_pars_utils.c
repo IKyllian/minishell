@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/29 08:48:53 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 08:43:27 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	lstput_pars(t_pars *lst)
-{
-	int	i;
-
-	i = 0;
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		printf("*%i\t|%s|\t%i*\n", i, lst->value, lst->type);
-		i++;
-		lst = lst->next;
-	}
-}
 
 int	lstsize_pars(t_pars *lst)
 {

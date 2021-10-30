@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 16:08:37 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 08:08:54 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	free_env_list_item(t_env *env)
 		free(env->name);
 	if (env)
 		free(env);
+	env = NULL;
 }
 
 void	lstclear_env(t_env **lst)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   escaper.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 11:16:27 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/26 09:41:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 08:39:33 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	search_and_escape(t_cmd *cmd)
 		}
 		if (cmd->squote || cmd->dquote)
 		{
-			printf("Missing quotes\n");
+			ft_putstr_fd("Missing quotes\n", 2);
 			return (0);
 		}
 		lst = lst->next;

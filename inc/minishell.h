@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 13:25:48 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 08:44:42 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	mem_check(void *ptr);
 			/* Arrays */
 int		dbl_array_len(char **dbl_array);
 char	**dbl_array_add(char **dbl_array, char *line);
-void	dbl_array_print(char **dbl_array);
 void	dbl_array_clear(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
@@ -121,7 +120,6 @@ int		redirect(t_cmd *cmd);
 void	print_error(int errnum);
 void	free_tab(char **tabl);
 void	free_env_list_item(t_env *env);
-// void	free_env_linked_list(t_env *env);
 void	free_parse_linked_list(t_pars *parse);
 void	free_redir(t_shell *shell);
 
@@ -132,10 +130,12 @@ t_shell	shell_init(char **env);
 			/* Env */
 t_env	*env_init(char **env_tab);
 int		srch_and_rplce_env_var(t_env *env, char *to_srch, char *new, int mode);
-void	srch_and_dlt_env_var(t_env *env, char *to_search);
+void	srch_and_dlt_env_var(t_env **env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
 t_env	*srch_and_return_env_var(t_env *env, char *to_search);
 int		quoting(t_cmd *cmd, char *line);
+void	check_first_node(t_env	*first, t_env **env, t_env	*prev);
+void	replace_env_var(t_env *env, char *new_val, int mode);
 
 			/* Builtins */
 int		ft_echo(t_shell *shell, t_pars **cmd_parsed);
@@ -147,6 +147,7 @@ int		ft_env(t_shell *shell, t_pars **cmd_parsed);
 void	ft_exit(t_shell *shell, t_pars **cmd_parsed);
 int		is_valide_character(char c, char *cmd_value, int indx, t_shell *shell);
 void	sort_and_print_env(t_shell *shell);
+int		end_cd(t_shell *shell, t_pars **cmd_parsed);
 
 			/* Signals */
 void	sighandler(int sig);
@@ -205,7 +206,6 @@ void	ft_lstadd_back_env(t_env **alst, t_env *new);
 			/* List utils (t_pars) */
 t_pars	*lst_replace_start(t_cmd *cmd, t_pars *new_tokens, int *t);
 t_pars	*lst_replace(t_pars *lst, t_pars *new_tokens, int *t);
-void	lstput_pars(t_pars *lst);
 void	lstdel_beg_pars(t_pars **lst);
 void	lstdel_other_pars(t_pars **lst, int d);
 void	lstclear_pars(t_pars **lst);
@@ -239,7 +239,5 @@ void	restore_cmd(t_shell *shell);
 int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
 int		check_heredoc(t_shell *shell, t_pars **parsed, int ret);
 void	init_heredoc(t_shell *shell, t_pars *parsed);
-
-// void	init_pars(t_cmd *cmd, char **arg);
 
 #endif

@@ -6,9 +6,11 @@ LIB_PATH = ./libft/
 SRCS =  main.c \
 		error.c \
 		./env/env_utils.c \
+		./env/env_tools.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
+		./builtins/cd_utils.c \
 		./builtins/export.c \
 		./builtins/export_utils.c \
 		./builtins/unset.c \

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:23 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/26 15:40:14 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 07:59:55 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_unset(t_shell *shell, t_pars **cmd_parsed)
 		(*cmd_parsed) = (*cmd_parsed)->next;
 	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 	{
-		srch_and_dlt_env_var(shell->env, (*cmd_parsed)->value);
+		srch_and_dlt_env_var(&shell->env, (*cmd_parsed)->value);
 		if (ft_strcmp("PWD", (*cmd_parsed)->value) == 0)
 			shell->cmd.set_old_to_null = 1;
 		(*cmd_parsed) = (*cmd_parsed)->next;
