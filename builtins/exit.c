@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 12:46:41 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 14:01:14 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,10 @@ int	num_is_valid(char *str)
 	int	i;
 	int	nb;
 	int	sign;
-	int	space;
 
 	i = 0;
 	nb = 0;
 	sign = 1;
-	space = 0;
 	while (str[i] == ' ')
 		i++;
 	if (str[i] == '-')
@@ -47,46 +45,30 @@ int	num_is_valid(char *str)
 		sign = -1;
 		i++;
 	}
-	while (str[i])
-	{
-		if (str[i] == ' ')
-		{
-			space = 1;
-			i++;
-			continue ;
-		}
-		if ((!(str[i] >= 48 && str[i] <= 57))
-			|| ((str[i] >= 48 && str[i] <= 57) && space))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(&str[i], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			return (300);
-		}
-		nb = (nb * 10) + (str[i++] - 48);
-	}
+	if (get_nb(str, i, &nb) == 255)
+		return (255);
 	return (exit_nbr_caster(nb * sign));
 }
 
 int	get_exit_nb(t_shell *shell, t_pars **cmd_parsed)
 {
 	int	nb;
+	int	too_many_arg;
 
 	nb = 0;
 	if ((*cmd_parsed)->next
 		&& ((*cmd_parsed)->next->next && (*cmd_parsed)->next->next->type == 2))
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		shell->cmd.exit_status = 1;
-		return (301);
-	}
+		too_many_arg = 1;
+	else
+		too_many_arg = 0;
 	if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)
 	{
 		nb = num_is_valid((*cmd_parsed)->next->value);
-		if (nb == 300)
+		if (nb != 255 && too_many_arg)
 		{
-			nb = 255;
-			return (nb);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			shell->cmd.exit_status = 1;
+			return (301);
 		}
 	}
 	return (nb);

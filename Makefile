@@ -10,7 +10,7 @@ SRCS =  main.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
-		./builtins/cd_utils.c \
+		./builtins/builtins_utils.c \
 		./builtins/export.c \
 		./builtins/export_utils.c \
 		./builtins/unset.c \

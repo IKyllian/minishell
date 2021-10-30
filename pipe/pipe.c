@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 11:03:26 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 13:51:55 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed)
 		dup_pipe(shell, in, out);
 		exec_child(shell, parsed);
 		if (shell->cmd.exit_status > 0)
-			exit(1);
+			exit(shell->cmd.exit_status);
 		else
 			exit(0);
 	}

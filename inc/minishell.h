@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 11:07:12 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 14:01:27 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	ft_exit(t_shell *shell, t_pars **cmd_parsed);
 void	ft_exit_pipe(t_shell *shell, t_pars **cmd_parsed);
 int		get_exit_nb(t_shell *shell, t_pars **cmd_parsed);
 int		num_is_valid(char *str);
+int		get_nb(char *str, int i, int *nb);
 int		exit_nbr_caster(int nb);
 int		set_exit_status(int status);
 int		is_valide_character(char c, char *cmd_value, int indx, t_shell *shell);
