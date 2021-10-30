@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 14:28:17 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 13:51:55 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed)
 		dup_pipe(shell, in, out);
 		exec_child(shell, parsed);
 		if (shell->cmd.exit_status > 0)
-			exit(1);
+			exit(shell->cmd.exit_status);
 		else
 			exit(0);
 	}
@@ -111,6 +111,7 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 	shell->cmd.nbr_pipe = pipe_count((*parsed), &shell->cmd);
 	if (shell->cmd.nbr_pipe > 0)
 	{
+		shell->cmd.is_pipe = 1;
 		shell->cmd.pids->pid = ft_calloc((shell->cmd.nbr_pipe + 2), \
 			sizeof(t_pid));
 		set_heredoc_check((*parsed), shell, &shell->cmd);

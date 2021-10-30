@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*   exit_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 08:34:30 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 08:35:28 by kdelport         ###   ########.fr       */
+/*   Created: 2021/10/30 10:52:00 by kdelport          #+#    #+#             */
+/*   Updated: 2021/10/30 11:24:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	end_cd(t_shell *shell, t_pars **cmd_parsed)
+void	ft_exit_pipe(t_shell *shell, t_pars **cmd_parsed)
 {
-	if (errno != 14)
-		print_error(errno);
-	shell->cmd.exit_status = 1;
-	(*cmd_parsed) = (*cmd_parsed)->next;
-	return (1);
+	int	ret;
+
+	ret = 0;
+	unset_term(shell);
+	if (shell->line)
+		shell->cmd.exit_status = get_exit_nb(shell, cmd_parsed);
 }

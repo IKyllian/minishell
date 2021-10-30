@@ -10,12 +10,13 @@ SRCS =  main.c \
 		./builtins/echo.c \
 		./builtins/pwd.c \
 		./builtins/cd.c \
-		./builtins/cd_utils.c \
+		./builtins/builtins_utils.c \
 		./builtins/export.c \
 		./builtins/export_utils.c \
 		./builtins/unset.c \
 		./builtins/env.c \
 		./builtins/exit.c \
+		./builtins/exit_pipe.c \
 		./parsing/escaper.c \
 		./parsing/tokenizer.c \
 		./parsing/quoting.c \

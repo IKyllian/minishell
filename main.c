@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:00:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/27 09:13:00 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/10/30 11:10:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int	cmd_to_exec(t_shell *shell, t_pars **parsed)
 		shell->cmd.exit_status = ft_unset(shell, parsed);
 	else if (ft_strcmp((*parsed)->value, "env") == 0)
 		shell->cmd.exit_status = ft_env(shell, parsed);
-	else if (ft_strcmp((*parsed)->value, "exit") == 0)
+	else if (ft_strcmp((*parsed)->value, "exit") == 0 && !shell->cmd.is_pipe)
 		ft_exit(shell, parsed);
+	else if (ft_strcmp((*parsed)->value, "exit") == 0 && shell->cmd.is_pipe)
+		ft_exit_pipe(shell, parsed);
 	else
 		ft_exec(shell, parsed, 0);
 	return (1);
