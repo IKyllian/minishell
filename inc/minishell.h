@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 14:01:27 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/01 16:07:07 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,11 +227,14 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable);
 int		cmd_to_exec(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed);
 int		check_pipe(t_pars **parsed, t_shell *shell);
-void	join_path(char **path_splt, int i, struct dirent *pdirent, char **path);
+char	*first_search(char **cmd_path, int *has_right);
+void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
 char	**fill_envp(t_env *env);
 int		check_access(char **path, int *has_right);
 void	path_error(char *path, int has_right, int fd, char *cmd_path);
+char	*error_path_env(char **cmd_path);
+char	*error_pdir(char **join_path);
 void	dup_pipe(t_shell *shell, int in, int out);
 void	next_cmd(t_pars **parsed);
 void	exec_child(t_shell *shell, t_pars **parsed);

@@ -41,6 +41,8 @@ SRCS =  main.c \
 		./utils/list_utils.c \
 		./exec/exec.c \
 		./exec/exec_utils.c \
+		./exec/exec_error.c \
+		./exec/exec_current_path.c \
 		./redirect/heredoc.c \
 		./redirect/redirect.c \
 		./redirect/init_heredoc.c \
