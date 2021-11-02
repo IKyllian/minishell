@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:22:49 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 12:37:19 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*search_path(t_shell *shell, t_env *env_path, char **cmd_path, int fd)
 		return (error_path_env(cmd_path));
 	path = NULL;
 	has_right = 1;
-	path = first_search(cmd_path, &has_right);
+	path = first_search(cmd_path, &has_right, shell);
 	if (path)
 		return (path);
 	i = -1;

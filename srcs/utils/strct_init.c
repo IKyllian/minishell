@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 11:23:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 13:32:42 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_shell	shell_init(char **env)
 	t_shell	shell;
 
 	errno = 0;
-	shell.env = env_init(env);
+	shell.env = env_init(env, &shell);
 	shell.cmd = cmd_init();
 	tcgetattr(0, &shell.saved_term);
 	return (shell);
@@ -62,7 +62,7 @@ void	get_env_value(char **value, int len, int i, char *line)
 	(*value)[j] = '\0';
 }
 
-void	get_env_var(char *line, char **lst_name, char **lst_value)
+void	get_env_var(char *line, char **lst_name, char **lst_val, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -76,20 +76,20 @@ void	get_env_var(char *line, char **lst_name, char **lst_value)
 	while (line[len] && line[len] != '=')
 		len++;
 	name = malloc(sizeof(char) * (len + 1));
-	mem_check(name);
+	mem_check(shell, name);
 	while (line[++j] && line[j] != '=')
 		name[j] = line[j];
 	name[j] = '\0';
 	while (line[++len])
 		i++;
 	value = malloc(sizeof(char) * (i + 1));
-	mem_check(value);
+	mem_check(shell, value);
 	get_env_value(&value, len, i, line);
 	*lst_name = name;
-	*lst_value = value;
+	*lst_val = value;
 }
 
-t_env	*env_init(char **env_tab)
+t_env	*env_init(char **env_tab, t_shell *shell)
 {
 	int		i;
 	t_env	*env;
@@ -100,7 +100,7 @@ t_env	*env_init(char **env_tab)
 	env = NULL;
 	while (env_tab[++i])
 	{
-		get_env_var(env_tab[i], &name, &value);
+		get_env_var(env_tab[i], &name, &value, shell);
 		if (ft_strcmp(name, "OLDPWD") == 0)
 		{
 			ft_lstadd_back_env(&env, ft_lstnew_env(name, ft_strdup("\0")));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subber.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 13:09:59 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:53:28 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void	search_and_sub(t_shell *shell)
 					continue ;
 			}
 		}
-		lst = retokenize(&shell->cmd, &lst, &shell->token);
+		lst = retokenize(shell, &shell->cmd, &lst, &shell->token);
 	}
 }
