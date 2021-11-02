@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:47:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 13:46:08 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 14:10:21 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	free_all(t_shell *shell)
 	}
 	if (shell->line)
 		free(shell->line);
+	if (shell->cmd.line)
+		free(shell->cmd.line);
 	free(shell->cmd.prompt);
 	free(shell->cmd.pids);
 	lstclear_pars(&shell->cmd.parsed);
@@ -35,7 +37,6 @@ void	mem_check(t_shell *shell, void *ptr)
 	if (!ptr)
 	{
 		free_all(shell);
-		while (1) ;
 		exit(1);
 	}
 }
