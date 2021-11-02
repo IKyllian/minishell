@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 11:22:49 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i, int *has_right)
 	return (path);
 }
 
-char	*search_path(t_env *env_path, char **cmd_path, int fd)
+char	*search_path(t_shell *shell, t_env *env_path, char **cmd_path, int fd)
 {
 	char	**path_split;
 	int		i;
@@ -51,11 +51,11 @@ char	*search_path(t_env *env_path, char **cmd_path, int fd)
 	if (env_path == NULL)
 		return (error_path_env(cmd_path));
 	path = NULL;
+	has_right = 1;
 	path = first_search(cmd_path, &has_right);
 	if (path)
 		return (path);
 	i = -1;
-	has_right = 1;
 	path_split = ft_split(env_path->value, ':');
 	while (path_split[++i])
 	{
@@ -64,7 +64,7 @@ char	*search_path(t_env *env_path, char **cmd_path, int fd)
 			break ;
 	}
 	dbl_array_clear(path_split);
-	path_error(path, has_right, fd, *cmd_path);
+	shell->cmd.exit_status = path_error(path, has_right, fd, *cmd_path);
 	return (path);
 }
 
@@ -101,6 +101,7 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 	int	status;
 
 	errno = 0;
+	status = 0;
 	unset_term(shell);
 	shell->cmd.pids->spid = fork();
 	if (shell->cmd.pids->spid == -1)
@@ -111,6 +112,7 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		signal(SIGQUIT, f_sigquit);
 		if (execve(path, args, envp) == -1)
 		{
+			printf("errno = %i\n", errno);
 			print_error(errno);
 			exit(1);
 		}
@@ -129,15 +131,15 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
 	char	**args;
 	char	**envp;
 
-	if (is_executable)
-		path = (*cmd_parsed)->value;
-	else
-		path = search_path(srch_and_return_env_var(shell->env, "PATH"), \
+	path = NULL;
+	if (is_executable && !check_executable(shell, cmd_parsed, &path))
+		return ;
+	if (path == NULL)
+		path = search_path(shell, srch_and_return_env_var(shell->env, "PATH"), \
 			&(*cmd_parsed)->value, 2);
 	if (path == NULL)
 	{
 		(*cmd_parsed) = (*cmd_parsed)->next;
-		shell->cmd.exit_status = 127;
 		return ;
 	}
 	else
