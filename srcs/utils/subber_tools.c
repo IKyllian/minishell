@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 09:29:16 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 10:58:57 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:10:05 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	sub_exit_status(t_shell *shell, char **str, int *i)
 		*str = ft_strjoin(temp, dup);
 		free(dup);
 		free(temp);
+		// printf("%s\n", *str);
 	}
 }
