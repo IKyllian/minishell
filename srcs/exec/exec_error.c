@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:06:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/01 16:07:24 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 09:30:32 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*error_path_env(char **cmd_path)
 	return (NULL);
 }
 
-void	path_error(char *path, int has_right, int fd, char *cmd_path)
+int	path_error(char *path, int has_right, int fd, char *cmd_path)
 {
 	if (path == NULL)
 	{
@@ -29,10 +29,15 @@ void	path_error(char *path, int has_right, int fd, char *cmd_path)
 			ft_putstr_fd("minishell: ", fd);
 			ft_putstr_fd(cmd_path, fd);
 			ft_putstr_fd(": command not found\n", fd);
+			return (127);
 		}
 		else
+		{
 			ft_putstr_fd("Permission denied\n", fd);
+			return (126);
+		}
 	}
+	return (0);
 }
 
 char	*error_pdir(char **join_path)

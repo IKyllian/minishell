@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/30 11:02:41 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:02:28 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_shell	shell_init(char **env)
 {
 	t_shell	shell;
 
+	errno = 0;
 	shell.env = env_init(env);
 	shell.cmd = cmd_init();
 	tcgetattr(0, &shell.saved_term);

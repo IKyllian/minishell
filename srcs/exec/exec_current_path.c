@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_current_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:02:16 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/01 16:18:14 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:07:49 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_dir_index(char **cmd_path)
 	i = 0;
 	while ((*cmd_path)[i])
 		if ((*cmd_path)[i++] == '/')
-			break;
+			break ;
 	return (i);
 }
 
@@ -78,7 +78,6 @@ char	*first_search(char **cmd_path, int *has_right)
 	char			*path;
 	char			*join_path;
 
-	errno = 0;
 	if (join_pwd_path(cmd_path, &join_path) && join_path == NULL)
 		return (NULL);
 	pdir = opendir(join_path);
@@ -92,7 +91,8 @@ char	*first_search(char **cmd_path, int *has_right)
 		{
 			join_exec_path(join_path, pdirent, &path);
 			free(join_path);
-			check_access(&path, has_right);
+			if (check_access(&path, has_right) == 1)
+				break ;
 		}
 		pdirent = readdir(pdir);
 	}
