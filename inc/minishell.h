@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/01 16:07:07 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 10:53:50 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <limits.h>
@@ -23,7 +24,6 @@
 # include <readline/history.h>
 # include <termios.h>
 # include <signal.h>
-# include "libft.h"
 # include <dirent.h>
 
 # include <term.h>
@@ -194,6 +194,7 @@ void	search_squote(char *src, int *i);
 void	search_dquote(char *src, int i, int *j);
 int		presubber(char **src, int *i, int j, t_shell *shell);
 char	*substitute(char *src, int i, int j, t_shell *shell);
+void	sub_exit_status(t_shell *shell, char **str, int *i);
 
 			/* Retokenize utils */
 t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t);

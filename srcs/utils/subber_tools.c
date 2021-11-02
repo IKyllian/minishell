@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_pipe.c                                        :+:      :+:    :+:   */
+/*   subber_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 10:52:00 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Created: 2021/11/02 09:29:16 by ctaleb            #+#    #+#             */
+/*   Updated: 2021/11/02 10:48:58 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit_pipe(t_shell *shell, t_pars **cmd_parsed)
+void	sub_exit_status(t_shell *shell, char **str, int *i)
 {
-	int	ret;
+	char	*dup;
+	char	*temp;
+	char	*env;
 
-	ret = 0;
-	unset_term(shell);
-	if (shell->line)
-		shell->cmd.exit_status = get_exit_nb(shell, cmd_parsed);
+	if ((*str)[*i] == '$' && (*str)[*i + 1] && (*str)[*i + 1] == '?')
+	{
+		env = ft_itoa(shell->cmd.exit_status);
+		dup = ft_strndup(*str, *i);
+		temp = ft_strjoin(dup, env);
+		free(env);
+		free(dup);
+		dup = ft_strdup(&(*str)[*i + 2]);
+		free(*str);
+		*str = ft_strjoin(temp, dup);
+		free(dup);
+		free(temp);
+	}
 }

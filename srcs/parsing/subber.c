@@ -6,11 +6,11 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:57:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/30 13:21:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 09:42:34 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 char	*env_resetter(char *env, char *dup, char **str)
 {
@@ -101,6 +101,7 @@ void	search_and_sub(t_shell *shell)
 		while (lst->value[++i])
 		{
 			search_squote(lst->value, &i);
+			sub_exit_status(shell, &lst->value, &i);
 			if (lst->value[i] == '$' && lst->value[i + 1]
 				&& lst->value[i + 1] != '?' && lst->value[i + 1] != ' ')
 			{
