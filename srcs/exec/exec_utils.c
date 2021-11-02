@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 13:55:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/01 16:07:27 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	join_path(char **path_splt, int i, struct dirent *pdirent, char **path)
+void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path)
 {
 	char	*temp;
 
-	*path = path_splt[i];
+	*path = path_dir;
 	temp = ft_strjoin(*path, "/");
 	*path = ft_strjoin(temp, pdirent->d_name);
 	if (temp)
@@ -70,20 +70,5 @@ int	check_access(char **path, int *has_right)
 			*has_right = 0;
 		}
 		return (0);
-	}
-}
-
-void	path_error(char *path, int has_right, int fd, char *cmd_path)
-{
-	if (path == NULL)
-	{
-		if (has_right)
-		{
-			ft_putstr_fd("minishell: ", fd);
-			ft_putstr_fd(cmd_path, fd);
-			ft_putstr_fd(": command not found\n", fd);
-		}
-		else
-			ft_putstr_fd("Permission denied\n", fd);
 	}
 }

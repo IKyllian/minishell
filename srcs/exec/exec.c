@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 08:42:22 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/01 16:13:19 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i, int *has_right)
 	{
 		if (ft_strcmp(pdirent->d_name, cmd_path) == 0)
 		{
-			join_path(path_split, i, pdirent, &path);
+			join_exec_path(path_split[i], pdirent, &path);
 			if (check_access(&path, has_right) == 1)
 				break ;
 		}
@@ -41,7 +41,7 @@ char	*search_in_dir(char *cmd_path, char **path_split, int i, int *has_right)
 	return (path);
 }
 
-char	*search_path(t_env *env_path, char *cmd_path, int fd)
+char	*search_path(t_env *env_path, char **cmd_path, int fd)
 {
 	char	**path_split;
 	int		i;
@@ -49,24 +49,22 @@ char	*search_path(t_env *env_path, char *cmd_path, int fd)
 	int		has_right;		
 
 	if (env_path == NULL)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd_path, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		return (NULL);
-	}
+		return (error_path_env(cmd_path));
+	path = NULL;
+	path = first_search(cmd_path, &has_right);
+	if (path)
+		return (path);
 	i = -1;
 	has_right = 1;
 	path_split = ft_split(env_path->value, ':');
-	path = NULL;
 	while (path_split[++i])
 	{
-		path = search_in_dir(cmd_path, path_split, i, &has_right);
+		path = search_in_dir(*cmd_path, path_split, i, &has_right);
 		if (path != NULL)
 			break ;
 	}
 	dbl_array_clear(path_split);
-	path_error(path, has_right, fd, cmd_path);
+	path_error(path, has_right, fd, *cmd_path);
 	return (path);
 }
 
@@ -135,7 +133,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
 		path = (*cmd_parsed)->value;
 	else
 		path = search_path(srch_and_return_env_var(shell->env, "PATH"), \
-			(*cmd_parsed)->value, 2);
+			&(*cmd_parsed)->value, 2);
 	if (path == NULL)
 	{
 		(*cmd_parsed) = (*cmd_parsed)->next;
