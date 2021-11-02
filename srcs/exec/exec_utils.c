@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 11:23:22 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,16 @@ int	check_access(char **path, int *has_right)
 		}
 		return (0);
 	}
+}
+
+int	check_executable(t_shell *shell, t_pars **cmd_parsed, char **path)
+{
+	*path = (*cmd_parsed)->value;
+	if (access(*path, X_OK) != 0)
+	{
+		shell->cmd.exit_status = 126;
+		ft_putstr_fd("Permission denied\n", 2);
+		return (0);
+	}
+	return (1);
 }

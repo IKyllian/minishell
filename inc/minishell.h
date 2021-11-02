@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 13:10:11 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:39:29 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,8 @@ void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
 char	**fill_envp(t_env *env);
 int		check_access(char **path, int *has_right);
-void	path_error(char *path, int has_right, int fd, char *cmd_path);
+int		path_error(char *path, int has_right, int fd, char *cmd_path);
+int		check_executable(t_shell *shell, t_pars **cmd_parsed, char **path);
 char	*error_path_env(char **cmd_path);
 char	*error_pdir(char **join_path);
 void	dup_pipe(t_shell *shell, int in, int out);
