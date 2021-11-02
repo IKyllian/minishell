@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:07:55 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:23:22 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path)
 {

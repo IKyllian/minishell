@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:06:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 09:30:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:23:19 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 char	*error_path_env(char **cmd_path)
 {

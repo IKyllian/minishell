@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 12:48:05 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 10:49:54 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	check_flag(t_pars *cmd_parsed, int *flag_exist, int is_first, int *skip)
 {
@@ -43,10 +43,7 @@ int	check_flag(t_pars *cmd_parsed, int *flag_exist, int is_first, int *skip)
 
 void	print_echo(t_shell *shell, t_pars **cmd_parsed)
 {
-	if ((*cmd_parsed)->value[0] == '$' && (*cmd_parsed)->value[1] == '?')
-		ft_putnbr_fd(shell->cmd.exit_status, shell->cmd.fd_out);
-	else
-		ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
+	ft_putstr_fd((*cmd_parsed)->value, shell->cmd.fd_out);
 	if ((*cmd_parsed)->next && (*cmd_parsed)->next->type == 2)
 		ft_putchar_fd(' ', shell->cmd.fd_out);
 }

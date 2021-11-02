@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:06:57 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:22:49 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 char	*search_in_dir(char *cmd_path, char **path_split, int i, int *has_right)
 {

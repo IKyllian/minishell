@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 11:02:28 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:23:32 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 t_shell	shell_init(char **env)
 {

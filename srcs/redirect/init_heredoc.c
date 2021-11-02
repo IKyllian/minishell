@@ -6,11 +6,11 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:42:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/29 14:42:43 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void	fill_file(char *line, int fd)
 {
