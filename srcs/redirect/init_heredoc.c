@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:42:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:46:48 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,17 @@ void	init_heredoc(t_shell *shell, t_pars *parsed)
 		if (parse->type == 4)
 			launch_heredoc(parse, shell);
 		parse = parse->next;
+	}
+}
+
+void	heredoc_echo(t_pars **cmd_parsed, t_pars **args, t_shell *shell)
+{
+	(*cmd_parsed) = (*cmd_parsed)->next;
+	(*cmd_parsed) = (*cmd_parsed)->next;
+	while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
+	{
+		lstaddback_pars(args, \
+			lstnew_pars(ft_strdup((*cmd_parsed)->value), shell));
+		(*cmd_parsed) = (*cmd_parsed)->next;
 	}
 }

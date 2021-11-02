@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:46:40 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 13:26:18 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 15:04:50 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	delimiter(t_shell *shell, int *i, int *j, int *t)
 {
 	if (*t == 1 && *i >= 1
-		&& is_long_operator(shell->cmd.history[*j][*i], shell->cmd.history[*j][*i - 1]))
+		&& is_long_operator(shell->cmd.history[*j][*i], \
+		shell->cmd.history[*j][*i - 1]))
 		long_operator(shell, i, j, t);
 	else if (*t == 1 && *i >= 1 && is_operator(shell->cmd.history[*j][*i - 1])
-		&& !is_long_operator(shell->cmd.history[*j][*i], shell->cmd.history[*j][*i - 1]))
+		&& !is_long_operator(shell->cmd.history[*j][*i], \
+		shell->cmd.history[*j][*i - 1]))
 		short_operator(shell, i, j, t);
 	else if (is_operator(shell->cmd.history[*j][*i]))
 		operator(shell, i, j, t);
