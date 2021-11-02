@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 14:40:20 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 15:06:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,5 +252,6 @@ void	restore_cmd(t_shell *shell);
 int		ft_heredoc(t_shell *shell, t_pars **cmd_parsed);
 int		check_heredoc(t_shell *shell, t_pars **parsed, int ret);
 void	init_heredoc(t_shell *shell, t_pars *parsed);
+void	heredoc_echo(t_pars **cmd_parsed, t_pars **args, t_shell *shell);
 
 #endif
