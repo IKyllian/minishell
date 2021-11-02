@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 13:53:34 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 14:40:20 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_cmd
 	int		nbr_pipe;
 	int		mode_export;
 	int		pipe_fd;
+	char	*temp;
 	t_pids	*pids;
 }	t_cmd;
 
