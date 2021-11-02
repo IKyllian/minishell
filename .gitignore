@@ -1,3 +1,4 @@
+.DStore
 *.o
 *.sh
 text.txt
@@ -5,3 +6,4 @@ text.txt
 minishell
 .vscode
 printargs.c
+.objs
