@@ -6,11 +6,11 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:29:01 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/27 16:12:32 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	is_quote(char c)
 {

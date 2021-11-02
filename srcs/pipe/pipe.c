@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 13:51:55 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void	fork_pipe(int in, int out, t_shell *shell, t_pars **parsed)
 {

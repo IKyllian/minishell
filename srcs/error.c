@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 11:35:08 by kdelport          #+#    #+#             */
-/*   Updated: 2021/10/30 08:08:54 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 08:47:12 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./inc/minishell.h"
+#include "minishell.h"
 
 void	free_redir(t_shell *shell)
 {

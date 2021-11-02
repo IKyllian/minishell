@@ -6,11 +6,11 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 13:49:37 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/29 10:36:36 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void	set_redir(t_redir *redir, int p_i, char *value, int type)
 {

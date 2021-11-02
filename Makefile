@@ -35,6 +35,7 @@ LST_SRCS =  main.c						\
 			utils/parsing_utils.c		\
 			utils/tokenizer_utils.c		\
 			utils/subber_utils.c		\
+			utils/subber_tools.c		\
 			utils/redirecter_utils.c	\
 			utils/prompt_utils.c		\
 			utils/strct_init.c			\

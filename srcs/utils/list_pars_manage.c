@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_manage.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:37:06 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/10/29 14:23:30 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 t_pars	*lst_replace(t_pars *lst, t_pars *new_tokens, int *t)
 {

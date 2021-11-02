@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_current_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:02:16 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/01 16:18:14 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 10:59:21 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	get_dir_index(char **cmd_path)
 {
@@ -19,7 +19,7 @@ int	get_dir_index(char **cmd_path)
 	i = 0;
 	while ((*cmd_path)[i])
 		if ((*cmd_path)[i++] == '/')
-			break;
+			break ;
 	return (i);
 }
 
