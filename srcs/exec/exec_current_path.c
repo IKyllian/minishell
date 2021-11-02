@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:02:16 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:23:16 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 12:36:34 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_dir_index(char **cmd_path)
 	return (i);
 }
 
-char	*search_dir(char **cmd_path)
+char	*search_dir(char **cmd_path, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -36,14 +36,14 @@ char	*search_dir(char **cmd_path)
 	if ((int)ft_strlen((*cmd_path)) == i)
 		return (NULL);
 	dir = malloc(sizeof(char) * (i + 1));
-	mem_check(dir);
+	mem_check(shell, dir);
 	dir[++j] = '/';
 	while (++j < i)
 		dir[j] = (*cmd_path)[j - 1];
 	dir[j] = 0;
 	j = 0;
 	cmd = malloc(sizeof(char) * ((ft_strlen(*cmd_path) - i) + 1));
-	mem_check(cmd);
+	mem_check(shell, cmd);
 	while ((*cmd_path)[i])
 		cmd[j++] = (*cmd_path)[i++];
 	cmd[j] = 0;
@@ -52,13 +52,13 @@ char	*search_dir(char **cmd_path)
 	return (dir);
 }
 
-int	join_pwd_path(char **cmd_path, char **join_path)
+int	join_pwd_path(char **cmd_path, char **join_path, t_shell *shell)
 {
 	char	path_pwd[PATH_MAX];
 	char	*dir;
 	char	*path;
 
-	dir = search_dir(cmd_path);
+	dir = search_dir(cmd_path, shell);
 	if (dir == NULL)
 	{
 		*join_path = NULL;
@@ -71,14 +71,14 @@ int	join_pwd_path(char **cmd_path, char **join_path)
 	return (1);
 }
 
-char	*first_search(char **cmd_path, int *has_right)
+char	*first_search(char **cmd_path, int *has_right, t_shell *shell)
 {
 	DIR				*pdir;
 	struct dirent	*pdirent;
 	char			*path;
 	char			*join_path;
 
-	if (join_pwd_path(cmd_path, &join_path) && join_path == NULL)
+	if (join_pwd_path(cmd_path, &join_path, shell) && join_path == NULL)
 		return (NULL);
 	pdir = opendir(join_path);
 	path = NULL;

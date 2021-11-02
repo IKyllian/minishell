@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:47:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:46:08 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ void	free_all(t_shell *shell)
 	dbl_array_clear(shell->cmd.history);
 }
 
-void	mem_check(void *ptr)
+void	mem_check(t_shell *shell, void *ptr)
 {
 	if (!ptr)
-		exit(-12);
+	{
+		free_all(shell);
+		while (1) ;
+		exit(1);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:44:11 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:12:07 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	set_prompt(t_shell *shell, char **prompt)
 
 void	deep_parser(t_shell *shell)
 {
-	history_save(&shell->cmd, shell->line);
-	tokenizer(&shell->cmd, shell->line);
+	history_save(&shell->cmd, shell->line, shell);
+	tokenizer(&shell->cmd, shell->line, shell);
 	search_and_sub(shell);
 	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd))
 		if (validator(shell))

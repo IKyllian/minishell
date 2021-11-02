@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:28:27 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:10:05 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,29 @@ int	is_last_heredoc(t_shell *shell)
 }
 
 void	fill_arg_hd(t_pars **cmd_parsed, t_pars	**args, int *cmd_exit, \
-	t_pars **first)
+	t_shell *shell)
 {
+	t_pars *first;
+
 	if ((*cmd_parsed)->type == 1)
 	{
 		*cmd_exit = 1;
-		*args = lstnew_pars(ft_strdup((*cmd_parsed)->value));
-		*first = *args;
+		first = (*cmd_parsed);
+		*args = lstnew_pars(ft_strdup((*cmd_parsed)->value), shell);
 		(*cmd_parsed) = (*cmd_parsed)->next;
 		while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 		{
-			lstaddback_pars(args, lstnew_pars(ft_strdup((*cmd_parsed)->value)));
+			lstaddback_pars(args, lstnew_pars(ft_strdup((*cmd_parsed)->value), shell));
 			(*cmd_parsed) = (*cmd_parsed)->next;
 		}
-		if (ft_strcmp((*first)->value, "echo") == 0)
+		if (ft_strcmp(first->value, "echo") == 0)
 		{
 			(*cmd_parsed) = (*cmd_parsed)->next;
 			(*cmd_parsed) = (*cmd_parsed)->next;
 			while ((*cmd_parsed) && (*cmd_parsed)->type == 2)
 			{
 				lstaddback_pars(args, \
-					lstnew_pars(ft_strdup((*cmd_parsed)->value)));
+					lstnew_pars(ft_strdup((*cmd_parsed)->value), shell));
 				(*cmd_parsed) = (*cmd_parsed)->next;
 			}
 		}
@@ -88,7 +90,8 @@ int	ft_heredoc(t_shell *shell, t_pars **cmd_parsed)
 	else if (!is_last_heredoc(shell))
 		return (0);
 	shell->cmd.is_heredoc = 1;
-	fill_arg_hd(cmd_parsed, &args, &command_exist, &first);
+	fill_arg_hd(cmd_parsed, &args, &command_exist, shell);
+	first = args; //Check le premier noeud dans la fonction lstclear_pars
 	fd = open("heredoc.txt", O_RDWR, 0777);
 	close(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);

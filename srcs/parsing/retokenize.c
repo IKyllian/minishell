@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   retokenize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 08:45:13 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:21:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	retype(t_pars *new_tokens)
 	}
 }
 
-void	recreate_token(char *str, int *i, int *j, t_pars **new_tokens)
+void	recreate_token(char *str, int *i, int *j, t_pars **new_tokens, t_shell *shell)
 {
 	if (*i == 0 && str[*i] == ' ')
 	{
@@ -36,7 +36,7 @@ void	recreate_token(char *str, int *i, int *j, t_pars **new_tokens)
 	{
 		if (str[*i - 1] != ' ')
 			lstaddback_pars(new_tokens,
-				lstnew_pars(ft_strndup(&str[*j], *i - *j)));
+				lstnew_pars(ft_strndup(&str[*j], *i - *j), shell));
 		*j = *i + 1;
 	}
 	*i += 1;
@@ -53,7 +53,7 @@ int	quote_skip(t_cmd *cmd, char *str, int *i)
 	return (0);
 }
 
-int	check_sub(t_cmd *cmd, char *str, t_pars **new_tokens)
+int	check_sub(t_shell *shell, t_cmd *cmd, char *str, t_pars **new_tokens)
 {
 	int	i;
 	int	j;
@@ -66,7 +66,7 @@ int	check_sub(t_cmd *cmd, char *str, t_pars **new_tokens)
 	{
 		if (quote_skip(cmd, str, &i))
 			continue ;
-		recreate_token(str, &i, &j, new_tokens);
+		recreate_token(str, &i, &j, new_tokens,shell);
 	}
 	if (j == 0)
 		return (0);
@@ -74,13 +74,13 @@ int	check_sub(t_cmd *cmd, char *str, t_pars **new_tokens)
 	{
 		if (str[i - 1] != ' ')
 			lstaddback_pars(new_tokens,
-				lstnew_pars(ft_strndup(&str[j], i - j)));
+				lstnew_pars(ft_strndup(&str[j], i - j), shell));
 	}
 	retype(*new_tokens);
 	return (1);
 }
 
-t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t)
+t_pars	*retokenize(t_shell *shell, t_cmd *cmd, t_pars **token, int *t)
 {
 	int		i;
 	t_pars	*lst;
@@ -89,7 +89,7 @@ t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t)
 	i = 0;
 	lst = cmd->parsed;
 	new_tokens = NULL;
-	if (!check_sub(cmd, (*token)->value, &new_tokens))
+	if (!check_sub(shell, cmd, (*token)->value, &new_tokens))
 	{
 		*t += 1;
 		return ((*token)->next);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_pars_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 14:44:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 12:50:38 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	lstsize_pars(t_pars *lst)
 	return (i);
 }
 
-t_pars	*lstnew_pars(char *value)
+t_pars	*lstnew_pars(char *value, t_shell *shell)
 {
 	t_pars	*parsed;
 
 	parsed = ft_calloc(1, sizeof(t_pars));
-	mem_check(parsed);
+	mem_check(shell, parsed);
 	parsed->value = value;
 	parsed->type = type_set(value);
 	parsed->next = NULL;

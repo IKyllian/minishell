@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 12:35:25 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_export_name(char *cmd_value, int *index, t_shell *shell)
 	while (cmd_value[*index] && cmd_value[*index] != '=')
 		(*index)++;
 	name = malloc(sizeof(char) * (*index + 1));
-	mem_check(name);
+	mem_check(shell, name);
 	while (cmd_value[i])
 	{
 		if ((cmd_value[i] == '=' && i != 0))
@@ -41,7 +41,7 @@ char	*get_export_name(char *cmd_value, int *index, t_shell *shell)
 	return (name);
 }
 
-char	*get_export_value(char *cmd_value, int *index)
+char	*get_export_value(char *cmd_value, int *index, t_shell *shell)
 {
 	int		size;
 	char	*value;
@@ -54,13 +54,13 @@ char	*get_export_value(char *cmd_value, int *index)
 		if (cmd_value[++(*index)] == '\0')
 		{
 			value = malloc(sizeof(char));
-			mem_check(value);
+			mem_check(shell, value);
 			value[0] = '\0';
 		}
 		else
 		{
 			value = malloc(sizeof(char) * ((size - *index) + 1));
-			mem_check(value);
+			mem_check(shell, value);
 			size = 0;
 			while (cmd_value[*index])
 				value[size++] = cmd_value[(*index)++];
@@ -82,7 +82,7 @@ int	exec_export(t_pars **cmd_parsed, t_shell *shell, char **name, int *index)
 {
 	char	*value;
 
-	value = get_export_value((*cmd_parsed)->value, index);
+	value = get_export_value((*cmd_parsed)->value, index, shell);
 	if (!value && *index > 0 && (*cmd_parsed)->value[*index - 1] != '='
 		&& srch_and_return_env_var(shell->env, *name))
 	{

@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:23:09 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/02 13:15:05 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,17 @@ typedef struct s_shell
 
 			/* Memory */
 void	free_all(t_shell *shell);
-void	mem_check(void *ptr);
+void	mem_check(t_shell *shell, void *ptr);
 
 			/* Arrays */
 int		dbl_array_len(char **dbl_array);
-char	**dbl_array_add(char **dbl_array, char *line);
+char	**dbl_array_add(char **dbl_array, char *line, t_shell *shell);
 void	dbl_array_clear(char **dbl_array);
 void	array_joiner(char *src, char *elem);
 
 			/* Parsing */
-int		history_save(t_cmd *cmd, char *line);
-int		tokenizer(t_cmd *cmd, char *line);
+int		history_save(t_cmd *cmd, char *line, t_shell *shell);
+int		tokenizer(t_cmd *cmd, char *line, t_shell *shell);
 int		redirect(t_cmd *cmd);
 
 			/* Errors, free */
@@ -129,7 +129,7 @@ t_cmd	cmd_init(void);
 t_shell	shell_init(char **env);
 
 			/* Env */
-t_env	*env_init(char **env_tab);
+t_env	*env_init(char **env_tab, t_shell *shell);
 int		srch_and_rplce_env_var(t_env *env, char *to_srch, char *new, int mode);
 void	srch_and_dlt_env_var(t_env **env, char *to_search);
 void	srch_and_dislay_env_var(t_env *env, char *to_search, int fd);
@@ -181,11 +181,11 @@ int		search_and_escape(t_cmd *cmd);
 char	*char_remover(char *src, int i);
 
 			/* Tokenizer utils */
-void	long_operator(t_cmd *cmd, int *i, int *j, int *t);
-void	short_operator(t_cmd *cmd, int *i, int *j, int *t);
-void	operator(t_cmd *cmd, int *i, int *j, int *t);
-void	endofline(t_cmd *cmd, int *i, int *j, int *t);
-void	space(t_cmd *cmd, int *i, int *j, int *t);
+void	long_operator(t_shell *shell, int *i, int *j, int *t);
+void	short_operator(t_shell *shell, int *i, int *j, int *t);
+void	operator(t_shell *shell, int *i, int *j, int *t);
+void	endofline(t_shell *shell, int *i, int *j, int *t);
+void	space(t_shell *shell, int *i, int *j, int *t);
 
 			/* Subber utils */
 char	*sub_empty(char *src, int i, int j);
@@ -197,7 +197,7 @@ char	*substitute(char *src, int i, int j, t_shell *shell);
 void	sub_exit_status(t_shell *shell, char **str, int *i);
 
 			/* Retokenize utils */
-t_pars	*retokenize(t_cmd *cmd, t_pars **token, int *t);
+t_pars	*retokenize(t_shell *shell, t_cmd *cmd, t_pars **token, int *t);
 
 			/* Prompt */
 char	*pather(void);
@@ -218,7 +218,7 @@ void	lstdel_beg_pars(t_pars **lst);
 void	lstdel_other_pars(t_pars **lst, int d);
 void	lstclear_pars(t_pars **lst);
 int		lstsize_pars(t_pars *lst);
-t_pars	*lstnew_pars(char *value);
+t_pars	*lstnew_pars(char *value, t_shell *shell);
 t_pars	*lstlast_pars(t_pars *lst);
 void	lstaddback_pars(t_pars **alst, t_pars *new);
 void	lstclear_env(t_env **lst);
@@ -228,7 +228,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable);
 int		cmd_to_exec(t_shell *shell, t_pars **parsed);
 void	exec_pipe(t_shell *shell, t_pars **parsed);
 int		check_pipe(t_pars **parsed, t_shell *shell);
-char	*first_search(char **cmd_path, int *has_right);
+char	*first_search(char **cmd_path, int *has_right, t_shell *shell);
 void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
 char	**fill_envp(t_env *env);
