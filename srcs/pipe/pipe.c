@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:37:14 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	wait_childs(t_shell *shell)
 		waitpid(shell->cmd.pids->pid[i].pid, &status, 0);
 		i++;
 	}
-	if (!g_heredoc)
+	if (!g_heredoc || !WEXITSTATUS(status))
 		shell->cmd.exit_status = WEXITSTATUS(status);
 	else if (g_heredoc == 1)
 		shell->cmd.exit_status = 130;
