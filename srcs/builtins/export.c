@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 13:29:34 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 12:35:25 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 08:08:17 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	exec_export(t_pars **cmd_parsed, t_shell *shell, char **name, int *index)
 	}
 	else if (!srch_and_rplce_env_var(shell->env, *name, value, \
 		shell->cmd.mode_export))
-		ft_lstadd_back_env(&shell->env, ft_lstnew_env(*name, value));
+		ft_lstadd_back_env(&shell->env, ft_lstnew_env(*name, value, shell));
 	else
 		free(*name);
 	return (0);

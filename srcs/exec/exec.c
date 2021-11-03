@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:19:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/03 07:56:36 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:23:44 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char	**fill_arg(t_pars **cmd_parsed, t_shell *shell)
 		temp = temp->next;
 	}
 	args = malloc(sizeof(char *) * (size + 1));
+	mem_check(shell, args);
 	if (!args)
 		ft_exit(shell, cmd_parsed);
 	while ((*cmd_parsed) && ((*cmd_parsed)->type == 1
@@ -118,8 +119,6 @@ void	fork_exec(t_shell *shell, char *path, char **args, char **envp)
 		}
 		exit(0);
 	}
-	// signal(SIGINT, p_sigkill);
-	// signal(SIGQUIT, p_sigquit);
 	signal(SIGINT, p_sigkill);
 	signal(SIGQUIT, p_sigquit);
 	if (wait(&status) == -1)
@@ -147,7 +146,7 @@ void	ft_exec(t_shell *shell, t_pars **cmd_parsed, int is_executable)
 	else
 	{
 		args = fill_arg(cmd_parsed, shell);
-		envp = fill_envp(shell->env);
+		envp = fill_envp(shell->env, shell);
 		fork_exec(shell, path, args, envp);
 		if (shell->cmd.exit_status > 0 && is_executable)
 			shell->cmd.exit_status = 127;

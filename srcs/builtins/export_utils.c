@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 11:52:40 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:09:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*cpy_env_list(t_env *env)
+t_env	*cpy_env_list(t_env *env, t_shell *shell)
 {
 	t_env	*cpy_env;
 
@@ -21,10 +21,10 @@ t_env	*cpy_env_list(t_env *env)
 	{
 		if (env->value != NULL)
 			ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name), \
-				ft_strdup(env->value)));
+				ft_strdup(env->value), shell));
 		else
 			ft_lstadd_back_env(&cpy_env, ft_lstnew_env(ft_strdup(env->name), \
-				NULL));
+				NULL, shell));
 		env = env->next;
 	}
 	return (cpy_env);
@@ -77,7 +77,7 @@ void	sort_and_print_env(t_shell *shell)
 	t_env	*env_cpy;
 	t_env	*first;
 
-	env_cpy = cpy_env_list(shell->env);
+	env_cpy = cpy_env_list(shell->env, shell);
 	first = env_cpy;
 	sort_env(env_cpy, first);
 	while (first)

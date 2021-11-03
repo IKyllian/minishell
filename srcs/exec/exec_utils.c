@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 11:23:22 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 08:04:07 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl)
 		dbl_array_clear(*envp);
 }
 
-char	**fill_envp(t_env *env)
+char	**fill_envp(t_env *env, t_shell *shell)
 {
 	char	**envp;
 	int		i;
 	char	*temp;
 
 	envp = malloc(sizeof(char *) * (ft_lstsize_env(env) + 1));
+	mem_check(shell, envp);
 	i = 0;
 	temp = NULL;
 	while (env)

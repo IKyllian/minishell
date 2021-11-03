@@ -6,13 +6,13 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 14:05:37 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 13:12:07 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 08:15:28 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_prompt_path(t_env *env)
+char	*get_prompt_path(t_env *env, t_shell *shell)
 {
 	t_env	*env_pwd;
 	char	*path;
@@ -31,12 +31,13 @@ char	*get_prompt_path(t_env *env)
 		while (env_pwd->value[i] && env_pwd->value[i] != '/')
 			i--;
 		path = malloc(sizeof(char) * ((size - i) + 1));
+		mem_check(shell, path);
 		while (env_pwd->value[++i])
 			path[j++] = env_pwd->value[i];
 		path[j] = '\0';
 	}
 	else
-		return (pather());
+		return (pather(shell));
 	return (path);
 }
 
@@ -47,7 +48,7 @@ void	set_prompt(t_shell *shell, char **prompt)
 	char	*suffix;
 	char	*temp;
 
-	path = get_prompt_path(shell->env);
+	path = get_prompt_path(shell->env, shell);
 	if (*prompt)
 		free(*prompt);
 	if (shell->cmd.exit_status == 0)
@@ -73,7 +74,7 @@ void	deep_parser(t_shell *shell)
 	history_save(&shell->cmd, shell->line, shell);
 	tokenizer(&shell->cmd, shell->line, shell);
 	search_and_sub(shell);
-	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd))
+	if (search_and_escape(&shell->cmd) && redirect(&shell->cmd, shell))
 		if (validator(shell))
 			check_cmd(shell);
 }

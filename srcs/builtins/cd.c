@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 10:39:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:08:39 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	cd_exec(char *path, t_shell *shell, t_pars **cmd_parsed)
 	{
 		if (srch_and_rplce_env_var(shell->env, "OLDPWD", dup_old_path, 0) == 0)
 			ft_lstadd_back_env(&shell->env, ft_lstnew_env(ft_strdup("OLDPWD"), \
-				dup_old_path));
+				dup_old_path, shell));
 		getcwd(new_path, PATH_MAX);
 		dup_path = ft_strdup(new_path);
 		if (srch_and_rplce_env_var(shell->env, "PWD", dup_path, 0) == 0)

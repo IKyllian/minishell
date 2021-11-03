@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 08:52:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 15:06:59 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 08:15:36 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	array_joiner(char *src, char *elem);
 			/* Parsing */
 int		history_save(t_cmd *cmd, char *line, t_shell *shell);
 int		tokenizer(t_cmd *cmd, char *line, t_shell *shell);
-int		redirect(t_cmd *cmd);
+int		redirect(t_cmd *cmd, t_shell *shell);
 
 			/* Errors, free */
 void	print_error(int errnum);
@@ -126,7 +126,7 @@ void	free_parse_linked_list(t_pars *parse);
 void	free_redir(t_shell *shell);
 
 			/* Inits */
-t_cmd	cmd_init(void);
+t_cmd	cmd_init(t_shell *shell);
 t_shell	shell_init(char **env);
 
 			/* Env */
@@ -201,14 +201,14 @@ void	sub_exit_status(t_shell *shell, char **str, int *i);
 t_pars	*retokenize(t_shell *shell, t_cmd *cmd, t_pars **token, int *t);
 
 			/* Prompt */
-char	*pather(void);
+char	*pather(t_shell *pather);
 void	check_cmd(t_shell *shell);
 void	set_prompt(t_shell *shell, char **prompt);
 int		prompt(t_shell *shell);
 
 			/* List utils (t_env) */
 int		ft_lstsize_env(t_env *lst);
-t_env	*ft_lstnew_env(char *name, char *value);
+t_env	*ft_lstnew_env(char *name, char *value, t_shell *shell);
 t_env	*ft_lstlast_env(t_env *lst);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 
@@ -232,7 +232,7 @@ int		check_pipe(t_pars **parsed, t_shell *shell);
 char	*first_search(char **cmd_path, int *has_right, t_shell *shell);
 void	join_exec_path(char *path_dir, struct dirent *pdirent, char **path);
 void	free_exec_arg(char **path, char ***args, char ***envp, int is_executbl);
-char	**fill_envp(t_env *env);
+char	**fill_envp(t_env *env, t_shell *shell);
 int		check_access(char **path, int *has_right);
 int		path_error(char *path, int has_right, int fd, char *cmd_path);
 int		check_executable(t_shell *shell, t_pars **cmd_parsed, char **path);

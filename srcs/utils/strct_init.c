@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:02:29 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 13:32:42 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 08:21:55 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ t_shell	shell_init(char **env)
 
 	errno = 0;
 	shell.env = env_init(env, &shell);
-	shell.cmd = cmd_init();
+	shell.cmd = cmd_init(&shell);
+	shell.cmd.exit_status = 0;
 	tcgetattr(0, &shell.saved_term);
 	return (shell);
 }
 
-t_cmd	cmd_init(void)
+t_cmd	cmd_init(t_shell *shell)
 {
 	t_cmd	cmd;
 
 	cmd.history = NULL;
 	cmd.parsed = NULL;
-	cmd.exit_status = 0;
 	cmd.line = NULL;
 	cmd.prompt = NULL;
 	cmd.fd_stdout = dup(1);
@@ -49,6 +49,7 @@ t_cmd	cmd_init(void)
 	cmd.nbr_pipe = 0;
 	cmd.mode_export = 0;
 	cmd.pids = ft_calloc(1, sizeof(t_pids));
+	mem_check(shell, cmd.pids);
 	return (cmd);
 }
 
@@ -103,12 +104,13 @@ t_env	*env_init(char **env_tab, t_shell *shell)
 		get_env_var(env_tab[i], &name, &value, shell);
 		if (ft_strcmp(name, "OLDPWD") == 0)
 		{
-			ft_lstadd_back_env(&env, ft_lstnew_env(name, ft_strdup("\0")));
+			ft_lstadd_back_env(&env, \
+				ft_lstnew_env(name, ft_strdup("\0"), shell));
 			if (value)
 				free(value);
 		}
 		else
-			ft_lstadd_back_env(&env, ft_lstnew_env(name, value));
+			ft_lstadd_back_env(&env, ft_lstnew_env(name, value, shell));
 	}
 	return (env);
 }
