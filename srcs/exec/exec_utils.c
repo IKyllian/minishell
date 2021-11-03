@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 08:30:31 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/03 08:04:07 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/03 09:05:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ char	**fill_envp(t_env *env, t_shell *shell)
 	while (env)
 	{
 		temp = ft_strjoin(env->name, "=");
-		envp[i++] = ft_strjoin(temp, env->value);
-		if (temp)
+		if (env->value)
+			envp[i++] = ft_strjoin(temp, env->value);
+		else
+			envp[i++] = temp;
+		if (temp && env->value)
 			free(temp);
 		env = env->next;
 	}
