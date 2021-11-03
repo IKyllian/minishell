@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirecter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:22 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:15:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,12 @@ int	check_redir(t_cmd *cmd)
 	return (1);
 }
 
-int	redirect(t_cmd *cmd)
+int	redirect(t_cmd *cmd, t_shell *shell)
 {
 	if (!check_redir(cmd))
 		return (0);
 	cmd->redir = ft_calloc(cmd->recount + 1, sizeof(t_redir));
+	mem_check(shell, cmd->redir);
 	if (!cmd->recount)
 		return (1);
 	if (!extract_redirect(cmd))

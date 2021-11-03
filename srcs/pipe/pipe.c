@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/03 08:04:05 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:23:23 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	check_pipe(t_pars **parsed, t_shell *shell)
 		shell->cmd.is_pipe = 1;
 		shell->cmd.pids->pid = ft_calloc((shell->cmd.nbr_pipe + 2), \
 			sizeof(t_pid));
+		mem_check(shell, shell->cmd.pids->pid);
 		set_heredoc_check((*parsed), shell, &shell->cmd);
 		exec_pipe(shell, parsed);
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:57:05 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:18:13 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ int	ft_lstsize_env(t_env *lst)
 	return (i);
 }
 
-t_env	*ft_lstnew_env(char *name, char *value)
+t_env	*ft_lstnew_env(char *name, char *value, t_shell *shell)
 {
 	t_env	*env;
 
 	env = malloc(sizeof(t_env) * 1);
+	mem_check(shell, env);
 	if (!env)
 		return (NULL);
 	env->name = name;
