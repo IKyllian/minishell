@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 12:37:33 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 17:37:14 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:04:05 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ void	wait_childs(t_shell *shell)
 		shell->cmd.exit_status = 130;
 	else if (g_heredoc == 2)
 		shell->cmd.exit_status = 131;
+	if (g_heredoc == 1)
+		printf("\n");
+	else if (g_heredoc == 2)
+		printf("Quit: 3\n");
 }
 
 void	exec_pipe(t_shell *shell, t_pars **parsed)

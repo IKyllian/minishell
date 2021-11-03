@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 09:59:14 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 07:57:27 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 int	set_exit_status(int status)
 {
 	if (g_heredoc == 1)
+	{
+		printf("\n");
 		return (130);
+	}
 	else if (g_heredoc == 2)
+	{
+		printf("Quit: 3\n");
 		return (131);
+	}
 	return (WEXITSTATUS(status));
 }
 

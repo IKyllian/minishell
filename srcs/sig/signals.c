@@ -6,7 +6,7 @@
 /*   By: ctaleb <ctaleb@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 07:59:44 by ctaleb            #+#    #+#             */
-/*   Updated: 2021/11/02 08:48:24 by ctaleb           ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 08:01:41 by ctaleb           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ void	p_sigkill(int sig)
 {
 	(void)sig;
 	g_heredoc = 1;
-	printf("\n");
 }
 
 void	p_sigquit(int sig)
 {
 	(void)sig;
 	g_heredoc = 2;
-	printf("Quit: %i\n", sig);
 }
 
 void	f_sigkill(int sig)
